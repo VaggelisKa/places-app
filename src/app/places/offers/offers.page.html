@@ -16,7 +16,7 @@
         <ion-list>
           <ion-item 
             *ngFor="let offer of offers" 
-            [routerLink]="['/places/tabs/offers/offer.id']"
+            [routerLink]="['/places/tabs/offers/' + offer.id]"
             detail
           >
             <ion-thumbnail>
