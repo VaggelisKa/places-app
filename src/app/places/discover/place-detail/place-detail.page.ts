@@ -28,11 +28,16 @@ export class PlaceDetailPage implements OnInit {
     });
   }
 
-  async onBookPlace() {
+  async onBookPlace(): Promise<{}> {
     const modal = await this._modalController.create({
-      component: CreateBookingComponent
+      component: CreateBookingComponent,
+      componentProps: {selectedPlace: this.place},
     });
-    return await modal.present();
+    await modal.present();
+
+    const  data  = await modal.onWillDismiss();
+    console.log(data);
+    return data;
   }
 
 }
