@@ -36,7 +36,6 @@ export class PlaceDetailPage implements OnInit {
     await modal.present();
 
     const  data  = await modal.onWillDismiss();
-    console.log(data);
     return data;
   }
 
