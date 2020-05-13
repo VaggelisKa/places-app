@@ -9,11 +9,13 @@ import { Place } from '../models/place.model';
 })
 export class DiscoverPage implements OnInit {
   loadedPlaces: Place[];
+  listedLoadedPlaces: Place[];
 
   constructor(private _placesService: PlacesService) { }
 
   ngOnInit() {
     this.loadedPlaces = this._placesService.getPlaces();
+    this.listedLoadedPlaces = this.loadedPlaces.splice(1);
   }
 
 }
