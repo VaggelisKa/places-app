@@ -18,4 +18,8 @@ export class DiscoverPage implements OnInit {
     this.listedLoadedPlaces = this.loadedPlaces.splice(1);
   }
 
+  segmentChanged(event: CustomEvent<any>) {
+    console.log(event.detail);
+  }
+
 }
