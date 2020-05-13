@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { AuthPage } from './auth.page';
 
+import * as fromAuth from './auth-store/auth.reducer';
+import { StoreModule } from '@ngrx/store';
+
 const routes: Routes = [
   {
     path: '',
@@ -19,8 +22,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    StoreModule.forFeature(fromAuth.AuthFeatureKey, fromAuth.reducer)
   ],
-  declarations: [AuthPage]
+  declarations: [AuthPage],
 })
 export class AuthPageModule {}

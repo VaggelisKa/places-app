@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-    providedIn: 'root'
-})
+import * as fromAuth from '../auth-store/auth.reducer';
+import { Store } from '@ngrx/store';
+import { setAuthenticated, setUnauththenticated } from '../auth-store/auth.actions';
+
+@Injectable({providedIn: 'root'})
 export class AuthService {
+    constructor(private _store: Store<fromAuth.State>) {}
+
     private isLogged = false;
 
-    getIsAuth(): boolean {
-        return this.isLogged;
-    }
-
-    constructor() {}
 
     login(): void {
-        this.isLogged = true;
+        this._store.dispatch(setAuthenticated());
     }
 
     logout(): void {
-        this.isLogged = false;
+         this._store.dispatch(setUnauththenticated());
     }
 }
