@@ -13,6 +13,7 @@ import * as AuthSelectors from './auth-store/auth.selectors';
 })
 export class AuthPage implements OnInit {
   isAuth$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
   constructor(private _authService: AuthService,
               private _router: Router,
@@ -20,12 +21,11 @@ export class AuthPage implements OnInit {
 
   ngOnInit(): void {
     this.isAuth$ = this._store.pipe(select(AuthSelectors.getIsAuth));
-    console.log(this.isAuth$);
+    this.isLoading$ = this._store.pipe(select(AuthSelectors.authLoading));
   }
 
   onLogin(): void {
     this._authService.login();
-    this._router.navigate(['/places/tabs/discover']);
   }
 
 }

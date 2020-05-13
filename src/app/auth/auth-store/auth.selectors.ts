@@ -7,3 +7,8 @@ export const getIsAuth = createSelector(
     (state: fromAuth.AuthState) => state.isAuth
 );
 
+export const authLoading = createSelector(
+    fromAuth.getAuthState,
+    (state: fromAuth.AuthState) => state.isLoading
+);
+

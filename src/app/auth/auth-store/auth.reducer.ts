@@ -27,9 +27,9 @@ const authReducer = createReducer(
         isAuth: false
     })),
 
-    on(AuthActions.isLoading, state => ({
+    on(AuthActions.isAuthLoading, state => ({
         ...state,
-        isLoading: true
+        isLoading: !state.isLoading
     }))
 );
 
