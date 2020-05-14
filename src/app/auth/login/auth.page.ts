@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromAuth from '../auth-store/auth.reducer';
 import * as AuthSelectors from '../auth-store/auth.selectors';
 import { LoadingController } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
@@ -26,9 +27,9 @@ export class AuthPage implements OnInit {
     this.isLoading$ = this._store.pipe(select(AuthSelectors.authLoading));
   }
 
-  async onLogin() {
+  async onLogin(form: NgForm) {
     this._authService.login();
-
+    console.log(form);
     const loading = await this._loadingController.create({
       message: 'Logging in...',
       spinner: 'crescent',
