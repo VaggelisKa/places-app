@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './auth/services/auth.service';
 import { Router } from '@angular/router';
+import { ThemeService } from './theme.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private _authService: AuthService,
-    private _router: Router
+    private _router: Router,
+    private _themeService: ThemeService
   ) {
     this.initializeApp();
   }
@@ -26,6 +28,10 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  toggleDarkMode(event: any) {
+    this._themeService.toggleAppTheme();
   }
 
   onLogout(): void {

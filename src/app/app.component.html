@@ -21,6 +21,13 @@
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
+          <ion-item>
+            <ion-icon slot="start" name="moon-outline"></ion-icon>
+            <ion-label>Toggle Dark Mode</ion-label>
+            <ion-toggle (click)="toggleDarkMode($event)"></ion-toggle>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
           <ion-item (click)="onLogout()" button>
             <ion-icon slot="start" name="log-out-outline" color="danger"></ion-icon>
             <ion-label>Logout</ion-label>
