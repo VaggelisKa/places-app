@@ -56,7 +56,6 @@ export class PlaceDetailPage implements OnInit {
     ]
     });
     await actionSheet.present();
-
   }
 
   async openModal(mode: 'select' | 'random'): Promise<{}> {
@@ -66,7 +65,7 @@ export class PlaceDetailPage implements OnInit {
     });
     await modal.present();
 
-    const  data  = await modal.onWillDismiss();
+    const  data = await modal.onWillDismiss();
     return data;
   }
 
