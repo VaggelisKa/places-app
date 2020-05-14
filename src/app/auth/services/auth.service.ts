@@ -20,6 +20,6 @@ export class AuthService {
     }
 
     logout(): void {
-         this._store.dispatch(setUnauththenticated());
+        this._store.dispatch(setUnauththenticated());
     }
 }

@@ -36,6 +36,9 @@ export class AuthPage implements OnInit {
       duration: 2000
     });
     await loading.present();
+    await loading.onDidDismiss().then(() => {
+      form.reset();
+    });
   }
 
 }
