@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import * as fromAuth from './auth-store/auth.reducer';
-import * as AuthSelectors from './auth-store/auth.selectors';
+import * as fromAuth from '../auth-store/auth.reducer';
+import * as AuthSelectors from '../auth-store/auth.selectors';
 import { LoadingController } from '@ionic/angular';
 
 @Component({

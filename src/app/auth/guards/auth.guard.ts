@@ -19,7 +19,7 @@ export class AuthGuard implements CanLoad {
             this.isAuth = result;
         });
         if (!this.isAuth) {
-            this._router.navigate(['/auth']);
+            this._router.navigate(['/auth/login']);
         }
         return  this.isAuth;
     }

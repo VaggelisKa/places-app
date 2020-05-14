@@ -1,29 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AuthPage } from './auth.page';
+import { AuthPage } from './login/auth.page';
 
 import * as fromAuth from './auth-store/auth.reducer';
 import { StoreModule } from '@ngrx/store';
+import { AuthRoutingModule } from './auth-routing.module';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: AuthPage
-  }
-];
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    StoreModule.forFeature(fromAuth.AuthFeatureKey, fromAuth.reducer)
+    StoreModule.forFeature(fromAuth.AuthFeatureKey, fromAuth.reducer),
+    AuthRoutingModule
   ],
   declarations: [AuthPage],
 })
