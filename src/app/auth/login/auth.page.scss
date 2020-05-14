@@ -2,3 +2,16 @@ ion-spinner {
     display: flex;
     margin: auto;
 }
+
+ion-item.item-has-focus > ion-label {
+    color:  var(--ion-color-dark);
+}
+
+.input-error {
+    font-size: small;
+    font-style: italic;
+}
+
+#toSignupBtn {
+    padding-top: 1rem;
+}
