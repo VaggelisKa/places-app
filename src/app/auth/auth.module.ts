@@ -9,6 +9,7 @@ import { AuthPage } from './login/auth.page';
 import * as fromAuth from './auth-store/auth.reducer';
 import { StoreModule } from '@ngrx/store';
 import { AuthRoutingModule } from './auth-routing.module';
+import { SignupPage } from './signup/signup.page';
 
 
 @NgModule({
@@ -19,6 +20,6 @@ import { AuthRoutingModule } from './auth-routing.module';
     StoreModule.forFeature(fromAuth.AuthFeatureKey, fromAuth.reducer),
     AuthRoutingModule
   ],
-  declarations: [AuthPage],
+  declarations: [AuthPage, SignupPage],
 })
 export class AuthPageModule {}
