@@ -1,0 +1,17 @@
+ion-spinner {
+    display: flex;
+    margin: auto;
+}
+
+ion-item.item-has-focus > ion-label {
+    color:  var(--ion-color-dark);
+}
+
+.input-error {
+    font-size: medium;
+    font-style: italic;
+}
+
+#toLoginBtn {
+    padding-top: 1rem;
+}

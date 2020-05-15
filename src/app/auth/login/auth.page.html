@@ -56,6 +56,7 @@
           fill="clear" 
           type="button" 
           color="dark" 
+          (click)="onSwitchToSignup()"
           class="ion-text-capitalize"
           *ngIf="!(isLoading$ | async)"
           id="toSignupBtn"
