@@ -27,7 +27,7 @@
                 formControlName="password"
                 ></ion-input>
             </ion-item>
-            <ion-item class="input-error" *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched" lines="none">
+            <ion-item class="input-error" *ngIf="f.password.touched && f.password.invalid" lines="none">
               <ion-label class="ion-text-end">Password is required!</ion-label>
             </ion-item>
             <ion-item>
@@ -35,11 +35,11 @@
               <ion-input 
                 type="password"
                 formControlName="confirmPassword"
-                formControlName="confirmPassword"
                 ></ion-input>
             </ion-item>
-            <ion-item class="input-error" *ngIf="!signupForm.get('confirmPassword').valid && signupForm.get('confirmPassword').touched" lines="none">
-              <ion-label class="ion-text-end">Missing Confirm Password</ion-label>
+            <ion-item class="input-error" *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid" lines="none">
+              <ion-label class="ion-text-end" *ngIf="f.confirmPassword.errors.required">Missing Confirm Password</ion-label>
+              <ion-label class="ion-text-end" *ngIf="f.confirmPassword.errors.confirmedValidator">Passwords must match</ion-label>
             </ion-item>
           </ion-list>
         </ion-col>
