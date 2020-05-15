@@ -33,7 +33,7 @@ export class AuthPage implements OnInit {
 
   async onLogin(form: NgForm) {
     this._authService.login();
-    console.log(form);
+
     const loading = await this._loadingController.create({
       message: 'Logging in...',
       spinner: 'crescent',
