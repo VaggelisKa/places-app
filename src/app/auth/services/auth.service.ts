@@ -19,6 +19,15 @@ export class AuthService {
         }, 2000);
     }
 
+    signup(): void {
+        this._store.dispatch(setAuthenticated());
+        this._store.dispatch(isAuthLoading());
+        setTimeout((_) => {
+            this._store.dispatch(isAuthLoading());
+          this._router.navigate(['/places/tabs/discover']);
+        }, 2000);
+    }
+
     logout(): void {
         this._store.dispatch(setUnauththenticated());
     }
