@@ -8,10 +8,15 @@ import { formatDate } from '@angular/common';
 })
 export class NewOfferPage implements OnInit {
   private currentDate: string;
+  private maxYear: string;
+
+  // Second date picker
   private minAvailableTo: string;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.maxYear = (new Date().getFullYear() + 4).toString();
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
     const nextDay = new Date().getDate() + 1;

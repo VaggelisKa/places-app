@@ -45,7 +45,7 @@
             <ion-datetime 
               display-format="DD.MM.YYYY"
               [min]="currentDate" 
-              max="2023"
+              [max]="maxYear"
             ></ion-datetime>
         </ion-item>
       </ion-col>
@@ -55,7 +55,7 @@
             <ion-datetime 
               display-format="DD.MM.YYYY"
               [min]="minAvailableTo" 
-              max="2023"
+              [max]="maxYear"
             ></ion-datetime>
         </ion-item>
       </ion-col>
