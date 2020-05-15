@@ -26,10 +26,10 @@ export class SignupPage implements OnInit {
               private _authService: AuthService,
               private _formBuilder: FormBuilder) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.signupForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     }, {
       validator: ConfirmedValidator('password' , 'confirmPassword')
@@ -39,16 +39,19 @@ export class SignupPage implements OnInit {
     this.isLoading$ = this._store.pipe(select(AuthSelectors.authLoading));
   }
 
-  get f() {
+  get f(): any {
     return this.signupForm.controls;
   }
 
-  onSwitchToLogin() {
+  onSwitchToLogin(): void {
     this._router.navigate(['/auth/login']);
   }
 
   async onSignup() {
     this._authService.signup();
+    if (!this.signupForm.valid) {
+      return;
+    }
 
     console.log(this.signupForm.value);
     const loading = await this._loadingController.create({

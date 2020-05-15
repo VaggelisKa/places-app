@@ -27,7 +27,7 @@ export class AuthPage implements OnInit {
     this.isLoading$ = this._store.pipe(select(AuthSelectors.authLoading));
   }
 
-  onSwitchToSignup() {
+  onSwitchToSignup(): void {
     this._router.navigate(['/auth/signup']);
   }
 
