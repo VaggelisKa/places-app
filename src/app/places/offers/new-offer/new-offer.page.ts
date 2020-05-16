@@ -25,19 +25,19 @@ export class NewOfferPage implements OnInit {
     this.minAvailableTo = formatDate(new Date(), `yyyy-MM-${nextDay}`, 'en');
 
     this.newOfferForm = new FormGroup({
-      title: new FormControl(null, {
-        updateOn: 'blur',
-        validators: [Validators.required, Validators.minLength(3)
-        ]}
-      ),
-      description: new FormControl(null, Validators.maxLength(180)),
-      price: new FormControl(1, [Validators.required, Validators.min(1)]),
+      title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      description: new FormControl(null, Validators.maxLength(100)),
+      price: new FormControl(10, [Validators.required, Validators.min(10)]),
       availableFromDate: new FormControl(null, Validators.required),
       availableToDate: new FormControl(null, Validators.required),
     });
   }
 
-  onCreateOffer() {
+  get f(): any {
+    return this.newOfferForm.controls;
+  }
+
+  onCreateOffer(): void {
     console.log(this.newOfferForm.value);
   }
 

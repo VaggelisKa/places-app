@@ -27,6 +27,10 @@
           >
           </ion-input>
         </ion-item>
+        <ion-item class="input-error" *ngIf="f.title.touched && f.title.invalid" lines="none">
+          <ion-label class="ion-text-end" *ngIf="f.title.errors.required">Title is required!</ion-label>
+          <ion-label class="ion-text-end" *ngIf="f.title.errors.minlength">Title too short!</ion-label>
+        </ion-item>
       </ion-col>
       </ion-row>
       <ion-row>
@@ -39,6 +43,9 @@
             >
           </ion-textarea>
           </ion-item>
+          <ion-item class="input-error" *ngIf="f.description.touched && f.description.invalid" lines="none">
+            <ion-label class="ion-text-end" *ngIf="f.description.errors.maxlength">Description too long!</ion-label>
+          </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -50,6 +57,10 @@
               formControlName="price"
             >
             </ion-input>
+          </ion-item>
+          <ion-item class="input-error" *ngIf="f.price.touched && f.price.invalid" lines="none">
+            <ion-label class="ion-text-end" *ngIf="f.price.errors.required">Price is required!</ion-label>
+            <ion-label class="ion-text-end" *ngIf="f.price.errors.min">Price should be at least 10!</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -64,6 +75,9 @@
                 formControlName="availableFromDate"
               ></ion-datetime>
           </ion-item>
+          <ion-item class="input-error" *ngIf="f.availableFromDate.touched && f.availableFromDate.invalid" lines="none">
+            <ion-label *ngIf="f.availableFromDate.errors.required">Date is required!</ion-label>
+          </ion-item>
         </ion-col>
         <ion-col size-sm="3">
           <ion-item>
@@ -74,6 +88,9 @@
                 [max]="maxYear"
                 formControlName="availableToDate"
               ></ion-datetime>
+          </ion-item>
+          <ion-item class="input-error" *ngIf="f.availableToDate.touched && f.availableToDate.invalid" lines="none">
+            <ion-label *ngIf="f.availableToDate.errors.required">Date is required!</ion-label>
           </ion-item>
         </ion-col>
       </ion-row>
