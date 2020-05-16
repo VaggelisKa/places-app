@@ -29,20 +29,20 @@ export class EditOfferPage implements OnInit {
       }
 
       this.offer = this._placesService.getPlace(paramMap.get('placeId'));
-    });
 
-    this.maxYear = (new Date().getFullYear() + 4).toString();
-    this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+      this.maxYear = (new Date().getFullYear() + 4).toString();
+      this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
-    const nextDay = new Date().getDate() + 1;
-    this.minAvailableTo = formatDate(new Date(), `yyyy-MM-${nextDay}`, 'en');
+      const nextDay = new Date().getDate() + 1;
+      this.minAvailableTo = formatDate(new Date(), `yyyy-MM-${nextDay}`, 'en');
 
-    this.editOfferForm = new FormGroup({
-      title: new FormControl(this.offer.title, [Validators.required, Validators.minLength(3)]),
-      description: new FormControl(this.offer.description, Validators.maxLength(100)),
-      price: new FormControl(this.offer.price, [Validators.required, Validators.min(10)]),
-      availableFromDate: new FormControl(null, Validators.required),
-      availableToDate: new FormControl(null, Validators.required),
+      this.editOfferForm = new FormGroup({
+        title: new FormControl(this.offer.title, [Validators.required, Validators.minLength(3)]),
+        description: new FormControl(this.offer.description, Validators.maxLength(100)),
+        price: new FormControl(this.offer.price, [Validators.required, Validators.min(10)]),
+        availableFromDate: new FormControl(null, Validators.required),
+        availableToDate: new FormControl(null, Validators.required),
+      });
     });
   }
 
