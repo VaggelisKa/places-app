@@ -13,52 +13,70 @@
 </ion-header>
 
 <ion-content class="ion-padding" class="ion-text-center">
-  <ion-grid>
-    <ion-row>
-      <ion-col size-sm="6" offset-sm="3">
-      <ion-item>
-        <ion-label position="floating">Title</ion-label>
-        <ion-input type="text" autcomplete autocorrect></ion-input>
-      </ion-item>
-    </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size-sm="6" offset-sm="3">
+  <form [formGroup]="newOfferForm" (ngSubmit)="onCreateOffer()">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
         <ion-item>
-          <ion-label position="floating">Short Description</ion-label>
-          <ion-textarea rows="3"></ion-textarea>
+          <ion-label position="floating">Title</ion-label>
+          <ion-input 
+            type="text" 
+            autcomplete 
+            autocorrect
+            formControlName="title"
+          >
+          </ion-input>
         </ion-item>
       </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size-sm="6" offset-sm="3">
-        <ion-item>
-          <ion-label position="floating">Price</ion-label>
-          <ion-input type="number"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size-sm="3">
-        <ion-item>
-          <ion-label>Available from</ion-label>
-            <ion-datetime 
-              display-format="DD.MM.YYYY"
-              [min]="currentDate" 
-              [max]="maxYear"
-            ></ion-datetime>
-        </ion-item>
-      </ion-col>
-      <ion-col size-sm="3">
-        <ion-item>
-          <ion-label>Available to</ion-label>
-            <ion-datetime 
-              display-format="DD.MM.YYYY"
-              [min]="minAvailableTo" 
-              [max]="maxYear"
-            ></ion-datetime>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Short Description</ion-label>
+            <ion-textarea 
+              rows="3"
+              formControlName="description"
+            >
+          </ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Price</ion-label>
+            <ion-input 
+              type="number"
+              formControlName="price"
+            >
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="3">
+          <ion-item>
+            <ion-label>Available from</ion-label>
+              <ion-datetime 
+                display-format="DD.MM.YYYY"
+                [min]="currentDate" 
+                [max]="maxYear"
+                formControlName="availableFromDate"
+              ></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size-sm="3">
+          <ion-item>
+            <ion-label>Available to</ion-label>
+              <ion-datetime 
+                display-format="DD.MM.YYYY"
+                [min]="minAvailableTo" 
+                [max]="maxYear"
+                formControlName="availableToDate"
+              ></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>
