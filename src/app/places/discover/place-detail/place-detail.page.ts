@@ -61,7 +61,7 @@ export class PlaceDetailPage implements OnInit {
   async openModal(mode: 'select' | 'random'): Promise<{}> {
     const modal = await this._modalController.create({
       component: CreateBookingComponent,
-      componentProps: {selectedPlace: this.place},
+      componentProps: {selectedPlace: this.place, selectedMode: mode},
     });
     await modal.present();
 

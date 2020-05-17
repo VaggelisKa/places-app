@@ -4,4 +4,6 @@ export interface Place {
     description: string;
     image: string;
     price: number;
+    availableFrom: Date;
+    availableTo: Date;
 }

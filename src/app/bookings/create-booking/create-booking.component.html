@@ -57,11 +57,11 @@
           <ion-item>
             <ion-label position="floating">Check In</ion-label>
             <ion-datetime 
-            display-format="DD.MM.YYYY"
-            [min]="currentDate" 
-            [max]="maxYear"
+            display-format="DD.MMM.YYYY"
+            [min]="minCheckinDate" 
+            [max]="selectedPlace.availableTo.toISOString()"
             name="checkin"
-            ngModel
+            [(ngModel)]="checkinDate"
             required
             #checkinInput="ngModel"
           ></ion-datetime>
@@ -70,12 +70,14 @@
         <ion-col size-sm="3">
           <ion-item>
             <ion-label position="floating">Check Out</ion-label>
-            <ion-datetime 
-            display-format="DD.MM.YYYY"
+            <ion-datetime
+            [disabled]="!checkinInput.value" 
+            display-format="DD.MMM.YYYY"
             [min]="checkinInput.value" 
-            [max]="maxYear"
+            [max]="selectedPlace.availableTo.toISOString()"
             name="checkout"
-            ngModel
+            [(ngModel)]="checkoutDate"
+            required
           ></ion-datetime>
           </ion-item>
         </ion-col>
@@ -88,8 +90,8 @@
               class="ion-padding" 
               lines="none" 
               expand="block"
-              required
               [disabled]="f.invalid"
+              shape="round"
             >
               Confirm
             </ion-button>

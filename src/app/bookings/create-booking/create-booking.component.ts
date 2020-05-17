@@ -11,21 +11,40 @@ import { formatDate } from '@angular/common';
 })
 export class CreateBookingComponent implements OnInit {
   @Input() selectedPlace: Place;
+  @Input() selectedMode: 'select' | 'random';
 
-  private maxYear: string;
-  private currentDate: string;
+  private minCheckinDate: string;
   private minAvailableTo: string;
-  private chosenCheckinDate;
+  private checkinDate: string;
+  private checkoutDate: string;
 
   constructor(private _modalController: ModalController) { }
 
-  ngOnInit() {
-    this.maxYear = (new Date().getFullYear() + 1).toString();
-    this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-
+  ngOnInit(): void {
     const nextDay = new Date().getDate() + 1;
     this.minAvailableTo = formatDate(new Date(), `yyyy-MM-${nextDay}`, 'en');
 
+    let availableFrom;
+    if (new Date() > this.selectedPlace.availableFrom) {
+      availableFrom = new Date();
+      this.minCheckinDate = new Date().toISOString();
+    } else {
+      availableFrom = new Date(this.selectedPlace.availableFrom);
+      this.minCheckinDate = new Date(this.selectedPlace.availableFrom).toISOString();
+    }
+
+    const availableTo = new Date(this.selectedPlace.availableTo);
+    if (this.selectedMode === 'random') {
+      this.checkinDate = new Date(
+        availableFrom.getTime() + Math.random()
+        * (availableTo.getTime() - 7 * 24 * 3600 * 1000 - availableFrom.getTime())
+      ).toISOString();
+
+      this.checkoutDate = new Date (
+        new Date(this.checkinDate).getTime() + Math.random()
+        * (new Date(this.checkinDate).getTime() + 6 * 24 * 3600 * 1000 - new Date(this.checkinDate).getTime())
+      ).toISOString();
+    }
   }
 
   onClose(): void {
@@ -34,7 +53,7 @@ export class CreateBookingComponent implements OnInit {
 
   onConfirm(form: NgForm): void {
     console.log(form.value);
-    this._modalController.dismiss({message: 'dummy'}, 'Confirm');
+    this._modalController.dismiss({message: 'Booked'}, 'Confirm');
   }
 
 }
