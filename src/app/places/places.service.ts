@@ -39,8 +39,8 @@ export class PlacesService {
     this._store.dispatch(PlacesActions.setPlaces({places: [...this.places]}));
   }
 
-  getPlace(id: string): Place {
-    return {...this.places.find(p => p.id === id)};
+  getPlace(id: string) {
+    this._store.dispatch(PlacesActions.setPlace({placeId: id}));
   }
 
   addNewPlace (title: string, description: string, price: number, dateFrom: Date, dateTo: Date) {

@@ -5,6 +5,10 @@ import { Place } from '../../models/place.model';
 import { NavController, ModalController, ActionSheetController } from '@ionic/angular';
 import { CreateBookingComponent } from '../../../bookings/create-booking/create-booking.component';
 
+import { Store, select } from '@ngrx/store';
+import * as fromPlace from '../../placesStore/places.reducer';
+import * as placeSelectors from '../../placesStore/places.selectors';
+
 @Component({
   selector: 'app-place-detail',
   templateUrl: './place-detail.page.html',
@@ -17,7 +21,8 @@ export class PlaceDetailPage implements OnInit {
               private _placesService: PlacesService,
               private _navController: NavController,
               private _modalController: ModalController,
-              private _actionSheetController: ActionSheetController) { }
+              private _actionSheetController: ActionSheetController,
+              private _store: Store<fromPlace.State>) { }
 
   ngOnInit() {
     this._route.paramMap.subscribe(paramMap => {
@@ -25,7 +30,10 @@ export class PlaceDetailPage implements OnInit {
         this._navController.navigateBack('/places/tabs/discover');
       }
 
-      this.place = this._placesService.getPlace(paramMap.get('placeId'));
+      this._placesService.getPlace(paramMap.get('placeId'));
+      this._store.pipe(select(placeSelectors.getPlace)).subscribe(place => {
+        this.place = place;
+      });
     });
   }
 

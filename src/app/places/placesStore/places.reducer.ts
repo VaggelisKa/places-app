@@ -4,6 +4,7 @@ import { Place } from '../models/place.model';
 
 export interface PlaceState {
     places: Place[];
+    place: Place;
     isLoading: boolean;
 }
 
@@ -13,6 +14,7 @@ export interface State {
 
 export const initialState: PlaceState = {
     places: null,
+    place: null,
     isLoading: false
 };
 
@@ -23,9 +25,14 @@ const authReducer = createReducer(
         places: [...places]
     })),
 
+    on(PlaceActions.setPlace, (state, {placeId}) => ({
+        ...state,
+        place: state.places.find(id => id.id === placeId)
+    })),
+
     on(PlaceActions.addPlace, (state, {place}) => ({
         ...state,
-        places:  [...state.places, place]
+        places: state.places.concat(place)
     })),
 
     on(PlaceActions.isPlaceLoading, state => ({
