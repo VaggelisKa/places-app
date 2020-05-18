@@ -1,9 +1,9 @@
 import * as fromPlaces from './places.reducer';
 import { createSelector } from '@ngrx/store';
 
-export const getNewPlace = createSelector(
+export const getPlaces = createSelector(
     fromPlaces.getPlaceState,
-    (state: fromPlaces.PlaceState) => state.place
+    (state: fromPlaces.PlaceState) => state.places
 );
 
 export const placesLoading = createSelector(

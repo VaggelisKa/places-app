@@ -3,7 +3,7 @@ import * as PlaceActions from './places.actions';
 import { Place } from '../models/place.model';
 
 export interface PlaceState {
-    place: Place;
+    places: Place[];
     isLoading: boolean;
 }
 
@@ -12,15 +12,20 @@ export interface State {
 }
 
 export const initialState: PlaceState = {
-    place: null,
+    places: null,
     isLoading: false
 };
 
 const authReducer = createReducer(
     initialState,
-    on(PlaceActions.addPlace, (state, place) => ({
+    on(PlaceActions.setPlaces, (state, {places}) => ({
         ...state,
-        place: {...place}
+        places: [...places]
+    })),
+
+    on(PlaceActions.addPlace, (state, {place}) => ({
+        ...state,
+        places:  [...state.places, place]
     })),
 
     on(PlaceActions.isPlaceLoading, state => ({

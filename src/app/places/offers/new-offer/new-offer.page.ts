@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PlacesService } from '../../places.service';
 
 @Component({
   selector: 'app-new-offer',
@@ -15,7 +16,7 @@ export class NewOfferPage implements OnInit {
   // Second date picker
   private minAvailableTo: string;
 
-  constructor() { }
+  constructor(private _placesService: PlacesService) { }
 
   ngOnInit(): void {
     this.maxYear = (new Date().getFullYear() + 4).toString();
@@ -42,6 +43,13 @@ export class NewOfferPage implements OnInit {
       return;
     }
     console.log(this.newOfferForm.value);
+    this._placesService.addNewPlace(
+      this.newOfferForm.value.title,
+      this.newOfferForm.value.description,
+      this.newOfferForm.value.price,
+      this.newOfferForm.value.availableFromDate,
+      this.newOfferForm.value.availableToDate,
+    );
   }
 
 }

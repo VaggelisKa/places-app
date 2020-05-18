@@ -36,6 +36,7 @@ export class PlacesService {
   ];
 
   getPlaces(): Place[] {
+    this._store.dispatch(PlacesActions.setPlaces({places: [...this.places]}));
     return [...this.places];
   }
 
@@ -55,7 +56,7 @@ export class PlacesService {
       availableTo: dateTo
   };
 
-    this._store.dispatch(PlacesActions.addPlace(this.newPlace));
+    this._store.dispatch(PlacesActions.addPlace({place: this.newPlace}));
   }
 
 }
