@@ -6,6 +6,10 @@ import { NavController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 
+import { Store, select } from '@ngrx/store';
+import * as fromPlaces from '../../placesStore/places.reducer';
+import * as placesSelectors from '../../placesStore/places.selectors';
+
 @Component({
   selector: 'app-edit-offer',
   templateUrl: './edit-offer.page.html',
@@ -20,7 +24,8 @@ export class EditOfferPage implements OnInit {
 
   constructor(private _route: ActivatedRoute,
               private _placesService: PlacesService,
-              private _navController: NavController) { }
+              private _navController: NavController,
+              private _store: Store<fromPlaces.State>) { }
 
   ngOnInit() {
     this._route.paramMap.subscribe(paramMap => {
@@ -28,7 +33,10 @@ export class EditOfferPage implements OnInit {
         this._navController.navigateBack('/places/tabs/offers');
       }
 
-      this.offer = this._placesService.getPlace(paramMap.get('placeId'));
+      this._placesService.getPlace(paramMap.get('placeId'));
+      this._store.pipe(select(placesSelectors.getPlace)).subscribe(offer => {
+        this.offer = offer;
+      });
 
       this.maxYear = (new Date().getFullYear() + 4).toString();
       this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');

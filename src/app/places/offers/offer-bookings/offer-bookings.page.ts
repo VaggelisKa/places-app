@@ -4,6 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { PlacesService } from '../../places.service';
 
+import { Store, select } from '@ngrx/store';
+import * as fromPlaces from '../../placesStore/places.reducer';
+import * as placesSelectors from '../../placesStore/places.selectors';
+
 @Component({
   selector: 'app-offer-bookings',
   templateUrl: './offer-bookings.page.html',
@@ -14,7 +18,8 @@ export class OfferBookingsPage implements OnInit {
 
   constructor(private _route: ActivatedRoute,
               private _navController: NavController,
-              private _placesService: PlacesService) { }
+              private _placesService: PlacesService,
+              private _store: Store<fromPlaces.State>) { }
 
   ngOnInit() {
     this._route.paramMap.subscribe(paramMap => {
@@ -23,8 +28,10 @@ export class OfferBookingsPage implements OnInit {
         return;
       }
 
-      this.place = this._placesService.getPlace(paramMap.get('placeId'));
-      console.log(this.place);
+      this._placesService.getPlace(paramMap.get('placeId'));
+      this._store.pipe(select(placesSelectors.getPlace)).subscribe(place => {
+        this.place = place;
+      });
     });
   }
 
