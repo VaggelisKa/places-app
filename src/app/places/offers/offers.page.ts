@@ -17,7 +17,7 @@ export class OffersPage implements OnInit {
               private _router: Router) { }
 
   ngOnInit() {
-    this.offers = this._placesService.getPlaces();
+    // this.offers = this._placesService.getPlaces();
   }
 
   onEdit(offerId: string, slidingItem: IonItemSliding) {

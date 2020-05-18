@@ -35,9 +35,8 @@ export class PlacesService {
     }
   ];
 
-  getPlaces(): Place[] {
+  getPlaces(): void {
     this._store.dispatch(PlacesActions.setPlaces({places: [...this.places]}));
-    return [...this.places];
   }
 
   getPlace(id: string): Place {
