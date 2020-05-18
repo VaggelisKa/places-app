@@ -5,12 +5,15 @@ import { IonicModule } from '@ionic/angular';
 
 import { PlacesPage } from './places.page';
 import { PlacesRoutingModule } from './places-routing.module';
+import { StoreModule } from '@ngrx/store';
+import * as fromPlaces from '../places/placesStore/places.reducer';
 
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
-    PlacesRoutingModule
+    PlacesRoutingModule,
+    StoreModule.forFeature(fromPlaces.placesFeatureKey, fromPlaces.reducer),
   ],
   declarations: [PlacesPage]
 })
