@@ -18,7 +18,7 @@ export const initialState: PlaceState = {
 
 const authReducer = createReducer(
     initialState,
-    on(PlaceActions.addPlace, (state, { place }) => ({
+    on(PlaceActions.addPlace, (state, place) => ({
         ...state,
         place: {...place}
     })),
