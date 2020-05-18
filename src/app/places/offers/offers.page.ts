@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 
 import { IonItemSliding } from '@ionic/angular';
 
+import { Store, select } from '@ngrx/store';
+import * as fromPlaces from '../placesStore/places.reducer';
+import * as placesSelectors from '../placesStore/places.selectors';
+
 @Component({
   selector: 'app-offers',
   templateUrl: './offers.page.html',
@@ -14,10 +18,13 @@ export class OffersPage implements OnInit {
   offers: Place[];
 
   constructor(private _placesService: PlacesService,
-              private _router: Router) { }
+              private _router: Router,
+              private _store: Store<fromPlaces.State>) { }
 
   ngOnInit() {
-    // this.offers = this._placesService.getPlaces();
+    this._store.pipe(select(placesSelectors.getPlaces)).subscribe(offers => {
+      this.offers = offers;
+    });
   }
 
   onEdit(offerId: string, slidingItem: IonItemSliding) {
