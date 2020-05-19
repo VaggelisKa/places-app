@@ -15,7 +15,7 @@ export class AuthService {
         this._store.dispatch(isAuthLoading());
         setTimeout((_) => {
             this._store.dispatch(isAuthLoading());
-          this._router.navigate(['/places/tabs/discover']);
+            this._router.navigate(['/places/tabs/discover']);
         }, 2000);
     }
 
@@ -24,7 +24,7 @@ export class AuthService {
         this._store.dispatch(isAuthLoading());
         setTimeout((_) => {
             this._store.dispatch(isAuthLoading());
-          this._router.navigate(['/places/tabs/discover']);
+            this._router.navigate(['/places/tabs/discover']);
         }, 2000);
     }
 

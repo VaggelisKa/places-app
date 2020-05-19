@@ -55,7 +55,11 @@ export class PlacesService {
       availableTo: dateTo
   };
 
-    this._store.dispatch(PlacesActions.addPlace({place: this.newPlace}));
+    setTimeout(() => {
+      this._store.dispatch(PlacesActions.addPlace({place: this.newPlace}));
+      this._store.dispatch(PlacesActions.isPlaceLoading());
+    }, 1000);
+    this._store.dispatch(PlacesActions.isPlaceLoading());
   }
 
 }
