@@ -21,7 +21,4 @@ export class OfferItemComponent implements OnInit {
     this.isLoading$ = this._store.pipe(select(placesSelectors.placesLoading));
   }
 
-  getDummyDate(): Date {
-    return new Date();
-  }
 }

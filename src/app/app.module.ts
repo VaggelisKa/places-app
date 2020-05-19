@@ -11,8 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
-import * as fromAuth from './auth/auth-store/auth.reducer';
-import * as fromPlaces from '../app/places/placesStore/places.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +19,7 @@ import * as fromPlaces from '../app/places/placesStore/places.reducer';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    StoreModule.forRoot({auth: fromAuth.reducer, place: fromPlaces.reducer}),
+    StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({logOnly: environment.production})
   ],
   providers: [

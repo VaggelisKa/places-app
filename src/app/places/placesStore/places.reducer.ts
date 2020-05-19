@@ -18,7 +18,7 @@ export const initialState: PlaceState = {
     isLoading: false
 };
 
-const authReducer = createReducer(
+const placesReducer = createReducer(
     initialState,
     on(PlaceActions.setPlaces, (state, {places}) => ({
         ...state,
@@ -46,5 +46,5 @@ export const placesFeatureKey = 'place';
 export const getPlaceState = (state: State) => state.place;
 
 export function reducer(state: PlaceState, action: Action) {
-    return authReducer(state, action);
+    return placesReducer(state, action);
 }
