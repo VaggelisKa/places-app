@@ -8,9 +8,9 @@
   <ion-label>
     <h1>{{ offer.title }}</h1>
     <div class="offer-details">
-      <ion-text  class="space-left" color="medium">{{ getDummyDate() | date }}</ion-text>
+      <ion-text  class="space-left" color="medium">{{ offer.availableFrom | date }}</ion-text>
       <span class="space-left"> - </span>
-      <ion-text class="space-left" color="medium">{{ getDummyDate() | date }}</ion-text>
+      <ion-text class="space-left" color="medium">{{ offer.availableTo | date }}</ion-text>
     </div>
   </ion-label>
 </ion-item>
