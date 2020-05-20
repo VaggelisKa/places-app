@@ -3,6 +3,11 @@ import { formatDate } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlacesService } from '../../places.service';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+
+import * as fromPlaces from '../../placesStore/places.reducer';
+import * as placesSelectors from '../../placesStore/places.selectors';
+import { Store, select } from '@ngrx/store';
 
 @Component({
   selector: 'app-new-offer',
@@ -18,7 +23,9 @@ export class NewOfferPage implements OnInit {
   private minAvailableTo: string;
 
   constructor(private _placesService: PlacesService,
-              private _router: Router) { }
+              private _router: Router,
+              private _loadingController: LoadingController,
+              private _store: Store<fromPlaces.State>) { }
 
   ngOnInit(): void {
     this.maxYear = (new Date().getFullYear() + 4).toString();
@@ -40,7 +47,7 @@ export class NewOfferPage implements OnInit {
     return this.newOfferForm.controls;
   }
 
-  onCreateOffer(): void {
+  async onCreateOffer(): Promise<void> {
     if (this.newOfferForm.invalid) {
       return;
     }
@@ -51,8 +58,23 @@ export class NewOfferPage implements OnInit {
       this.newOfferForm.value.availableFromDate,
       this.newOfferForm.value.availableToDate,
     );
-    this.newOfferForm.reset();
-    this._router.navigate(['/places/tabs/offers']);
+
+    const loading = await this._loadingController.create({
+      message: 'Please wait...',
+      spinner: 'bubbles'
+    });
+    await loading.present();
+
+    this._store.pipe(select(placesSelectors.placesLoading)).subscribe(result => {
+      if (!result) {
+        loading.dismiss();
+      }
+    });
+
+    await loading.onDidDismiss().then((_) => {
+      this.newOfferForm.reset();
+      this._router.navigate(['/places/tabs/offers']);
+    });
   }
 
 }
