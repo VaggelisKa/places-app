@@ -47,7 +47,7 @@ export class NewOfferPage implements OnInit {
     return this.newOfferForm.controls;
   }
 
-  async onCreateOffer(): Promise<void> {
+  async onCreateOffer() {
     if (this.newOfferForm.invalid) {
       return;
     }
