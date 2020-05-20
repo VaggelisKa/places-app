@@ -16,6 +16,11 @@ export const addPlace = createAction(
     props<{place: Place}>()
 );
 
+export const updatePlace = createAction(
+    '[Offers Page] Update Places',
+    props<{updatedPlaces: Place[]}>()
+);
+
 
 export const isPlaceLoading = createAction (
     '[Place Loading State] Is Place Loading'

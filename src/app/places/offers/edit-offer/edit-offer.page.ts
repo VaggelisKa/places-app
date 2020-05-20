@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PlacesService } from '../../places.service';
 import { Place } from '../../models/place.model';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 
@@ -25,7 +25,9 @@ export class EditOfferPage implements OnInit {
   constructor(private _route: ActivatedRoute,
               private _placesService: PlacesService,
               private _navController: NavController,
-              private _store: Store<fromPlaces.State>) { }
+              private _store: Store<fromPlaces.State>,
+              private _loadingController: LoadingController,
+              private _router: Router) { }
 
   ngOnInit() {
     this._route.paramMap.subscribe(paramMap => {
@@ -58,11 +60,38 @@ export class EditOfferPage implements OnInit {
     return this.editOfferForm.controls;
   }
 
-  onEditOffer() {
+  async onEditOffer() {
     if (this.editOfferForm.invalid) {
       return;
     }
-    console.log(this.editOfferForm.value);
+    this._placesService.updateOffer(
+      this.offer.id,
+      this.editOfferForm.value.title,
+      this.editOfferForm.value.description,
+      this.editOfferForm.value.price,
+      new Date(this.editOfferForm.value.availableFromDate),
+      new Date(this.editOfferForm.value.availableToDate),
+    );
+
+    this._store.pipe(select(placesSelectors.getUpdatedPlaces));
+
+
+    const loading = await this._loadingController.create({
+      message: 'Please wait...',
+      spinner: 'bubbles'
+    });
+    await loading.present();
+
+    this._store.pipe(select(placesSelectors.placesLoading)).subscribe(result => {
+      if (!result) {
+        loading.dismiss();
+      }
+    });
+
+    await loading.onDidDismiss().then((_) => {
+      this.editOfferForm.reset();
+      this._router.navigate(['/places/tabs/offers']);
+    });
   }
 
 }
