@@ -11,10 +11,16 @@ export const getUpdatedPlaces = createSelector(
     (state: fromPlaces.PlaceState) => state.places
 );
 
+export const deletePlace = createSelector(
+    fromPlaces.getPlaceState,
+    (state: fromPlaces.PlaceState) => state.place
+);
+
 export const getPlace = createSelector(
     fromPlaces.getPlaceState,
     (state: fromPlaces.PlaceState) => state.place
 );
+
 
 export const placesLoading = createSelector(
     fromPlaces.getPlaceState,

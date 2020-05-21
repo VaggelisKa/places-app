@@ -21,6 +21,11 @@ export const updatePlace = createAction(
     props<{updatedPlaces: Place[]}>()
 );
 
+export const deletePlace = createAction(
+    '[Offers Page] Delete Places',
+    props<{placeId: string}>()
+);
+
 
 export const isPlaceLoading = createAction (
     '[Place Loading State] Is Place Loading'

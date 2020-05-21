@@ -85,4 +85,12 @@ export class PlacesService {
     this._store.dispatch(PlacesActions.isPlaceLoading());
   }
 
+  deleteOffer(placeId: string) {
+    setTimeout(() => {
+      this._store.dispatch(PlacesActions.deletePlace({placeId: placeId}));
+      this._store.dispatch(PlacesActions.isPlaceLoading());
+    }, 1000);
+    this._store.dispatch(PlacesActions.isPlaceLoading());
+  }
+
 }

@@ -37,7 +37,12 @@ const placesReducer = createReducer(
 
     on(PlaceActions.updatePlace, (state,  {updatedPlaces}) => ({
         ...state,
-        places: updatedPlaces
+        places: [...updatedPlaces]
+    })),
+
+    on(PlaceActions.deletePlace, (state,  {placeId}) => ({
+        ...state,
+        places: state.places.filter(place => place.id !== placeId)
     })),
 
     on(PlaceActions.isPlaceLoading, state => ({

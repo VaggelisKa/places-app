@@ -3,7 +3,7 @@ import { PlacesService } from '../places.service';
 import { Place } from '../models/place.model';
 import { Router } from '@angular/router';
 
-import { IonItemSliding } from '@ionic/angular';
+import { IonItemSliding, LoadingController } from '@ionic/angular';
 
 import { Store, select } from '@ngrx/store';
 import * as fromPlaces from '../placesStore/places.reducer';
@@ -19,7 +19,8 @@ export class OffersPage implements OnInit {
 
   constructor(private _placesService: PlacesService,
               private _router: Router,
-              private _store: Store<fromPlaces.State>) { }
+              private _store: Store<fromPlaces.State>,
+              private _loadingController: LoadingController) { }
 
   ngOnInit() {
     this._store.pipe(select(placesSelectors.getPlaces)).subscribe(offers => {
@@ -32,8 +33,24 @@ export class OffersPage implements OnInit {
     this._router.navigate(['places/tabs/offers/edit/' + offerId]);
   }
 
-  onDelete(offerId: string, slidingItem: IonItemSliding) {
+  async onDelete(offerId: string, slidingItem: IonItemSliding) {
     slidingItem.close();
+
+    this._placesService.deleteOffer(offerId);
+    this._store.pipe(select(placesSelectors.deletePlace));
+
+
+    const loading = await this._loadingController.create({
+      message: 'Please wait...',
+      spinner: 'bubbles'
+    });
+    await loading.present();
+
+    this._store.pipe(select(placesSelectors.placesLoading)).subscribe(result => {
+      if (!result) {
+        loading.dismiss();
+      }
+    });
   }
 
 }
