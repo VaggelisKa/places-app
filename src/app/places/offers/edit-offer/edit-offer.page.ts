@@ -74,7 +74,7 @@ export class EditOfferPage implements OnInit {
       new Date(this.editOfferForm.value.availableToDate),
     );
 
-    this._store.pipe(select(placesSelectors.getUpdatedPlaces));
+    this._store.pipe(select(placesSelectors.getPlaces));
 
 
     const loading = await this._loadingController.create({

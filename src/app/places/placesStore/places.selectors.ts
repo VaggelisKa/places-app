@@ -6,15 +6,6 @@ export const getPlaces = createSelector(
     (state: fromPlaces.PlaceState) => state.places
 );
 
-export const getUpdatedPlaces = createSelector(
-    fromPlaces.getPlaceState,
-    (state: fromPlaces.PlaceState) => state.places
-);
-
-export const deletePlace = createSelector(
-    fromPlaces.getPlaceState,
-    (state: fromPlaces.PlaceState) => state.place
-);
 
 export const getPlace = createSelector(
     fromPlaces.getPlaceState,

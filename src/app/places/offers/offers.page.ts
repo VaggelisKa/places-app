@@ -37,7 +37,7 @@ export class OffersPage implements OnInit {
     slidingItem.close();
 
     this._placesService.deleteOffer(offerId);
-    this._store.pipe(select(placesSelectors.deletePlace));
+    this._store.pipe(select(placesSelectors.getPlaces));
 
 
     const loading = await this._loadingController.create({
