@@ -32,6 +32,16 @@ export class PlacesService {
       price: 100,
       availableFrom: new Date('2020-10-04'),
       availableTo: new Date('2020-10-12')
+    },
+    {
+      id: 'p3',
+      userId: 'opopopop',
+      title: 'Paris Suite',
+      description: 'Kinda nice',
+      image: 'https://res.klook.com/image/upload/fl_lossy.progressive/q_auto/f_auto/c_fill/blogen/2018/06/blog-cover-6.jpg',
+      price: 100,
+      availableFrom: new Date('2020-10-04'),
+      availableTo: new Date('2020-10-12')
     }
   ];
 
@@ -60,6 +70,7 @@ export class PlacesService {
       this._store.dispatch(PlacesActions.isPlaceLoading());
     }, 1000);
     this._store.dispatch(PlacesActions.isPlaceLoading());
+    this._store.dispatch(PlacesActions.setBookablePlaces({userId: 'abcde'}));
   }
 
   updateOffer(placeId: string, title: string, description: string, price: number, dateFrom: Date, dateTo: Date): void {

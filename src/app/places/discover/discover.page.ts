@@ -14,6 +14,7 @@ import * as placesSelectors from '../placesStore/places.selectors';
 export class DiscoverPage implements OnInit {
   loadedPlaces: Place[];
   listedLoadedPlaces: Place[];
+  availablePlaces: Place[];
 
   constructor(private _placesService: PlacesService,
               private _store: Store<fromPlaces.State>) { }
@@ -24,12 +25,21 @@ export class DiscoverPage implements OnInit {
     this._store.pipe(select(placesSelectors.getPlaces)).subscribe(result => {
       console.log(result);
       this.loadedPlaces = result;
-      this.listedLoadedPlaces = this.loadedPlaces.slice(1);
+      this.availablePlaces = this.loadedPlaces;
+      this.listedLoadedPlaces = this.availablePlaces.slice(1);
     });
   }
 
   segmentChanged(event: CustomEvent<any>) {
-    console.log(event.detail);
+    if (event.detail.value === 'available') {
+      this._store.pipe(select(placesSelectors.getBookablePlaces)).subscribe(bookablePlaces => {
+        this.availablePlaces = bookablePlaces;
+        this.listedLoadedPlaces = this.availablePlaces.slice(1);
+      });
+    } else {
+      this.availablePlaces = this.loadedPlaces;
+      this.listedLoadedPlaces = this.availablePlaces.slice(1);
+    }
   }
 
 }
