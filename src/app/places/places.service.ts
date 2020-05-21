@@ -65,7 +65,6 @@ export class PlacesService {
   updateOffer(placeId: string, title: string, description: string, price: number, dateFrom: Date, dateTo: Date): void {
     const placeToUpdateIndex = this.places.findIndex(place => place.id === placeId);
     const updatedPlaces = [...this.places];
-    // const placeToUpdate = updatedPlaces[placeToUpdateIndex];
     updatedPlaces[placeToUpdateIndex] = {
       id: placeId,
       userId: 'sasasas',

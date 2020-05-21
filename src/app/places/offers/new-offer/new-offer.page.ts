@@ -55,8 +55,8 @@ export class NewOfferPage implements OnInit {
       this.newOfferForm.value.title,
       this.newOfferForm.value.description,
       this.newOfferForm.value.price,
-      this.newOfferForm.value.availableFromDate,
-      this.newOfferForm.value.availableToDate,
+      new Date(this.newOfferForm.value.availableFromDate),
+      new Date(this.newOfferForm.value.availableToDate),
     );
 
     const loading = await this._loadingController.create({

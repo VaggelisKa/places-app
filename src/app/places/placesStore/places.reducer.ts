@@ -4,7 +4,6 @@ import { Place } from '../models/place.model';
 
 export interface PlaceState {
     places: Place[];
-    updatedPlaces: Place[];
     place: Place;
     isLoading: boolean;
 }
@@ -15,7 +14,6 @@ export interface State {
 
 export const initialState: PlaceState = {
     places: null,
-    updatedPlaces: null,
     place: null,
     isLoading: false
 };
@@ -39,7 +37,7 @@ const placesReducer = createReducer(
 
     on(PlaceActions.updatePlace, (state,  {updatedPlaces}) => ({
         ...state,
-        places: [...updatedPlaces]
+        places: updatedPlaces
     })),
 
     on(PlaceActions.isPlaceLoading, state => ({

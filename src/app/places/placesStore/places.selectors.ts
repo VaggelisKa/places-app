@@ -8,7 +8,7 @@ export const getPlaces = createSelector(
 
 export const getUpdatedPlaces = createSelector(
     fromPlaces.getPlaceState,
-    (state: fromPlaces.PlaceState) => state.updatedPlaces
+    (state: fromPlaces.PlaceState) => state.places
 );
 
 export const getPlace = createSelector(

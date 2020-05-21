@@ -5,6 +5,7 @@ import { Place } from '../../models/place.model';
 import { NavController, LoadingController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { take } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import * as fromPlaces from '../../placesStore/places.reducer';
