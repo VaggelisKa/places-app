@@ -8,6 +8,9 @@ import { IonicModule } from '@ionic/angular';
 import { BookingsPage } from './bookings.page';
 import { CreateBookingComponent } from './create-booking/create-booking.component';
 
+import { StoreModule } from '@ngrx/store';
+import * as fromBookings from './bookings-store/bookings.reducer';
+
 const routes: Routes = [
   {
     path: '',
@@ -20,7 +23,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    StoreModule.forFeature(fromBookings.bookingsFeatureKey, fromBookings.reducer)
   ],
   declarations: [BookingsPage, CreateBookingComponent]
 })
