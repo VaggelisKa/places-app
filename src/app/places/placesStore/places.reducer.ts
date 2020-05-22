@@ -15,7 +15,7 @@ export interface State {
 
 export const initialState: PlaceState = {
     places: null,
-    bookablePlaces: null,
+    bookablePlaces: [],
     place: null,
     isLoading: false
 };
