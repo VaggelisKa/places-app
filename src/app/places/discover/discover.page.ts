@@ -15,6 +15,7 @@ export class DiscoverPage implements OnInit {
   loadedPlaces: Place[];
   listedLoadedPlaces: Place[];
   availablePlaces: Place[];
+  private filter = 'all';
 
   constructor(private _placesService: PlacesService,
               private _store: Store<fromPlaces.State>) { }
@@ -25,20 +26,19 @@ export class DiscoverPage implements OnInit {
     this._store.pipe(select(placesSelectors.getPlaces)).subscribe(result => {
       console.log(result);
       this.loadedPlaces = result;
-      this.availablePlaces = this.loadedPlaces;
-      this.listedLoadedPlaces = this.availablePlaces.slice(1);
+      this.segmentChanged(this.filter);
     });
   }
 
-  segmentChanged(event: CustomEvent<any>) {
-    if (event.detail.value === 'available') {
+  segmentChanged(filter: string) {
+    if (filter === 'available') {
       this._store.pipe(select(placesSelectors.getBookablePlaces)).subscribe(bookablePlaces => {
         this.availablePlaces = bookablePlaces;
-        this.listedLoadedPlaces = this.availablePlaces.slice(1);
+        this.filter = filter;
       });
     } else {
       this.availablePlaces = this.loadedPlaces;
-      this.listedLoadedPlaces = this.availablePlaces.slice(1);
+      this.filter = filter;
     }
   }
 
