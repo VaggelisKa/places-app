@@ -26,16 +26,19 @@ export class DiscoverPage implements OnInit {
     this._store.pipe(select(placesSelectors.getPlaces)).subscribe(result => {
       console.log(result);
       this.loadedPlaces = result;
+      this.availablePlaces = this.loadedPlaces;
       this.segmentChanged(this.filter);
     });
   }
 
   segmentChanged(filter: string) {
     if (filter === 'available') {
-      this._store.pipe(select(placesSelectors.getBookablePlaces)).subscribe(bookablePlaces => {
-        this.availablePlaces = bookablePlaces;
-        this.filter = filter;
-      });
+      // this._store.pipe(select(placesSelectors.getBookablePlaces)).subscribe(bookablePlaces => {
+      //   this.availablePlaces = bookablePlaces;
+      //   this.filter = filter;
+      // });
+      this.availablePlaces = this.loadedPlaces.filter(place => place.userId !== 'abcde');
+      this.filter = filter;
     } else {
       this.availablePlaces = this.loadedPlaces;
       this.filter = filter;
