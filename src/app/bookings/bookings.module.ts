@@ -26,6 +26,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     StoreModule.forFeature(fromBookings.bookingsFeatureKey, fromBookings.reducer)
   ],
-  declarations: [BookingsPage, CreateBookingComponent]
+  declarations: [BookingsPage]
 })
 export class BookingsPageModule {}
