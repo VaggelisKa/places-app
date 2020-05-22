@@ -5,8 +5,8 @@ import { PlacesService } from '../../places.service';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 
-import * as fromPlaces from '../../placesStore/places.reducer';
-import * as placesSelectors from '../../placesStore/places.selectors';
+import * as fromPlaces from '../../places-store/places.reducer';
+import * as placesSelectors from '../../places-store/places.selectors';
 import { Store, select } from '@ngrx/store';
 
 @Component({

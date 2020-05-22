@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { IonItemSliding, LoadingController } from '@ionic/angular';
 
 import { Store, select } from '@ngrx/store';
-import * as fromPlaces from '../placesStore/places.reducer';
-import * as placesSelectors from '../placesStore/places.selectors';
+import * as fromPlaces from '../places-store/places.reducer';
+import * as placesSelectors from '../places-store/places.selectors';
 
 @Component({
   selector: 'app-offers',

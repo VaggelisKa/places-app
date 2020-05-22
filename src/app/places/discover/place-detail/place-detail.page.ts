@@ -6,8 +6,8 @@ import { NavController, ModalController, ActionSheetController } from '@ionic/an
 import { CreateBookingComponent } from '../../../bookings/create-booking/create-booking.component';
 
 import { Store, select } from '@ngrx/store';
-import * as fromPlace from '../../placesStore/places.reducer';
-import * as placeSelectors from '../../placesStore/places.selectors';
+import * as fromPlace from '../../places-store/places.reducer';
+import * as placeSelectors from '../../places-store/places.selectors';
 
 @Component({
   selector: 'app-place-detail',

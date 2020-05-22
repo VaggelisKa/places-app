@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Place } from './models/place.model';
 
 import { Store } from '@ngrx/store';
-import * as fromPlaces from './placesStore/places.reducer';
-import * as PlacesActions from './placesStore/places.actions';
+import * as fromPlaces from './places-store/places.reducer';
+import * as PlacesActions from './places-store/places.actions';
 
 @Injectable({
   providedIn: 'root'
