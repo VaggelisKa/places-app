@@ -36,7 +36,7 @@ export class NewOfferPage implements OnInit {
 
     this.newOfferForm = new FormGroup({
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-      description: new FormControl(null, Validators.maxLength(100)),
+      description: new FormControl(null, Validators.maxLength(1000)),
       price: new FormControl(10, [Validators.required, Validators.min(10)]),
       availableFromDate: new FormControl(null, Validators.required),
       availableToDate: new FormControl(null, Validators.required),
