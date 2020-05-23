@@ -16,6 +16,7 @@ import * as placeSelectors from '../../places-store/places.selectors';
 })
 export class PlaceDetailPage implements OnInit {
   place: Place;
+  images = ['https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/24-city-of-auburn-new-york-images-jpg-1576525078.jpg', 'https://i.pinimg.com/originals/ae/a0/40/aea04037035e26c9dd0249bf06098e49.jpg'];
 
   constructor(private _route: ActivatedRoute,
               private _placesService: PlacesService,
@@ -33,6 +34,7 @@ export class PlaceDetailPage implements OnInit {
       this._placesService.getPlace(paramMap.get('placeId'));
       this._store.pipe(select(placeSelectors.getPlace)).subscribe(place => {
         this.place = place;
+        this.images.push(place.image);
       });
     });
   }

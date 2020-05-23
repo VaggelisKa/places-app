@@ -30,7 +30,7 @@
     "@ionic/angular": "^5.0.4",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "@ngrx/store": "^9.1.2",
-    "bootstrap": "^4.4.0",
+    "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
     "rxjs": "~6.5.4",
     "zone.js": "~0.10.2"
