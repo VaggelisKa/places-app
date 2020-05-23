@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { PlaceDetailPage } from './place-detail.page';
 import { CreateBookingComponent } from 'src/app/bookings/create-booking/create-booking.component';
+import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 const routes: Routes = [
   {
@@ -20,8 +23,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    NgbModule
   ],
-  declarations: [PlaceDetailPage, CreateBookingComponent]
+  declarations: [PlaceDetailPage, CreateBookingComponent, ImageCarouselComponent]
 })
 export class PlaceDetailPageModule {}

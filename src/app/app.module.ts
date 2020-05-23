@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,8 @@ import { environment } from 'src/environments/environment';
     IonicModule.forRoot(),
     AppRoutingModule,
     StoreModule.forRoot({}),
-    StoreDevtoolsModule.instrument({logOnly: environment.production})
+    StoreDevtoolsModule.instrument({logOnly: environment.production}),
+    NgbModule
   ],
   providers: [
     StatusBar,
