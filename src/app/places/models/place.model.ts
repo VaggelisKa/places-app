@@ -3,7 +3,7 @@ export interface Place {
     userId: string;
     title: string;
     description?: string;
-    image: string;
+    image: Array<string>;
     price: number;
     availableFrom: Date;
     availableTo: Date;

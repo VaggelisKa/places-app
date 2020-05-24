@@ -34,7 +34,7 @@ export class PlaceDetailPage implements OnInit {
       this._placesService.getPlace(paramMap.get('placeId'));
       this._store.pipe(select(placeSelectors.getPlace)).subscribe(place => {
         this.place = place;
-        this.images.push(place.image);
+        this.images = this.images.concat(place.image);
       });
     });
   }

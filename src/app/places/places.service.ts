@@ -18,7 +18,10 @@ export class PlacesService {
       userId: 'abc',
       title: 'New York Mansion',
       description: 'lavish',
-      image: 'https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1440,w_2560,x_0,y_0/dpr_1.5/c_limit,w_1044/fl_lossy,q_auto/v1541016891/181031-carrier-payne-tease_tk805s',
+      image: [
+        'https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1440,w_2560,x_0,y_0/dpr_1.5/c_limit,w_1044/fl_lossy,q_auto/v1541016891/181031-carrier-payne-tease_tk805s',
+        'https://townsquare.media/site/706/files/2019/12/RS9295_177496804-scr.jpg?w=980&q=75'
+      ],
       price: 20000,
       availableFrom: new Date('2020-06-04'),
       availableTo: new Date('2020-08-04')
@@ -28,7 +31,7 @@ export class PlacesService {
       userId: 'abdbddb',
       title: 'Greek Bangalow',
       description: 'nice',
-      image: 'https://i.pinimg.com/originals/9a/77/4f/9a774f8f0fb89fce6f29d8b062ca51d7.jpg',
+      image: ['https://i.pinimg.com/originals/9a/77/4f/9a774f8f0fb89fce6f29d8b062ca51d7.jpg'],
       price: 100,
       availableFrom: new Date('2020-10-04'),
       availableTo: new Date('2020-10-12')
@@ -38,7 +41,7 @@ export class PlacesService {
       userId: 'opopopop',
       title: 'Paris Suite',
       description: 'Kinda nice',
-      image: 'https://res.klook.com/image/upload/fl_lossy.progressive/q_auto/f_auto/c_fill/blogen/2018/06/blog-cover-6.jpg',
+      image: ['https://res.klook.com/image/upload/fl_lossy.progressive/q_auto/f_auto/c_fill/blogen/2018/06/blog-cover-6.jpg'],
       price: 100,
       availableFrom: new Date('2020-10-04'),
       availableTo: new Date('2020-10-12')
@@ -59,7 +62,7 @@ export class PlacesService {
       userId: 'abcde',
       title: title,
       description: description,
-      image: 'https://i.pinimg.com/originals/9a/77/4f/9a774f8f0fb89fce6f29d8b062ca51d7.jpg',
+      image: ['https://i.pinimg.com/originals/9a/77/4f/9a774f8f0fb89fce6f29d8b062ca51d7.jpg'],
       price: price,
       availableFrom: dateFrom,
       availableTo: dateTo
@@ -81,7 +84,7 @@ export class PlacesService {
       userId: 'sasasas',
       title: title,
       description: description,
-      image: 'https://i.pinimg.com/originals/9a/77/4f/9a774f8f0fb89fce6f29d8b062ca51d7.jpg',
+      image: ['https://i.pinimg.com/originals/9a/77/4f/9a774f8f0fb89fce6f29d8b062ca51d7.jpg'],
       price: price,
       availableFrom: dateFrom,
       availableTo: dateTo
