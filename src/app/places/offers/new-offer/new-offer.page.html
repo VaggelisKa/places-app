@@ -65,6 +65,24 @@
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col size-sm=6 offset-sm="3">
+          <ion-item>
+            <ion-label>Add Images</ion-label>
+              <ion-button (click)="filePicker.click()" type="button" fill="clear">
+                <ion-icon name="images-sharp" color="dark"></ion-icon>
+              </ion-button>
+              <ion-input 
+                type="file"
+                formControlName="images"
+                multiple="true"
+                #filePicker
+                (change)="onFileChange($event)"
+              >
+              </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col size-sm="3">
           <ion-item>
             <ion-label position="floating">Available from</ion-label>

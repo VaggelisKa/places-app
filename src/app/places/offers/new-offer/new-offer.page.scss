@@ -6,3 +6,7 @@ ion-item.item-has-focus > ion-label {
 font-size: medium;
 font-style: italic;
 }
+
+ion-input[type="file"] {
+    visibility: hidden;
+}

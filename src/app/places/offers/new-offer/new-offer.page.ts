@@ -18,6 +18,7 @@ export class NewOfferPage implements OnInit {
   private currentDate: string;
   private maxYear: string;
   newOfferForm: FormGroup;
+  images = [];
 
   // Second date picker
   private minAvailableTo: string;
@@ -38,6 +39,7 @@ export class NewOfferPage implements OnInit {
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       description: new FormControl(null, Validators.maxLength(1000)),
       price: new FormControl(10, [Validators.required, Validators.min(10)]),
+      images: new FormControl(null),
       availableFromDate: new FormControl(null, Validators.required),
       availableToDate: new FormControl(null, Validators.required),
     });
@@ -45,6 +47,25 @@ export class NewOfferPage implements OnInit {
 
   get f(): any {
     return this.newOfferForm.controls;
+  }
+
+  onFileChange(event) {
+    if (event.target.files && event.target.files[0]) {
+        const filesAmount = event.target.files.length;
+        for (let i = 0; i < filesAmount; i++) {
+                const reader = new FileReader();
+
+                // tslint:disable-next-line: no-shadowed-variable
+                reader.onload = (event) => {
+                   this.images.push(event.target.result);
+
+                   this.newOfferForm.patchValue({
+                      fileSource: this.images
+                   });
+                };
+                reader.readAsDataURL(event.target.files[i]);
+        }
+    }
   }
 
   async onCreateOffer() {
@@ -58,6 +79,8 @@ export class NewOfferPage implements OnInit {
       new Date(this.newOfferForm.value.availableFromDate),
       new Date(this.newOfferForm.value.availableToDate),
     );
+
+    console.log(this.newOfferForm.value);
 
     const loading = await this._loadingController.create({
       message: 'Please wait...',
