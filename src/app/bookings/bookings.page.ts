@@ -3,6 +3,10 @@ import { BookingsService } from './services/bookings.service';
 import { Booking } from './models/booking.model';
 import { IonItemSliding } from '@ionic/angular';
 
+import * as fromBookings from './bookings-store/bookings.reducer';
+import * as BookingsSelectors from './bookings-store/bookings.selectors';
+import { Store, select } from '@ngrx/store';
+
 @Component({
   selector: 'app-bookings',
   templateUrl: './bookings.page.html',
@@ -11,10 +15,14 @@ import { IonItemSliding } from '@ionic/angular';
 export class BookingsPage implements OnInit {
   bookings: Booking[];
 
-  constructor(private _bookingsService: BookingsService) { }
+  constructor(private _bookingsService: BookingsService,
+              private _store: Store<fromBookings.State>) { }
 
   ngOnInit() {
-    this.bookings = this._bookingsService.getBookings();
+    this._bookingsService.getBookings();
+    this._store.pipe(select(BookingsSelectors.getBookings)).subscribe(bookings => {
+      this.bookings = bookings;
+    });
   }
 
   onDelete(offerId: string, slidingItem: IonItemSliding) {

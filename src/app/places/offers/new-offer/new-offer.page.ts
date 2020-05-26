@@ -52,35 +52,6 @@ export class NewOfferPage implements OnInit {
     return this.newOfferForm.controls;
   }
 
-  isUrl(value: string) {
-    const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)* ' + // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-    '(\\#[-a-z\\d_]*)?$', 'i');
-    return !!pattern.test(value);
-  }
-
-  onFileChange(event) {
-    if (event.target.files && event.target.files[0]) {
-        const filesAmount = event.target.files.length;
-        for (let i = 0; i < filesAmount; i++) {
-                const reader = new FileReader();
-
-                // tslint:disable-next-line: no-shadowed-variable
-                reader.onload = (event) => {
-                   this.images.push(event.target.result);
-
-                   this.newOfferForm.patchValue({
-                      fileSource: this.images
-                   });
-                };
-                reader.readAsDataURL(event.target.files[i]);
-        }
-    }
-  }
-
   async onCreateOffer() {
     if (this.newOfferForm.invalid) {
       return;
