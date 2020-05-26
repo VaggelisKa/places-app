@@ -39,7 +39,10 @@ export class NewOfferPage implements OnInit {
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       description: new FormControl(null, Validators.maxLength(1000)),
       price: new FormControl(10, [Validators.required, Validators.min(10)]),
-      imagePath: new FormControl(null, [Validators.required, Validators.pattern(new RegExp(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g))]),
+      imagePath: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(new RegExp(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g))
+      ]),
       availableFromDate: new FormControl(null, Validators.required),
       availableToDate: new FormControl(null, Validators.required),
     });
