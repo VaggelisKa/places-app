@@ -56,13 +56,13 @@ export class PlacesService {
     this._store.dispatch(PlacesActions.setPlace({placeId: id}));
   }
 
-  addNewPlace (title: string, description: string, price: number, dateFrom: Date, dateTo: Date) {
+  addNewPlace (title: string, description: string, price: number, image: string, dateFrom: Date, dateTo: Date) {
     this.newPlace = {
       id: Math.random().toString(),
       userId: 'abcde',
       title: title,
       description: description,
-      image: ['https://i.pinimg.com/originals/9a/77/4f/9a774f8f0fb89fce6f29d8b062ca51d7.jpg'],
+      image: [image],
       price: price,
       availableFrom: dateFrom,
       availableTo: dateTo

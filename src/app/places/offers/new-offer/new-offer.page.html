@@ -67,16 +67,10 @@
       <ion-row>
         <ion-col size-sm=6 offset-sm="3">
           <ion-item>
-            <ion-label>Add Images</ion-label>
-              <ion-button (click)="filePicker.click()" type="button" fill="clear">
-                <ion-icon name="images-sharp" color="dark"></ion-icon>
-              </ion-button>
+            <ion-label position="floating">Paste Image URL</ion-label>
               <ion-input 
-                type="file"
-                formControlName="images"
-                multiple="true"
-                #filePicker
-                (change)="onFileChange($event)"
+                type="text"
+                formControlName="imagePath"
               >
               </ion-input>
           </ion-item>
