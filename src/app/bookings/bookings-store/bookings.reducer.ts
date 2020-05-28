@@ -28,6 +28,11 @@ const  bookingsReducer = createReducer(
         bookings: state.bookings.concat(newBooking)
     })),
 
+    on(BookingsActions.deleteBooking, (state, {bookingId}) => ({
+        ...state,
+        bookings: state.bookings.filter(booking => booking.id !== bookingId)
+    })),
+
     on(BookingsActions.bookingsLoading, state => ({
         ...state,
         isLoading: !state.isLoading

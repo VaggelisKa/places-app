@@ -30,4 +30,8 @@ export class BookingsService {
     getBookings(): void {
         this._store.dispatch(BookingsActions.setBookings({bookings: this.bookings}));
     }
+
+    onDelete (id: string): void {
+        this._store.dispatch(BookingsActions.deleteBooking({bookingId: id}));
+    }
 }

@@ -27,6 +27,9 @@ export class BookingsPage implements OnInit {
 
   onDelete(offerId: string, slidingItem: IonItemSliding) {
     slidingItem.close();
+
+    this._bookingsService.onDelete(offerId);
+    this._store.pipe(select(BookingsSelectors.getBookings));
   }
 
 }
