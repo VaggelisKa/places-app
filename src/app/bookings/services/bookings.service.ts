@@ -15,7 +15,11 @@ export class BookingsService {
             placeId: 'p1',
             userId: 'ioijfdjkfdj',
             placeTitle: 'New york mansion',
-            guestNumber: 7
+            firstName: 'Vasilis',
+            lastName: 'karas',
+            guestNumber: 7,
+            dateFrom: new Date('2020-10-04'),
+            dateTo: new Date('2020-10-10')
         },
 
         {
@@ -23,9 +27,15 @@ export class BookingsService {
             placeId: 'p2',
             userId: 'ioijfdjkfdsasaj',
             placeTitle: 'Greek bangalow',
-            guestNumber: 3
+            firstName: 'Nikos',
+            lastName: 'Olatunji',
+            guestNumber: 3,
+            dateFrom: new Date('2020-10-04'),
+            dateTo: new Date('2020-10-10')
         }
     ];
+
+    addBooking(): void {}
 
     getBookings(): void {
         this._store.dispatch(BookingsActions.setBookings({bookings: this.bookings}));
