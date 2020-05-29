@@ -56,7 +56,11 @@ export class BookingsService {
                 dateTo: dateTo
             };
 
-            this._store.dispatch(BookingsActions.addNewBooking({newBooking: newBooking}));
+            setTimeout ((_) => {
+                this._store.dispatch(BookingsActions.addNewBooking({newBooking: newBooking}));
+                this._store.dispatch(BookingsActions.bookingsLoading());
+            }, 1000);
+            this._store.dispatch(BookingsActions.bookingsLoading());
     }
 
     getBookings(): void {

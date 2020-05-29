@@ -12,6 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import * as fromBookings from './bookings/bookings-store/bookings.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({bookings: fromBookings.reducer}),
     StoreDevtoolsModule.instrument({logOnly: environment.production}),
     NgbModule
   ],

@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlacesService } from '../../places.service';
 import { Place } from '../../models/place.model';
-import { NavController, ModalController, ActionSheetController } from '@ionic/angular';
+import { NavController, ModalController, ActionSheetController, LoadingController } from '@ionic/angular';
 import { CreateBookingComponent } from '../../../bookings/create-booking/create-booking.component';
 
 import { Store, select } from '@ngrx/store';
 import * as fromPlace from '../../places-store/places.reducer';
 import * as placeSelectors from '../../places-store/places.selectors';
+
+import * as fromBookings from '../../../bookings/bookings-store/bookings.reducer';
+import * as bookingsSelectors from '../../../bookings/bookings-store/bookings.selectors';
+
+import { BookingsService } from 'src/app/bookings/services/bookings.service';
 
 @Component({
   selector: 'app-place-detail',
@@ -23,7 +28,9 @@ export class PlaceDetailPage implements OnInit {
               private _navController: NavController,
               private _modalController: ModalController,
               private _actionSheetController: ActionSheetController,
-              private _store: Store<fromPlace.State>) { }
+              private _store: Store<fromPlace.State | fromBookings.State>,
+              private _bookingsService: BookingsService,
+              private _loadingController: LoadingController) { }
 
   ngOnInit() {
     this._route.paramMap.subscribe(paramMap => {
@@ -77,6 +84,32 @@ export class PlaceDetailPage implements OnInit {
 
     const  data = await modal.onWillDismiss();
     console.log(data);
+
+    if (data.role === 'Confirm') {
+      const loading = await this._loadingController.create({
+        spinner: 'bubbles',
+        message: 'Adding new booking...'
+      });
+      await loading.present();
+
+      const bookingData = data.data.bookingData;
+      this._bookingsService.addBooking(
+        this.place.id,
+        this.place.title,
+        bookingData.firstName,
+        bookingData.lastName,
+        bookingData.numberOfGuests,
+        bookingData.checkinDate,
+        bookingData.checkoutDate
+      );
+
+      this._store.pipe(select(bookingsSelectors.getBookingsLoadingState)).subscribe(isLoading => {
+        if (!isLoading) {
+          loading.dismiss();
+        }
+      });
+    }
+
     return data;
   }
 

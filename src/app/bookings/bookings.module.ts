@@ -6,10 +6,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { BookingsPage } from './bookings.page';
-import { CreateBookingComponent } from './create-booking/create-booking.component';
-
-import { StoreModule } from '@ngrx/store';
-import * as fromBookings from './bookings-store/bookings.reducer';
 
 const routes: Routes = [
   {
@@ -24,7 +20,6 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    StoreModule.forFeature(fromBookings.bookingsFeatureKey, fromBookings.reducer)
   ],
   declarations: [BookingsPage]
 })

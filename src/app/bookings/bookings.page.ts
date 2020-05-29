@@ -23,6 +23,9 @@ export class BookingsPage implements OnInit {
     this._store.pipe(select(BookingsSelectors.getBookings)).subscribe(bookings => {
       this.bookings = bookings;
     });
+    this._store.pipe(select(BookingsSelectors.getBookingsLoadingState)).subscribe(result => {
+      console.log(result);
+    });
   }
 
   onDelete(offerId: string, slidingItem: IonItemSliding) {
