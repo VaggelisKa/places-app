@@ -35,7 +35,29 @@ export class BookingsService {
         }
     ];
 
-    addBooking(): void {}
+    addBooking(
+        placeId: string,
+        title: string,
+        firstName: string,
+        lastName: string,
+        guestNumber: number,
+        dateFrom: Date,
+        dateTo: Date
+        ): void {
+            const newBooking: Booking = {
+                id: Math.random().toString(),
+                userId: 'sasasasas',
+                placeId: placeId,
+                placeTitle: title,
+                firstName: firstName,
+                lastName: lastName,
+                guestNumber: guestNumber,
+                dateFrom: dateFrom,
+                dateTo: dateTo
+            };
+
+            this._store.dispatch(BookingsActions.addNewBooking({newBooking: newBooking}));
+    }
 
     getBookings(): void {
         this._store.dispatch(BookingsActions.setBookings({bookings: this.bookings}));

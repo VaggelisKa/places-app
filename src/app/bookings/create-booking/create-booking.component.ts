@@ -3,6 +3,10 @@ import { Place } from 'src/app/places/models/place.model';
 import { ModalController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { BookingsService } from '../services/bookings.service';
+
+import { Store, } from '@ngrx/store';
+import * as fromBookings from '../bookings-store/bookings.reducer';
 
 @Component({
   selector: 'app-create-booking',
@@ -19,7 +23,9 @@ export class CreateBookingComponent implements OnInit {
   private checkinDate: string;
   private checkoutDate: string;
 
-  constructor(private _modalController: ModalController) { }
+  constructor(private _modalController: ModalController,
+              private _bookingsService: BookingsService,
+              private _store: Store<fromBookings.State>) { }
 
   ngOnInit(): void {
     const nextDay = new Date().getDate() + 1;
@@ -56,6 +62,16 @@ export class CreateBookingComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+
+    this._bookingsService.addBooking(
+      this.selectedPlace.id,
+      this.selectedPlace.title,
+      this.form.value['firstName'],
+      this.form.value['lastName'],
+      this.form.value['numberOfGuests'],
+      this.form.value['checkin'],
+      this.form.value['checkout']
+    );
 
     this._modalController.dismiss({
       message: 'Booked',
