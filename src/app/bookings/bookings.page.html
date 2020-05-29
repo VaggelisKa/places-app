@@ -16,7 +16,9 @@
             <ion-item>
               <ion-label>
                 <h5>{{ booking.placeTitle }}</h5>
+                <p>Reservation Under: {{booking.lastName}}</p>
                 <p>Guests: {{booking.guestNumber}}</p>
+                <p>From: {{booking.dateFrom | date}} To: {{booking.dateTo | date}}</p>
               </ion-label>
             </ion-item>
             <ion-item-options>
