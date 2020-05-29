@@ -20,6 +20,7 @@ import { BookingsService } from 'src/app/bookings/services/bookings.service';
   styleUrls: ['./place-detail.page.scss'],
 })
 export class PlaceDetailPage implements OnInit {
+  private user = 'abcde';
   place: Place;
   images = ['https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/24-city-of-auburn-new-york-images-jpg-1576525078.jpg', 'https://i.pinimg.com/originals/ae/a0/40/aea04037035e26c9dd0249bf06098e49.jpg'];
 
