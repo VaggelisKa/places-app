@@ -32,9 +32,15 @@ const placesReducer = createReducer(
         place: state.places.find(id => id.id === placeId)
     })),
 
-    on(PlaceActions.addPlace, (state, {place}) => ({
+    on(PlaceActions.addPlace, state => ({
         ...state,
-        places: state.places.concat(place)
+        isLoading: true
+    })),
+
+    on(PlaceActions.addNewPlaceSuccess, (state, {place}) => ({
+        ...state,
+        places: state.places.concat(place),
+        isLoading: false
     })),
 
     on(PlaceActions.updatePlace, (state,  {updatedPlaces}) => ({

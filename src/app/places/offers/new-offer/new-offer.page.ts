@@ -7,7 +7,9 @@ import { LoadingController } from '@ionic/angular';
 
 import * as fromPlaces from '../../places-store/places.reducer';
 import * as placesSelectors from '../../places-store/places.selectors';
+import * as placesActions from '../../places-store/places.actions';
 import { Store, select } from '@ngrx/store';
+import { Place } from '../../models/place.model';
 
 @Component({
   selector: 'app-new-offer',
@@ -56,14 +58,18 @@ export class NewOfferPage implements OnInit {
     if (this.newOfferForm.invalid) {
       return;
     }
-    this._placesService.addNewPlace(
-      this.newOfferForm.value.title,
-      this.newOfferForm.value.description,
-      this.newOfferForm.value.price,
-      this.newOfferForm.value.imagePath,
-      new Date(this.newOfferForm.value.availableFromDate),
-      new Date(this.newOfferForm.value.availableToDate),
-    );
+
+    const newPlace: Place = {
+      id: Math.random().toString(),
+      userId: 'abcde',
+      title: this.newOfferForm.value.title,
+      description: this.newOfferForm.value.description,
+      image: [this.newOfferForm.value.imagePath],
+      price: +this.newOfferForm.value.price,
+      availableFrom: new Date(this.newOfferForm.value.availableFromDate),
+      availableTo: new Date(this.newOfferForm.value.availableToDate)
+    };
+    this._store.dispatch(placesActions.addPlace({place: newPlace}));
 
     console.log(this.newOfferForm.value);
 

@@ -7,6 +7,8 @@ import { PlacesPage } from './places.page';
 import { PlacesRoutingModule } from './places-routing.module';
 import { StoreModule } from '@ngrx/store';
 import * as fromPlaces from './places-store/places.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { PlacesEffects } from './places-store/places.effects';
 
 @NgModule({
   imports: [
@@ -14,6 +16,7 @@ import * as fromPlaces from './places-store/places.reducer';
     IonicModule,
     PlacesRoutingModule,
     StoreModule.forFeature(fromPlaces.placesFeatureKey, fromPlaces.reducer),
+    EffectsModule.forFeature([PlacesEffects])
   ],
   declarations: [PlacesPage]
 })

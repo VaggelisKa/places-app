@@ -16,6 +16,16 @@ export const addPlace = createAction(
     props<{place: Place}>()
 );
 
+export const addNewPlaceSuccess = createAction(
+    '[Offers Page] Add Place Success',
+    props<{place: Place}>()
+);
+
+export const addNewPlaceFail = createAction(
+    '[Offers Page] Add Place Fail',
+    props<{error: string}>()
+);
+
 export const updatePlace = createAction(
     '[Offers Page] Update Places',
     props<{updatedPlaces: Place[]}>()

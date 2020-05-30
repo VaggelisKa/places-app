@@ -4,12 +4,14 @@ import { Place } from './models/place.model';
 import { Store } from '@ngrx/store';
 import * as fromPlaces from './places-store/places.reducer';
 import * as PlacesActions from './places-store/places.actions';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlacesService {
-  constructor(private _store: Store<fromPlaces.State>) {}
+  constructor(private _store: Store<fromPlaces.State>,
+              private _http: HttpClient) {}
   private newPlace: Place;
 
   private places: Place[] = [
@@ -56,17 +58,8 @@ export class PlacesService {
     this._store.dispatch(PlacesActions.setPlace({placeId: id}));
   }
 
-  addNewPlace (title: string, description: string, price: number, image: string, dateFrom: Date, dateTo: Date) {
-    this.newPlace = {
-      id: Math.random().toString(),
-      userId: 'abcde',
-      title: title,
-      description: description,
-      image: [image],
-      price: price,
-      availableFrom: dateFrom,
-      availableTo: dateTo
-  };
+  addNewPlace (newPlace: Place) {
+    return this._http.post<{ name: string }>('https://places-app-7aa49.firebaseio.com/offered-places.json', newPlace);
 
     setTimeout(() => {
       this._store.dispatch(PlacesActions.addPlace({place: this.newPlace}));

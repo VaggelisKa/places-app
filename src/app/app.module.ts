@@ -12,7 +12,10 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+
 import * as fromBookings from './bookings/bookings-store/bookings.reducer';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +26,9 @@ import * as fromBookings from './bookings/bookings-store/bookings.reducer';
     AppRoutingModule,
     StoreModule.forRoot({bookings: fromBookings.reducer}),
     StoreDevtoolsModule.instrument({logOnly: environment.production}),
-    NgbModule
+    NgbModule,
+    HttpClientModule,
+    EffectsModule.forRoot([])
   ],
   providers: [
     StatusBar,
