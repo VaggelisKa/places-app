@@ -14,7 +14,7 @@ export interface State {
 }
 
 export const initialState: PlaceState = {
-    places: null,
+    places: [],
     bookablePlaces: [],
     place: null,
     isLoading: false
@@ -22,9 +22,15 @@ export const initialState: PlaceState = {
 
 const placesReducer = createReducer(
     initialState,
-    on(PlaceActions.setPlaces, (state, {places}) => ({
+    on(PlaceActions.setPlaces, state => ({
         ...state,
-        places: [...places]
+        isLoading: true
+    })),
+
+    on(PlaceActions.setPlacesSuccess, (state, {places}) => ({
+        ...state,
+        places: [...places],
+        isLoading: false
     })),
 
     on(PlaceActions.setPlace, (state, {placeId}) => ({

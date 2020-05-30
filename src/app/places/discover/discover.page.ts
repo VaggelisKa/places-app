@@ -5,6 +5,8 @@ import { Place } from '../models/place.model';
 import { Store, select } from '@ngrx/store';
 import * as fromPlaces from '../places-store/places.reducer';
 import * as placesSelectors from '../places-store/places.selectors';
+import * as placesActions from '../places-store/places.actions';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-discover',
@@ -21,7 +23,7 @@ export class DiscoverPage implements OnInit {
               private _store: Store<fromPlaces.State>) { }
 
   ngOnInit() {
-    this._placesService.getPlaces();
+    this._store.dispatch(placesActions.setPlaces());
 
     this._store.pipe(select(placesSelectors.getPlaces)).subscribe(result => {
       console.log(result);

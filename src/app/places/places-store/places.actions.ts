@@ -2,7 +2,11 @@ import { createAction, props } from '@ngrx/store';
 import { Place } from '../models/place.model';
 
 export const setPlaces = createAction(
-    '[Offers Page] Set Places',
+    '[Offers Page] Set Places'
+);
+
+export const setPlacesSuccess = createAction(
+    '[Offers Page] Set Places Success',
     props<{places: Place[]}>()
 );
 
