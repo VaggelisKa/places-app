@@ -74,6 +74,10 @@
               >
               </ion-input>
           </ion-item>
+          <ion-item class="input-error" *ngIf="f.imagePath.touched && f.imagePath.invalid" lines="none">
+            <ion-label class="ion-text-end" *ngIf="f.imagePath.errors.required">Image URL is required</ion-label>
+            <ion-label class="ion-text-end" *ngIf="f.imagePath.errors.pattern">Invalid URL</ion-label>
+          </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
