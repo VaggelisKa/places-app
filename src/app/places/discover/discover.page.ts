@@ -22,6 +22,10 @@ export class DiscoverPage implements OnInit {
               private _store: Store<fromPlaces.State>) { }
 
   ngOnInit() {
+    this.loadingPlaces();
+  }
+
+  loadingPlaces(): void {
     this._store.dispatch(placesActions.setPlaces());
 
     this._store.pipe(select(placesSelectors.getPlaces)).subscribe(result => {
