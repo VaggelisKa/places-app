@@ -82,7 +82,7 @@ export class EditOfferPage implements OnInit {
 
 
     const loading = await this._loadingController.create({
-      message: 'Please wait...',
+      message: 'Updating...',
       spinner: 'bubbles'
     });
     await loading.present();

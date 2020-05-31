@@ -105,8 +105,6 @@ export class PlacesService {
       this._store.dispatch(PlacesActions.isPlaceLoading());
     }, 1000);
     this._store.dispatch(PlacesActions.isPlaceLoading());
-    console.log(this.places.length);
-    this._store.dispatch(PlacesActions.setBookablePlaces({userId: 'abcde'}));
   }
 
 }

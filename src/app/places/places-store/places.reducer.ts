@@ -4,7 +4,6 @@ import { Place } from '../models/place.model';
 
 export interface PlaceState {
     places: Place[];
-    bookablePlaces: Place[];
     place: Place;
     isLoading: boolean;
 }
@@ -15,7 +14,6 @@ export interface State {
 
 export const initialState: PlaceState = {
     places: [],
-    bookablePlaces: [],
     place: null,
     isLoading: false
 };
@@ -64,11 +62,6 @@ const placesReducer = createReducer(
     on(PlaceActions.deletePlace, (state,  {placeId}) => ({
         ...state,
         places: state.places.filter(place => place.id !== placeId)
-    })),
-
-    on(PlaceActions.setBookablePlaces, (state, {userId}) => ({
-        ...state,
-        bookablePlaces: state.places.filter(place => place.userId !== userId)
     })),
 
     on(PlaceActions.isPlaceLoading, state => ({

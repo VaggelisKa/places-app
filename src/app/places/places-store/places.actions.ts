@@ -45,11 +45,6 @@ export const deletePlace = createAction(
     props<{placeId: string}>()
 );
 
-export const setBookablePlaces = createAction(
-    '[Offers Page] Set Bookable Places',
-    props<{userId: string}>()
-);
-
 
 export const isPlaceLoading = createAction (
     '[Place Loading State] Is Place Loading'
