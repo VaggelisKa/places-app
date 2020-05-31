@@ -49,7 +49,7 @@ export class EditOfferPage implements OnInit {
 
       this.editOfferForm = new FormGroup({
         title: new FormControl(this.offer.title, [Validators.required, Validators.minLength(3)]),
-        description: new FormControl(this.offer.description, Validators.maxLength(300)),
+        description: new FormControl(this.offer.description, Validators.maxLength(1000)),
         price: new FormControl(this.offer.price, [Validators.required, Validators.min(10)]),
         availableFromDate: new FormControl(this.offer.availableFrom.toISOString(), Validators.required),
         availableToDate: new FormControl(this.offer.availableTo.toISOString(), Validators.required),
