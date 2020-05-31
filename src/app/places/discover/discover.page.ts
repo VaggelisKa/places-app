@@ -6,7 +6,6 @@ import { Store, select } from '@ngrx/store';
 import * as fromPlaces from '../places-store/places.reducer';
 import * as placesSelectors from '../places-store/places.selectors';
 import * as placesActions from '../places-store/places.actions';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-discover',
