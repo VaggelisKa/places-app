@@ -93,36 +93,10 @@ export class PlacesService {
 
   addNewPlace (newPlace: Place) {
     return this._http.post<{name: string}>('https://places-app-7aa49.firebaseio.com/offered-places.json', newPlace);
-
-    setTimeout(() => {
-      this._store.dispatch(PlacesActions.addPlace({place: this.newPlace}));
-      this._store.dispatch(PlacesActions.isPlaceLoading());
-    }, 1000);
-    this._store.dispatch(PlacesActions.isPlaceLoading());
-    this._store.dispatch(PlacesActions.setBookablePlaces({userId: 'abcde'}));
   }
 
-  updateOffer(placeId: string, title: string, description: string, price: number, dateFrom: Date, dateTo: Date): void {
-    const placeToUpdateIndex = this.places.findIndex(place => place.id === placeId);
-    const updatedPlaces = [...this.places];
-    updatedPlaces[placeToUpdateIndex] = {
-      id: placeId,
-      userId: 'sasasas',
-      title: title,
-      description: description,
-      image: ['https://i.pinimg.com/originals/9a/77/4f/9a774f8f0fb89fce6f29d8b062ca51d7.jpg'],
-      price: price,
-      availableFrom: dateFrom,
-      availableTo: dateTo
-    };
-
-    setTimeout(() => {
-      this._store.dispatch(PlacesActions.updatePlace({
-        updatedPlaces: updatedPlaces
-      }));
-      this._store.dispatch(PlacesActions.isPlaceLoading());
-    }, 1000);
-    this._store.dispatch(PlacesActions.isPlaceLoading());
+  updateOffer(placeId: string, updatedPlace: Place) {
+    return this._http.put(`https://places-app-7aa49.firebaseio.com/offered-places/${placeId}.json`, {...updatedPlace, id: null});
   }
 
   deleteOffer(placeId: string) {

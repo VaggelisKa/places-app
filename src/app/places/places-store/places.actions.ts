@@ -31,8 +31,13 @@ export const addNewPlaceFail = createAction(
 );
 
 export const updatePlace = createAction(
-    '[Offers Page] Update Places',
-    props<{updatedPlaces: Place[]}>()
+    '[Offers Page] Update Place',
+    props<{updatedPlace: Place}>()
+);
+
+export const updatePlaceSuccess = createAction(
+    '[Offers Page] Update Place Success',
+    props<{updatedPlace: Place}>()
 );
 
 export const deletePlace = createAction(

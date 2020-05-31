@@ -49,9 +49,16 @@ const placesReducer = createReducer(
         isLoading: false
     })),
 
-    on(PlaceActions.updatePlace, (state,  {updatedPlaces}) => ({
+
+    on(PlaceActions.updatePlace, state => ({
         ...state,
-        places: [...updatedPlaces]
+        isLoading: true
+    })),
+
+    on(PlaceActions.updatePlaceSuccess, (state,  {updatedPlace}) => ({
+        ...state,
+        places: state.places.map(p => (p.id === updatedPlace.id ? updatedPlace : p)),
+        isLoading: false
     })),
 
     on(PlaceActions.deletePlace, (state,  {placeId}) => ({

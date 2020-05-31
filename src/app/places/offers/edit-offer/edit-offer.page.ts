@@ -5,11 +5,11 @@ import { Place } from '../../models/place.model';
 import { NavController, LoadingController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
-import { take } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 import * as fromPlaces from '../../places-store/places.reducer';
 import * as placesSelectors from '../../places-store/places.selectors';
+import * as placesActions from '../../places-store/places.actions';
 
 @Component({
   selector: 'app-edit-offer',
@@ -49,7 +49,7 @@ export class EditOfferPage implements OnInit {
 
       this.editOfferForm = new FormGroup({
         title: new FormControl(this.offer.title, [Validators.required, Validators.minLength(3)]),
-        description: new FormControl(this.offer.description, Validators.maxLength(100)),
+        description: new FormControl(this.offer.description, Validators.maxLength(300)),
         price: new FormControl(this.offer.price, [Validators.required, Validators.min(10)]),
         availableFromDate: new FormControl(this.offer.availableFrom.toISOString(), Validators.required),
         availableToDate: new FormControl(this.offer.availableTo.toISOString(), Validators.required),
@@ -65,14 +65,18 @@ export class EditOfferPage implements OnInit {
     if (this.editOfferForm.invalid) {
       return;
     }
-    this._placesService.updateOffer(
-      this.offer.id,
-      this.editOfferForm.value.title,
-      this.editOfferForm.value.description,
-      this.editOfferForm.value.price,
-      new Date(this.editOfferForm.value.availableFromDate),
-      new Date(this.editOfferForm.value.availableToDate),
-    );
+    const updatedPlace: Place = {
+      id: this.offer.id,
+      userId: this.offer.userId,
+      title: this.editOfferForm.value.title,
+      description: this.editOfferForm.value.description,
+      price: this.editOfferForm.value.price,
+      image: this.offer.image,
+      availableFrom: new Date(this.editOfferForm.value.availableFromDate),
+      availableTo: new Date(this.editOfferForm.value.availableToDate),
+    };
+
+    this._store.dispatch(placesActions.updatePlace({updatedPlace: updatedPlace}));
 
     this._store.pipe(select(placesSelectors.getPlaces));
 
