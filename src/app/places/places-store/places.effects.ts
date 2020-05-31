@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PlacesService } from '../places.service';
-import { mergeMap, map, switchMap, tap, take } from 'rxjs/operators';
+import { mergeMap, map, switchMap, tap, take, delay } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import * as BookingsActions from './places.actions';
@@ -18,6 +18,7 @@ export class PlacesEffects {
                     tap(resData => {
                         console.log(resData);
                     }),
+                    delay(2000),
                     map(res => BookingsActions.setPlacesSuccess({places: res}))
                 )
             )
