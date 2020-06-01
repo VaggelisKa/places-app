@@ -15,3 +15,8 @@ export const placesLoading = createSelector(
     fromPlaces.getPlaceState,
     (state: fromPlaces.PlaceState) => state.isLoading
 );
+
+export const getError = createSelector(
+    fromPlaces.getPlaceState,
+    (state: fromPlaces.PlaceState) => state.error
+);

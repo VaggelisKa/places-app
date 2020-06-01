@@ -5,9 +5,9 @@ import { environment } from '../../environments/environment';
 import { Store } from '@ngrx/store';
 import * as fromPlaces from './places-store/places.reducer';
 import * as PlacesActions from './places-store/places.actions';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 interface PlaceData {
   availableFrom: string;
@@ -52,7 +52,8 @@ export class PlacesService {
             }
           }
           return places;
-        }));
+        }), catchError((error: HttpErrorResponse) => throwError(error.message))
+        );
   }
 
   addNewPlace(newPlace: Place): Observable<{name: string}> {

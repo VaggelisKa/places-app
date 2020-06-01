@@ -1,9 +1,10 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PlacesService } from '../places.service';
-import { mergeMap, map, tap, delay } from 'rxjs/operators';
+import { mergeMap, map, tap, delay, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import * as placesActions from './places.actions';
+import { of } from 'rxjs';
 
 @Injectable()
 export class PlacesEffects {
@@ -18,7 +19,8 @@ export class PlacesEffects {
                     tap(resData => {
                         console.log(resData);
                     }),
-                    map(res => placesActions.setPlacesSuccess({places: res}))
+                    map(res => placesActions.setPlacesSuccess({places: res})),
+                    catchError(error => of(placesActions.setPlacesFail({error: error})))
                 )
             )
         ));

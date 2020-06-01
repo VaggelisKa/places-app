@@ -7,6 +7,7 @@ import * as fromPlaces from '../places-store/places.reducer';
 import * as placesSelectors from '../places-store/places.selectors';
 import * as placesActions from '../places-store/places.actions';
 import { Observable } from 'rxjs';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-discover',
@@ -21,10 +22,16 @@ export class DiscoverPage implements OnInit {
   private filter = 'all';
 
   constructor(private _placesService: PlacesService,
-              private _store: Store<fromPlaces.State>) { }
+              private _store: Store<fromPlaces.State>,
+              private _alertController: AlertController) { }
 
   ngOnInit(): void {
     this.loadingPlaces();
+    this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
+      if (error) {
+        this.errorAlert();
+      }
+    });
   }
 
   loadingPlaces(): void {
@@ -38,6 +45,16 @@ export class DiscoverPage implements OnInit {
     });
 
     this.isLoading$ = this._store.pipe(select(placesSelectors.placesLoading));
+  }
+
+  async errorAlert() {
+    const alert = await this._alertController.create({
+      header: 'Error Occured!',
+      message: 'An unexpected error has occured, try reloading the app!',
+      buttons: ['I Understand']
+    });
+
+    await alert.present();
   }
 
   segmentChanged(filter: string): void {

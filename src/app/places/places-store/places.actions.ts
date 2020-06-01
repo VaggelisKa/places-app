@@ -10,6 +10,11 @@ export const setPlacesSuccess = createAction(
     props<{places: Place[]}>()
 );
 
+export const setPlacesFail = createAction(
+    '[Offers Page] Set Places Fail',
+    props<{error: string}>()
+);
+
 export const setPlace = createAction(
     '[Offers Page] Set Place',
     props<{placeId: string}>()

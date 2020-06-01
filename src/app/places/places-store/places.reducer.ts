@@ -6,6 +6,7 @@ export interface PlaceState {
     places: Place[];
     place: Place;
     isLoading: boolean;
+    error: string;
 }
 
 export interface State {
@@ -15,7 +16,8 @@ export interface State {
 export const initialState: PlaceState = {
     places: [],
     place: null,
-    isLoading: false
+    isLoading: false,
+    error: null
 };
 
 const placesReducer = createReducer(
@@ -28,6 +30,13 @@ const placesReducer = createReducer(
     on(PlaceActions.setPlacesSuccess, (state, {places}) => ({
         ...state,
         places: [...places],
+        isLoading: false
+    })),
+
+    on(PlaceActions.setPlacesFail, (state, {error}) => ({
+        ...state,
+        places: [],
+        error,
         isLoading: false
     })),
 
