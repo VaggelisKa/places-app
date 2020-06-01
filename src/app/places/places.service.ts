@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Place } from './models/place.model';
+import { environment } from '../../environments/environment';
 
 import { Store } from '@ngrx/store';
 import * as fromPlaces from './places-store/places.reducer';
@@ -24,12 +25,14 @@ export class PlacesService {
   constructor(private _store: Store<fromPlaces.State>,
               private _http: HttpClient) {}
 
+  private readonly path = environment.firebaseUrl + 'offered-places';
+
   getPlace(id: string): void {
     this._store.dispatch(PlacesActions.setPlace({placeId: id}));
   }
 
   fetchPlaces() {
-    return this._http.get<{ [key: string]: PlaceData }>('https://places-app-7aa49.firebaseio.com/offered-places.json')
+    return this._http.get<{ [key: string]: PlaceData }>(this.path + '.json')
       .pipe(map(resData => {
         const places: Place[] = [];
         for (const key in resData) {
@@ -51,15 +54,15 @@ export class PlacesService {
   }
 
   addNewPlace (newPlace: Place) {
-    return this._http.post<{name: string}>('https://places-app-7aa49.firebaseio.com/offered-places.json', newPlace);
+    return this._http.post<{name: string}>(this.path + '.json', newPlace);
   }
 
   updateOffer(placeId: string, updatedPlace: Place) {
-    return this._http.put(`https://places-app-7aa49.firebaseio.com/offered-places/${placeId}.json`, {...updatedPlace, id: null});
+    return this._http.put(`${this.path}/${placeId}.json`, {...updatedPlace, id: null});
   }
 
   deleteOffer(placeId: string) {
-    return this._http.delete(`https://places-app-7aa49.firebaseio.com/offered-places/${placeId}.json`);
+    return this._http.delete(`${this.path}/${placeId}.json`);
   }
 
 }
