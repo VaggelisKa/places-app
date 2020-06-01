@@ -45,7 +45,11 @@ export class EditOfferPage implements OnInit {
       this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
       const nextDay = new Date().getDate() + 1;
-      this.minAvailableTo = formatDate(new Date(), `yyyy-MM-${nextDay}`, 'en');
+      if (nextDay < 10) {
+        this.minAvailableTo = formatDate(new Date(), `yyyy-MM-'0'${nextDay}`, 'en');
+      } else {
+        this.minAvailableTo = formatDate(new Date(), `yyyy-MM-${nextDay}`, 'en');
+      }
 
       this.editOfferForm = new FormGroup({
         title: new FormControl(this.offer.title, [Validators.required, Validators.minLength(3)]),
