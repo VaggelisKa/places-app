@@ -70,10 +70,6 @@ const placesReducer = createReducer(
         isLoading: false
     })),
 
-    on(PlaceActions.isPlaceLoading, state => ({
-        ...state,
-        isLoading: !state.isLoading
-    }))
 );
 
 export const placesFeatureKey = 'place';

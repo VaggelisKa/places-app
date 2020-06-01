@@ -50,7 +50,3 @@ export const deletePlaceSuccess = createAction(
     props<{placeId: string}>()
 );
 
-
-export const isPlaceLoading = createAction (
-    '[Place Loading State] Is Place Loading'
-);
