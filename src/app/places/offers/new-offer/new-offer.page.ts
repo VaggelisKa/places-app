@@ -35,7 +35,11 @@ export class NewOfferPage implements OnInit {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
 
     const nextDay = new Date().getDate() + 1;
-    this.minAvailableTo = formatDate(new Date(), `yyyy-MM-${nextDay}`, 'en');
+    if (nextDay < 10) {
+      this.minAvailableTo = formatDate(new Date(), `yyyy-MM-'0'${nextDay}`, 'en');
+    } else {
+      this.minAvailableTo = formatDate(new Date(), `yyyy-MM-${nextDay}`, 'en');
+    }
 
     this.newOfferForm = new FormGroup({
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
@@ -70,8 +74,6 @@ export class NewOfferPage implements OnInit {
       availableTo: new Date(this.newOfferForm.value.availableToDate)
     };
     this._store.dispatch(placesActions.addPlace({place: newPlace}));
-
-    console.log(this.newOfferForm.value);
 
     const loading = await this._loadingController.create({
       message: 'Please wait...',
