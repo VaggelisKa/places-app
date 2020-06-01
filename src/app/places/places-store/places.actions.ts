@@ -41,7 +41,12 @@ export const updatePlaceSuccess = createAction(
 );
 
 export const deletePlace = createAction(
-    '[Offers Page] Delete Places',
+    '[Offers Page] Delete Place',
+    props<{placeId: string}>()
+);
+
+export const deletePlaceSuccess = createAction(
+    '[Offers Page] Delete Place Success',
     props<{placeId: string}>()
 );
 

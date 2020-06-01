@@ -100,11 +100,12 @@ export class PlacesService {
   }
 
   deleteOffer(placeId: string) {
-    setTimeout(() => {
-      this._store.dispatch(PlacesActions.deletePlace({placeId: placeId}));
-      this._store.dispatch(PlacesActions.isPlaceLoading());
-    }, 1000);
-    this._store.dispatch(PlacesActions.isPlaceLoading());
+    return this._http.delete(`https://places-app-7aa49.firebaseio.com/offered-places/${placeId}.json`);
+  //   setTimeout(() => {
+  //     this._store.dispatch(PlacesActions.deletePlace({placeId: placeId}));
+  //     this._store.dispatch(PlacesActions.isPlaceLoading());
+  //   }, 1000);
+  //   this._store.dispatch(PlacesActions.isPlaceLoading());
   }
 
 }

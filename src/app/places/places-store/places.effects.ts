@@ -45,7 +45,19 @@ export class PlacesEffects {
             map(action => action.updatedPlace),
             mergeMap(updatedPlace => this._placesService.updateOffer(updatedPlace.id, updatedPlace)
                 .pipe(
-                    map(() => placesActions.updatePlaceSuccess({updatedPlace: updatedPlace}))
+                    map((_) => placesActions.updatePlaceSuccess({updatedPlace: updatedPlace}))
+                )
+            )
+        )
+    );
+
+    deleteOffer$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(placesActions.deletePlace),
+            map(action => action.placeId),
+            mergeMap(id => this._placesService.deleteOffer(id)
+                .pipe(
+                    map((_) => placesActions.deletePlaceSuccess({placeId: id}))
                 )
             )
         )

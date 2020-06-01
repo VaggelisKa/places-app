@@ -59,9 +59,15 @@ const placesReducer = createReducer(
         isLoading: false
     })),
 
-    on(PlaceActions.deletePlace, (state,  {placeId}) => ({
+    on(PlaceActions.deletePlace, state => ({
         ...state,
-        places: state.places.filter(place => place.id !== placeId)
+        isLoading: true
+    })),
+
+    on(PlaceActions.deletePlaceSuccess, (state,  {placeId}) => ({
+        ...state,
+        places: state.places.filter(place => place.id !== placeId),
+        isLoading: false
     })),
 
     on(PlaceActions.isPlaceLoading, state => ({

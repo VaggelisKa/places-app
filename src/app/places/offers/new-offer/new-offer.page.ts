@@ -76,7 +76,7 @@ export class NewOfferPage implements OnInit {
     this._store.dispatch(placesActions.addPlace({place: newPlace}));
 
     const loading = await this._loadingController.create({
-      message: 'Please wait...',
+      message: 'Adding Offer...',
       spinner: 'bubbles'
     });
     await loading.present();

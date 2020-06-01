@@ -37,12 +37,12 @@ export class OffersPage implements OnInit {
   async onDelete(offerId: string, slidingItem: IonItemSliding) {
     slidingItem.close();
 
-    this._placesService.deleteOffer(offerId);
+    this._store.dispatch(placesActions.deletePlace({placeId: offerId}));
     this._store.pipe(select(placesSelectors.getPlaces));
 
 
     const loading = await this._loadingController.create({
-      message: 'Please wait...',
+      message: 'Deleting...',
       spinner: 'bubbles'
     });
     await loading.present();
