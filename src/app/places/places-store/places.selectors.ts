@@ -6,17 +6,10 @@ export const getPlaces = createSelector(
     (state: fromPlaces.PlaceState) => state.places
 );
 
-
 export const getPlace = createSelector(
     fromPlaces.getPlaceState,
     (state: fromPlaces.PlaceState) => state.place
 );
-
-export const getBookablePlaces = createSelector(
-    fromPlaces.getPlaceState,
-    (state: fromPlaces.PlaceState) => state.bookablePlaces
-);
-
 
 export const placesLoading = createSelector(
     fromPlaces.getPlaceState,
