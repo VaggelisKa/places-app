@@ -55,3 +55,8 @@ export const deletePlaceSuccess = createAction(
     props<{placeId: string}>()
 );
 
+export const deletePlaceFail = createAction(
+    '[Offers Page] Delete Place Fail',
+    props<{error: string}>()
+);
+

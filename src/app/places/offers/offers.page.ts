@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, DoCheck, OnChanges } from '@angular/core';
 import { PlacesService } from '../places.service';
 import { Place } from '../models/place.model';
 import { Router } from '@angular/router';
@@ -34,7 +34,6 @@ export class OffersPage implements OnInit {
       }
     });
   }
-
 
   onEdit(offerId: string, slidingItem: IonItemSliding) {
     slidingItem.close();

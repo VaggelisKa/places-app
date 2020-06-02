@@ -54,32 +54,32 @@ export class PlacesService {
             }
           }
           return places;
-        }), catchError((error: HttpErrorResponse) => throwError(error.status + ' ' + error.statusText))
+        }), catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText))
         );
   }
 
   addNewPlace(newPlace: Place): Observable<{name: string}> {
     return this._http
       .post<{name: string}>(this.path + '.json', newPlace)
-      .pipe(catchError((error: HttpErrorResponse) => throwError(error.status + ' ' + error.statusText)));
+      .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
   }
 
   updateOffer(placeId: string, updatedPlace: Place): Observable<Object> {
     return this._http
       .put(`${this.path}/${placeId}.json`, {...updatedPlace, id: null})
-      .pipe(catchError((error: HttpErrorResponse) => throwError(error.status + ' ' + error.statusText)));
+      .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
   }
 
   deleteOffer(placeId: string): Observable<Object> {
     return this._http
       .delete(`${this.path}/${placeId}.json`)
-      .pipe(catchError((error: HttpErrorResponse) => throwError(error.status + ' ' + error.statusText)));
+      .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
   }
 
   async errorAlert(errorMessage: string) {
     const alert = await this._alertController.create({
       header: 'Error Occured!',
-      message: errorMessage,
+      message: errorMessage + ', please try again later!',
       buttons: ['I Understand']
     });
 

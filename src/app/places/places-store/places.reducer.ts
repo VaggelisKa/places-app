@@ -70,6 +70,7 @@ const placesReducer = createReducer(
 
     on(PlaceActions.deletePlace, state => ({
         ...state,
+        error: null,
         isLoading: true
     })),
 
@@ -78,6 +79,12 @@ const placesReducer = createReducer(
         places: state.places.filter(place => place.id !== placeId),
         isLoading: false
     })),
+
+    on(PlaceActions.deletePlaceFail, (state, {error}) => ({
+        ...state,
+        error,
+        isLoading: false
+    }))
 
 );
 

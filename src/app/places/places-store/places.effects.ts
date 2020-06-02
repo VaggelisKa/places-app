@@ -59,7 +59,8 @@ export class PlacesEffects {
             map(action => action.placeId),
             mergeMap(id => this._placesService.deleteOffer(id)
                 .pipe(
-                    map((_) => placesActions.deletePlaceSuccess({placeId: id}))
+                    map((_) => placesActions.deletePlaceSuccess({placeId: id})),
+                    catchError(error => of(placesActions.deletePlaceFail({error})))
                 )
             )
         )
