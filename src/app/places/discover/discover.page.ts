@@ -22,14 +22,13 @@ export class DiscoverPage implements OnInit {
   private filter = 'all';
 
   constructor(private _placesService: PlacesService,
-              private _store: Store<fromPlaces.State>,
-              private _alertController: AlertController) { }
+              private _store: Store<fromPlaces.State>) { }
 
   ngOnInit(): void {
     this.loadingPlaces();
     this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
       if (error) {
-        this.errorAlert();
+        this._placesService.errorAlert(error);
       }
     });
   }
@@ -45,16 +44,6 @@ export class DiscoverPage implements OnInit {
     });
 
     this.isLoading$ = this._store.pipe(select(placesSelectors.placesLoading));
-  }
-
-  async errorAlert() {
-    const alert = await this._alertController.create({
-      header: 'Error Occured!',
-      message: 'An unexpected error has occured, try reloading the app!',
-      buttons: ['I Understand']
-    });
-
-    await alert.present();
   }
 
   segmentChanged(filter: string): void {

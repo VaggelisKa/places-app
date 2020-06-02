@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { PlacesService } from '../places.service';
 import { Place } from '../models/place.model';
 import { Router } from '@angular/router';
@@ -27,7 +27,14 @@ export class OffersPage implements OnInit {
   ngOnInit() {
     this._store.dispatch(placesActions.setPlaces());
     this.offers$ = this._store.pipe(select(placesSelectors.getPlaces));
+
+    this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
+      if (error) {
+        this._placesService.errorAlert(error);
+      }
+    });
   }
+
 
   onEdit(offerId: string, slidingItem: IonItemSliding) {
     slidingItem.close();

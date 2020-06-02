@@ -8,6 +8,7 @@ import * as PlacesActions from './places-store/places.actions';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { AlertController } from '@ionic/angular';
 
 interface PlaceData {
   availableFrom: string;
@@ -24,7 +25,8 @@ interface PlaceData {
 })
 export class PlacesService {
   constructor(private _store: Store<fromPlaces.State>,
-              private _http: HttpClient) {}
+              private _http: HttpClient,
+              private _alertController: AlertController) {}
 
   private readonly path = environment.firebaseUrl + 'offered-places';
 
@@ -52,7 +54,7 @@ export class PlacesService {
             }
           }
           return places;
-        }), catchError((error: HttpErrorResponse) => throwError(error.message))
+        }), catchError((error: HttpErrorResponse) => throwError(error.status + ' ' + error.statusText))
         );
   }
 
@@ -69,6 +71,16 @@ export class PlacesService {
   deleteOffer(placeId: string): Observable<Object> {
     return this._http
       .delete(`${this.path}/${placeId}.json`);
+  }
+
+  async errorAlert(errorMessage: string) {
+    const alert = await this._alertController.create({
+      header: 'Error Occured!',
+      message: errorMessage,
+      buttons: ['I Understand']
+    });
+
+    await alert.present();
   }
 
 }
