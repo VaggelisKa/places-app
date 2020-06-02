@@ -56,6 +56,12 @@ const placesReducer = createReducer(
         isLoading: false
     })),
 
+    on(PlaceActions.addNewPlaceFail, (state, {error}) => ({
+        ...state,
+        error,
+        isLoading: false
+    })),
+
 
     on(PlaceActions.updatePlace, state => ({
         ...state,

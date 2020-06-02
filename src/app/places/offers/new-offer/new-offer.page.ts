@@ -87,6 +87,12 @@ export class NewOfferPage implements OnInit {
       }
     });
 
+    this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
+      if (error) {
+        this._placesService.errorAlert(error);
+      }
+    });
+
     await loading.onDidDismiss().then((_) => {
       this.newOfferForm.reset();
       this._router.navigate(['/places/tabs/offers']);

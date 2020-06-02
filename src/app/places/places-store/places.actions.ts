@@ -29,12 +29,12 @@ export const addPlace = createAction(
 );
 
 export const addNewPlaceSuccess = createAction(
-    '[Offers Page] Add Place Success',
+    '[Offers Page] Add New Place Success',
     props<{place: Place}>()
 );
 
 export const addNewPlaceFail = createAction(
-    '[Offers Page] Add Place Fail',
+    '[Offers Page] Add New Place Fail',
     props<{error: string}>()
 );
 

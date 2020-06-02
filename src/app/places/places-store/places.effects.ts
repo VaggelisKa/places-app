@@ -25,7 +25,7 @@ export class PlacesEffects {
             )
         ));
 
-    addPlace$ = createEffect(() =>
+    addNewPlace$ = createEffect(() =>
         this.actions$.pipe(
             ofType(placesActions.addPlace),
             map(action => action.place),
@@ -34,8 +34,8 @@ export class PlacesEffects {
                     tap(resData => {
                         console.log(resData);
                     }),
-                    map(res => placesActions.addNewPlaceSuccess({place: {...place, id: res.name}})
-                    )
+                    map(res => placesActions.addNewPlaceSuccess({place: {...place, id: res.name}})),
+                    catchError(error => of(placesActions.addNewPlaceFail({error})))
                 )
             )
         )
