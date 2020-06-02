@@ -25,7 +25,7 @@ export class OffersPage implements OnInit {
               private _loadingController: LoadingController) {}
 
   ngOnInit() {
-    this._store.dispatch(placesActions.setPlaces());
+    // this._store.dispatch(placesActions.setPlaces());
     this.offers$ = this._store.pipe(select(placesSelectors.getPlaces));
 
     this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
@@ -45,8 +45,6 @@ export class OffersPage implements OnInit {
     slidingItem.close();
 
     this._store.dispatch(placesActions.deletePlace({placeId: offerId}));
-    this._store.pipe(select(placesSelectors.getPlaces));
-
 
     const loading = await this._loadingController.create({
       message: 'Deleting...',

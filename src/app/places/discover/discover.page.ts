@@ -7,7 +7,6 @@ import * as fromPlaces from '../places-store/places.reducer';
 import * as placesSelectors from '../places-store/places.selectors';
 import * as placesActions from '../places-store/places.actions';
 import { Observable } from 'rxjs';
-import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-discover',
