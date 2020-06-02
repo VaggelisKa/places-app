@@ -60,17 +60,20 @@ export class PlacesService {
 
   addNewPlace(newPlace: Place): Observable<{name: string}> {
     return this._http
-      .post<{name: string}>(this.path + '.json', newPlace);
+      .post<{name: string}>(this.path + '.json', newPlace)
+      .pipe(catchError((error: HttpErrorResponse) => throwError(error.status + ' ' + error.statusText)));
   }
 
   updateOffer(placeId: string, updatedPlace: Place): Observable<Object> {
     return this._http
-      .put(`${this.path}/${placeId}.json`, {...updatedPlace, id: null});
+      .put(`${this.path}/${placeId}.json`, {...updatedPlace, id: null})
+      .pipe(catchError((error: HttpErrorResponse) => throwError(error.status + ' ' + error.statusText)));
   }
 
   deleteOffer(placeId: string): Observable<Object> {
     return this._http
-      .delete(`${this.path}/${placeId}.json`);
+      .delete(`${this.path}/${placeId}.json`)
+      .pipe(catchError((error: HttpErrorResponse) => throwError(error.status + ' ' + error.statusText)));
   }
 
   async errorAlert(errorMessage: string) {
