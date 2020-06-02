@@ -47,7 +47,8 @@ export class PlacesEffects {
             map(action => action.updatedPlace),
             mergeMap(updatedPlace => this._placesService.updateOffer(updatedPlace.id, updatedPlace)
                 .pipe(
-                    map((_) => placesActions.updatePlaceSuccess({updatedPlace: updatedPlace}))
+                    map((_) => placesActions.updatePlaceSuccess({updatedPlace: updatedPlace})),
+                    catchError(error => of(placesActions.updatePlaceFail({error})))
                 )
             )
         )

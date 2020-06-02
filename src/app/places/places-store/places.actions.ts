@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Place } from '../models/place.model';
 
+// Set Places Actions
 export const setPlaces = createAction(
     '[Offers Page] Set Places'
 );
@@ -15,11 +16,13 @@ export const setPlacesFail = createAction(
     props<{error: string}>()
 );
 
+// Set Place Action
 export const setPlace = createAction(
     '[Offers Page] Set Place',
     props<{placeId: string}>()
 );
 
+// Add place Actions //
 export const addPlace = createAction(
     '[Offers Page] Add Place',
     props<{place: Place}>()
@@ -35,6 +38,7 @@ export const addNewPlaceFail = createAction(
     props<{error: string}>()
 );
 
+// Edit-Update Actions //
 export const updatePlace = createAction(
     '[Offers Page] Update Place',
     props<{updatedPlace: Place}>()
@@ -45,6 +49,13 @@ export const updatePlaceSuccess = createAction(
     props<{updatedPlace: Place}>()
 );
 
+export const updatePlaceFail = createAction(
+    '[Offers Page] Update Place Fail',
+    props<{error: string}>()
+);
+
+
+// Delete Actions //
 export const deletePlace = createAction(
     '[Offers Page] Delete Place',
     props<{placeId: string}>()

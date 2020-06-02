@@ -83,7 +83,11 @@ export class EditOfferPage implements OnInit {
     this._store.dispatch(placesActions.updatePlace({updatedPlace: updatedPlace}));
 
     this._store.pipe(select(placesSelectors.getPlaces));
-
+    this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
+      if (error) {
+        this._placesService.errorAlert(error);
+      }
+    });
 
     const loading = await this._loadingController.create({
       message: 'Updating...',
