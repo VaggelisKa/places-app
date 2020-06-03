@@ -15,6 +15,7 @@ import * as placesSelectors from '../../places-store/places.selectors';
 })
 export class OfferBookingsPage implements OnInit {
   place: Place;
+  images = [];
 
   constructor(private _route: ActivatedRoute,
               private _navController: NavController,
@@ -31,6 +32,7 @@ export class OfferBookingsPage implements OnInit {
       this._placesService.getPlace(paramMap.get('placeId'));
       this._store.pipe(select(placesSelectors.getPlace)).subscribe(place => {
         this.place = place;
+        this.images = this.images.concat(place.image);
       });
     });
   }

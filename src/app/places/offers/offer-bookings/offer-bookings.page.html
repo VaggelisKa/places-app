@@ -7,7 +7,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-no-padding">
+  <app-image-carousel
+    [images]="images"
+    [place]="place"
+  ></app-image-carousel>
   <ion-button class="ion-margin" color="secondary" [routerLink]="['/places/tabs/offers/edit/' + place.id]">
     Edit 
   </ion-button>
