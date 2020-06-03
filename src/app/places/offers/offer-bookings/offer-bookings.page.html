@@ -12,7 +12,12 @@
     [images]="images"
     [place]="place"
   ></app-image-carousel>
-  <ion-button class="ion-margin" color="secondary" [routerLink]="['/places/tabs/offers/edit/' + place.id]">
+  <ion-button 
+    class="ion-margin" 
+    color="secondary"
+    expand="block"
+    shape="round"
+    [routerLink]="['/places/tabs/offers/edit/' + place.id]">
     Edit 
   </ion-button>
 </ion-content>
