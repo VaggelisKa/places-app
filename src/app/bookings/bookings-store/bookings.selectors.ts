@@ -10,3 +10,8 @@ export const getBookingsLoadingState = createSelector(
     fromBookings.getBookingsState,
     (state: fromBookings.BookingsState) => state.isLoading
 );
+
+export const getBookingsError = createSelector(
+    fromBookings.getBookingsState,
+    (state: fromBookings.BookingsState) => state.error
+);

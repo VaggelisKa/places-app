@@ -13,8 +13,8 @@ import * as fromBookings from '../../../bookings/bookings-store/bookings.reducer
 import * as bookingsSelectors from '../../../bookings/bookings-store/bookings.selectors';
 import * as bookingActions from '../../../bookings/bookings-store/bookings.actions';
 
-import { BookingsService } from 'src/app/bookings/services/bookings.service';
 import { Booking } from 'src/app/bookings/models/booking.model';
+import { ControllersService } from 'src/app/shared/services/controllers.service';
 
 @Component({
   selector: 'app-place-detail',
@@ -22,7 +22,6 @@ import { Booking } from 'src/app/bookings/models/booking.model';
   styleUrls: ['./place-detail.page.scss'],
 })
 export class PlaceDetailPage implements OnInit {
-  private user = 'abcde';
   place: Place;
   images = [];
 
@@ -31,8 +30,8 @@ export class PlaceDetailPage implements OnInit {
               private _navController: NavController,
               private _modalController: ModalController,
               private _actionSheetController: ActionSheetController,
+              private _controllersService: ControllersService,
               private _store: Store<fromPlace.State | fromBookings.State>,
-              private _bookingsService: BookingsService,
               private _loadingController: LoadingController) { }
 
   ngOnInit() {
@@ -114,6 +113,13 @@ export class PlaceDetailPage implements OnInit {
           loading.dismiss();
         }
       });
+
+      this._store.pipe(select(bookingsSelectors.getBookingsError)).subscribe(error => {
+        if (error) {
+          this._controllersService.errorAlert(error);
+        }
+      });
+
     }
 
     return data;

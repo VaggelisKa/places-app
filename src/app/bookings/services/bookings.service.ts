@@ -46,7 +46,7 @@ export class BookingsService {
     addBooking(newBooking: Booking) {
         return this._http
             .post<{name: string}>(this.path + '.json', newBooking)
-            .pipe(catchError((err: HttpErrorResponse) => throwError(err)));
+            .pipe(catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText)));
     }
 
     getBookings(): void {
