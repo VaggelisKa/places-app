@@ -10,6 +10,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromPlaces from '../../places-store/places.reducer';
 import * as placesSelectors from '../../places-store/places.selectors';
 import * as placesActions from '../../places-store/places.actions';
+import { ControllersService } from 'src/app/shared/services/controllers.service';
 
 @Component({
   selector: 'app-edit-offer',
@@ -25,6 +26,7 @@ export class EditOfferPage implements OnInit {
 
   constructor(private _route: ActivatedRoute,
               private _placesService: PlacesService,
+              private _controllersService: ControllersService,
               private _navController: NavController,
               private _store: Store<fromPlaces.State>,
               private _loadingController: LoadingController,
@@ -85,7 +87,7 @@ export class EditOfferPage implements OnInit {
     this._store.pipe(select(placesSelectors.getPlaces));
     this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
       if (error) {
-        this._placesService.errorAlert(error);
+        this._controllersService.errorAlert(error);
       }
     });
 

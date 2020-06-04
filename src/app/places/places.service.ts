@@ -76,14 +76,4 @@ export class PlacesService {
       .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
   }
 
-  async errorAlert(errorMessage: string) {
-    const alert = await this._alertController.create({
-      header: 'Error Occured!',
-      message: errorMessage + ', please try again later!',
-      buttons: ['I Understand']
-    });
-
-    await alert.present();
-  }
-
 }

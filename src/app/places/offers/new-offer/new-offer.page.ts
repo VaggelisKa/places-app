@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PlacesService } from '../../places.service';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 
@@ -10,6 +9,7 @@ import * as placesSelectors from '../../places-store/places.selectors';
 import * as placesActions from '../../places-store/places.actions';
 import { Store, select } from '@ngrx/store';
 import { Place } from '../../models/place.model';
+import { ControllersService } from 'src/app/shared/services/controllers.service';
 
 @Component({
   selector: 'app-new-offer',
@@ -25,7 +25,7 @@ export class NewOfferPage implements OnInit {
   // Second date picker
   private minAvailableTo: string;
 
-  constructor(private _placesService: PlacesService,
+  constructor(private _controllersService: ControllersService,
               private _router: Router,
               private _loadingController: LoadingController,
               private _store: Store<fromPlaces.State>) { }
@@ -89,7 +89,7 @@ export class NewOfferPage implements OnInit {
 
     this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
       if (error) {
-        this._placesService.errorAlert(error);
+        this._controllersService.errorAlert(error);
       }
     });
 
