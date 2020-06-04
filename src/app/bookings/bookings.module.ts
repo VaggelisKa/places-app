@@ -22,7 +22,6 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    EffectsModule.forFeature([BookingsEffects])
   ],
   declarations: [BookingsPage]
 })

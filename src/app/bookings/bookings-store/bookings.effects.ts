@@ -1,7 +1,24 @@
-import { Actions } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { BookingsService } from '../services/bookings.service';
 
+import * as bookingsActions from '../bookings-store/bookings.actions';
+import { map, mergeMap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+
+@Injectable()
 export class BookingsEffects {
     constructor(private actions$: Actions,
                 private _bookingsService: BookingsService) {}
+
+    addBooking$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(bookingsActions.addNewBooking),
+            map(actions => actions.newBooking),
+            mergeMap(booking => this._bookingsService.addBooking({...booking, id: null})
+                .pipe(
+                    map(res => bookingsActions.addNewBookingSuccess({newBooking: {...booking, id: res.name}}))
+                )
+            )
+        )
+    );
 }

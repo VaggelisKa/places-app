@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromPlaces from './places-store/places.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PlacesEffects } from './places-store/places.effects';
+import { BookingsEffects } from '../bookings/bookings-store/bookings.effects';
 
 @NgModule({
   imports: [

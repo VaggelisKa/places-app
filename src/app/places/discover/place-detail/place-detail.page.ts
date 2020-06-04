@@ -14,6 +14,7 @@ import * as bookingsSelectors from '../../../bookings/bookings-store/bookings.se
 import * as bookingActions from '../../../bookings/bookings-store/bookings.actions';
 
 import { BookingsService } from 'src/app/bookings/services/bookings.service';
+import { Booking } from 'src/app/bookings/models/booking.model';
 
 @Component({
   selector: 'app-place-detail',
@@ -95,15 +96,18 @@ export class PlaceDetailPage implements OnInit {
       await loading.present();
 
       const bookingData = data.data.bookingData;
-      this._bookingsService.addBooking(
-        this.place.id,
-        this.place.title,
-        bookingData.firstName,
-        bookingData.lastName,
-        bookingData.numberOfGuests,
-        bookingData.checkinDate,
-        bookingData.checkoutDate
-      );
+      const newBooking: Booking = {
+        id: Math.random().toString(),
+        placeId: this.place.id,
+        userId: 'abcde',
+        placeTitle: this.place.title,
+        firstName: bookingData.firstName,
+        lastName: bookingData.lastName,
+        guestNumber: bookingData.numberOfGuests,
+        dateFrom: bookingData.checkinDate,
+        dateTo: bookingData.checkoutDate
+      };
+      this._store.dispatch(bookingActions.addNewBooking({newBooking: newBooking}));
 
       this._store.pipe(select(bookingsSelectors.getBookingsLoadingState)).subscribe(isLoading => {
         if (!isLoading) {

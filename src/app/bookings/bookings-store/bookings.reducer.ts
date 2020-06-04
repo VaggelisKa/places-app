@@ -5,6 +5,7 @@ import * as BookingsActions from './bookings.actions';
 export interface BookingsState {
     bookings: Booking[];
     isLoading: boolean;
+    error: string;
 }
 
 export interface State {
@@ -13,7 +14,8 @@ export interface State {
 
 export const initialState: BookingsState = {
     bookings: [],
-    isLoading: false
+    isLoading: false,
+    error: null
 };
 
 const  bookingsReducer = createReducer(
@@ -31,6 +33,12 @@ const  bookingsReducer = createReducer(
     on(BookingsActions.addNewBookingSuccess, (state, {newBooking}) => ({
         ...state,
         bookings: state.bookings.concat(newBooking),
+        isLoading: false
+    })),
+
+    on(BookingsActions.addNewBookingFail, (state, {error}) => ({
+        ...state,
+        error,
         isLoading: false
     })),
 

@@ -16,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import * as fromBookings from './bookings/bookings-store/bookings.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { BookingsEffects } from './bookings/bookings-store/bookings.effects';
+import { PlacesEffects } from './places/places-store/places.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +30,7 @@ import { EffectsModule } from '@ngrx/effects';
     StoreDevtoolsModule.instrument({logOnly: environment.production}),
     NgbModule,
     HttpClientModule,
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([BookingsEffects])
   ],
   providers: [
     StatusBar,

@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Booking } from '../models/booking.model';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 import { Store } from '@ngrx/store';
 import * as fromBookings from '../bookings-store/bookings.reducer';
 import * as BookingsActions from '../bookings-store/bookings.actions';
-import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
 
 @Injectable({providedIn: 'root'})
 export class BookingsService {
+    private readonly path = environment.firebaseUrl + 'bookings';
+
     constructor(private _store: Store<fromBookings.State>,
                 private _http: HttpClient) {}
 
@@ -37,32 +43,10 @@ export class BookingsService {
         }
     ];
 
-    addBooking(
-        placeId: string,
-        title: string,
-        firstName: string,
-        lastName: string,
-        guestNumber: number,
-        dateFrom: Date,
-        dateTo: Date
-        ): void {
-            const newBooking: Booking = {
-                id: Math.random().toString(),
-                userId: 'sasasasas',
-                placeId: placeId,
-                placeTitle: title,
-                firstName: firstName,
-                lastName: lastName,
-                guestNumber: guestNumber,
-                dateFrom: dateFrom,
-                dateTo: dateTo
-            };
-
-            setTimeout ((_) => {
-                this._store.dispatch(BookingsActions.addNewBooking({newBooking: newBooking}));
-                this._store.dispatch(BookingsActions.bookingsLoading());
-            }, 1000);
-            this._store.dispatch(BookingsActions.bookingsLoading());
+    addBooking(newBooking: Booking) {
+        return this._http
+            .post<{name: string}>(this.path + '.json', newBooking)
+            .pipe(catchError((err: HttpErrorResponse) => throwError(err)));
     }
 
     getBookings(): void {

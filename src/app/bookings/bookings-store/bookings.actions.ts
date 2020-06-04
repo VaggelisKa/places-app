@@ -16,6 +16,11 @@ export const addNewBookingSuccess = createAction(
     props<{newBooking: Booking}>()
 );
 
+export const addNewBookingFail = createAction(
+    '[Bookings Page] Add Booking Fail',
+    props<{error: string}>()
+);
+
 export const deleteBooking = createAction(
     '[Bookings Page] Delete Booking',
     props<{bookingId: string}>()
