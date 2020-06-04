@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PlacesService } from '../../places.service';
 import { Place } from '../../models/place.model';
 import { NavController, ModalController, ActionSheetController, LoadingController } from '@ionic/angular';
@@ -32,7 +32,8 @@ export class PlaceDetailPage implements OnInit {
               private _actionSheetController: ActionSheetController,
               private _controllersService: ControllersService,
               private _store: Store<fromPlace.State | fromBookings.State>,
-              private _loadingController: LoadingController) { }
+              private _loadingController: LoadingController,
+              private _router: Router) { }
 
   ngOnInit() {
     this._route.paramMap.subscribe(paramMap => {
@@ -111,6 +112,7 @@ export class PlaceDetailPage implements OnInit {
       this._store.pipe(select(bookingsSelectors.getBookingsLoadingState)).subscribe(isLoading => {
         if (!isLoading) {
           loading.dismiss();
+          this._router.navigate(['/bookings']);
         }
       });
 

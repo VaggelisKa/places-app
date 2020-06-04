@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { BookingsService } from '../services/bookings.service';
 
 import * as bookingsActions from '../bookings-store/bookings.actions';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, delay } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
