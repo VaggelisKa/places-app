@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PlacesService } from '../places.service';
 import { Place } from '../models/place.model';
 
 import { Store, select } from '@ngrx/store';
@@ -7,6 +6,7 @@ import * as fromPlaces from '../places-store/places.reducer';
 import * as placesSelectors from '../places-store/places.selectors';
 import * as placesActions from '../places-store/places.actions';
 import { Observable } from 'rxjs';
+import { ControllersService } from 'src/app/shared/services/controllers.service';
 
 @Component({
   selector: 'app-discover',
@@ -20,14 +20,14 @@ export class DiscoverPage implements OnInit {
   isLoading$: Observable<boolean>;
   private filter = 'all';
 
-  constructor(private _placesService: PlacesService,
+  constructor(private _controllersService: ControllersService,
               private _store: Store<fromPlaces.State>) { }
 
   ngOnInit(): void {
     this.loadingPlaces();
     this._store.pipe(select(placesSelectors.getError)).subscribe(error => {
       if (error) {
-        this._placesService.errorAlert(error);
+        this._controllersService.errorAlert(error);
       }
     });
   }
