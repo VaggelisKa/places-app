@@ -4,10 +4,12 @@ import { Booking } from '../models/booking.model';
 import { Store } from '@ngrx/store';
 import * as fromBookings from '../bookings-store/bookings.reducer';
 import * as BookingsActions from '../bookings-store/bookings.actions';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class BookingsService {
-    constructor(private _store: Store<fromBookings.State>) {}
+    constructor(private _store: Store<fromBookings.State>,
+                private _http: HttpClient) {}
 
     private bookings: Booking[] = [
         {

@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { BookingsPage } from './bookings.page';
+import { EffectsModule } from '@ngrx/effects';
+import { BookingsEffects } from './bookings-store/bookings.effects';
 
 const routes: Routes = [
   {
@@ -20,6 +22,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
+    EffectsModule.forFeature([BookingsEffects])
   ],
   declarations: [BookingsPage]
 })

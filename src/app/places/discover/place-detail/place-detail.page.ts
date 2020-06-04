@@ -11,6 +11,7 @@ import * as placeSelectors from '../../places-store/places.selectors';
 
 import * as fromBookings from '../../../bookings/bookings-store/bookings.reducer';
 import * as bookingsSelectors from '../../../bookings/bookings-store/bookings.selectors';
+import * as bookingActions from '../../../bookings/bookings-store/bookings.actions';
 
 import { BookingsService } from 'src/app/bookings/services/bookings.service';
 
