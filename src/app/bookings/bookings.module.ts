@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { BookingsPage } from './bookings.page';
 import { EffectsModule } from '@ngrx/effects';
 import { BookingsEffects } from './bookings-store/bookings.effects';
+import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
+    SharedModule
   ],
   declarations: [BookingsPage]
 })

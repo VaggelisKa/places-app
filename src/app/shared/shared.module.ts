@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
+import { LoadingAnimationComponent } from './loading-animation/loading-animation.component';
 
 @NgModule({
     imports: [
@@ -13,8 +14,9 @@ import { ImageCarouselComponent } from './image-carousel/image-carousel.componen
       NgbModule
     ],
     exports: [
-      ImageCarouselComponent
+      ImageCarouselComponent,
+      LoadingAnimationComponent
     ],
-    declarations: [ImageCarouselComponent]
+    declarations: [ImageCarouselComponent, LoadingAnimationComponent]
 })
 export class SharedModule {}

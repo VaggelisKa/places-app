@@ -7,6 +7,7 @@ import * as fromBookings from './bookings-store/bookings.reducer';
 import * as bookingsActions from './bookings-store/bookings.actions';
 import * as BookingsSelectors from './bookings-store/bookings.selectors';
 import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bookings',
@@ -15,6 +16,7 @@ import { Store, select } from '@ngrx/store';
 })
 export class BookingsPage implements OnInit {
   bookings: Booking[];
+  isLoading$: Observable<boolean>;
 
   constructor(private _bookingsService: BookingsService,
               private _store: Store<fromBookings.State>) { }
@@ -24,9 +26,7 @@ export class BookingsPage implements OnInit {
     this._store.pipe(select(BookingsSelectors.getBookings)).subscribe(bookings => {
       this.bookings = bookings;
     });
-    this._store.pipe(select(BookingsSelectors.getBookingsLoadingState)).subscribe(result => {
-      console.log(result);
-    });
+    this.isLoading$ = this._store.pipe(select(BookingsSelectors.getBookingsLoadingState));
   }
 
   onDelete(offerId: string, slidingItem: IonItemSliding) {
