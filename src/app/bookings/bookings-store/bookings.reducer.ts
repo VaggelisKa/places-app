@@ -20,9 +20,15 @@ export const initialState: BookingsState = {
 
 const  bookingsReducer = createReducer(
     initialState,
-    on(BookingsActions.setBookings, (state, {bookings}) => ({
+    on(BookingsActions.setBookings, state => ({
         ...state,
-        bookings: [...bookings]
+        isLoading: true
+    })),
+
+    on(BookingsActions.setBookingsSuccess, (state, {bookings}) => ({
+        ...state,
+        bookings: [...bookings],
+        isLoading: false
     })),
 
     on(BookingsActions.addNewBooking, state => ({

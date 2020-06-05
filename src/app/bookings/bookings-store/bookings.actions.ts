@@ -3,6 +3,10 @@ import { Booking } from '../models/booking.model';
 
 export const setBookings = createAction(
     '[Bookings Page] Set Bookings',
+);
+
+export const setBookingsSuccess = createAction(
+    '[Bookings Page] Set Bookings Success',
     props<{bookings: Booking[]}>()
 );
 

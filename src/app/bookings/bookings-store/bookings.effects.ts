@@ -11,6 +11,17 @@ export class BookingsEffects {
     constructor(private actions$: Actions,
                 private _bookingsService: BookingsService) {}
 
+    loadBookings$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(bookingsActions.setBookings),
+            mergeMap(() => this._bookingsService.fetchBookings()
+                .pipe(
+                    map(bookings => bookingsActions.setBookingsSuccess({bookings}))
+                )
+            )
+        )
+    );
+
     addBooking$ = createEffect(() =>
         this.actions$.pipe(
             ofType(bookingsActions.addNewBooking),

@@ -4,6 +4,7 @@ import { Booking } from './models/booking.model';
 import { IonItemSliding } from '@ionic/angular';
 
 import * as fromBookings from './bookings-store/bookings.reducer';
+import * as bookingsActions from './bookings-store/bookings.actions';
 import * as BookingsSelectors from './bookings-store/bookings.selectors';
 import { Store, select } from '@ngrx/store';
 
@@ -19,7 +20,7 @@ export class BookingsPage implements OnInit {
               private _store: Store<fromBookings.State>) { }
 
   ngOnInit() {
-    this._bookingsService.getBookings();
+    this._store.dispatch(bookingsActions.setBookings());
     this._store.pipe(select(BookingsSelectors.getBookings)).subscribe(bookings => {
       this.bookings = bookings;
     });

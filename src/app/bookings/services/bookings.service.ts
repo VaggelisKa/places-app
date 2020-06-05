@@ -6,9 +6,19 @@ import { environment } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
 import * as fromBookings from '../bookings-store/bookings.reducer';
 import * as BookingsActions from '../bookings-store/bookings.actions';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
+interface BookingData {
+    dateFrom: string;
+    dateTo: string;
+    firstName: string;
+    guestNumber: string;
+    lastName: string;
+    placeId: string;
+    placeTitle: string;
+    userId: string;
+}
 
 @Injectable({providedIn: 'root'})
 export class BookingsService {
@@ -43,14 +53,34 @@ export class BookingsService {
         }
     ];
 
+    fetchBookings() {
+        return this._http
+            .get<{[key: string]: BookingData}>(this.path + `.json?orderBy="userId"&equalTo="${'abcde'}"`)
+            .pipe(map(bookingData => {
+                const bookings: Booking[] = [];
+                for (const key in bookingData) {
+                    if (bookingData.hasOwnProperty(key)) {
+                        bookings.push({
+                            id: key,
+                            placeId: bookingData[key].placeId,
+                            userId: bookingData[key].userId,
+                            placeTitle: bookingData[key].placeTitle,
+                            firstName: bookingData[key].firstName,
+                            lastName: bookingData[key].lastName,
+                            guestNumber: +bookingData[key].guestNumber,
+                            dateFrom: new Date(bookingData[key].dateFrom),
+                            dateTo: new Date(bookingData[key].dateTo)
+                        });
+                    }
+                }
+                return bookings;
+            }));
+    }
+
     addBooking(newBooking: Booking) {
         return this._http
             .post<{name: string}>(this.path + '.json', newBooking)
             .pipe(catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText)));
-    }
-
-    getBookings(): void {
-        this._store.dispatch(BookingsActions.setBookings({bookings: this.bookings}));
     }
 
     onDelete (id: string): void {
