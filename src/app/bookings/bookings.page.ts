@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { BookingsService } from './services/bookings.service';
 import { Booking } from './models/booking.model';
 import { IonItemSliding } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
 import * as fromBookings from './bookings-store/bookings.reducer';
 import * as bookingsActions from './bookings-store/bookings.actions';
 import * as BookingsSelectors from './bookings-store/bookings.selectors';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-bookings',
@@ -32,8 +33,7 @@ export class BookingsPage implements OnInit {
   onDelete(offerId: string, slidingItem: IonItemSliding) {
     slidingItem.close();
 
-    this._bookingsService.onDelete(offerId);
-    this._store.pipe(select(BookingsSelectors.getBookings));
+    this._store.dispatch(bookingsActions.deleteBooking({bookingId: offerId}));
   }
 
 }

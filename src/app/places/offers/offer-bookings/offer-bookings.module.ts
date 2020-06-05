@@ -6,7 +6,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { OfferBookingsPage } from './offer-bookings.page';
-import { ImageCarouselComponent } from 'src/app/shared/image-carousel/image-carousel.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [

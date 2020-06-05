@@ -83,7 +83,7 @@ export class BookingsService {
             .pipe(catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText)));
     }
 
-    onDelete (id: string): void {
-        this._store.dispatch(BookingsActions.deleteBooking({bookingId: id}));
+    deleteBooking (id: string) {
+        return this._http.delete(`${this.path}/${id}.json`);
     }
 }

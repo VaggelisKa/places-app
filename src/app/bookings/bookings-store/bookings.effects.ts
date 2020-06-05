@@ -14,7 +14,7 @@ export class BookingsEffects {
     loadBookings$ = createEffect(() =>
         this.actions$.pipe(
             ofType(bookingsActions.setBookings),
-            mergeMap(() => this._bookingsService.fetchBookings()
+            mergeMap((_) => this._bookingsService.fetchBookings()
                 .pipe(
                     map(bookings => bookingsActions.setBookingsSuccess({bookings}))
                 )
@@ -30,6 +30,18 @@ export class BookingsEffects {
                 .pipe(
                     map(res => bookingsActions.addNewBookingSuccess({newBooking: {...booking, id: res.name}})),
                     catchError(error => of(bookingsActions.addNewBookingFail({error})))
+                )
+            )
+        )
+    );
+
+    deleteBooking$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(bookingsActions.deleteBooking),
+            map(action => action.bookingId),
+            mergeMap(id => this._bookingsService.deleteBooking(id)
+                .pipe(
+                    map((_) => bookingsActions.deleteBookingSuccess({bookingId: id}))
                 )
             )
         )

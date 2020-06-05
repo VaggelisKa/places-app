@@ -48,9 +48,15 @@ const  bookingsReducer = createReducer(
         isLoading: false
     })),
 
-    on(BookingsActions.deleteBooking, (state, {bookingId}) => ({
+    on(BookingsActions.deleteBooking, state => ({
         ...state,
-        bookings: state.bookings.filter(booking => booking.id !== bookingId)
+        isLoading: true
+    })),
+
+    on(BookingsActions.deleteBookingSuccess, (state, {bookingId}) => ({
+        ...state,
+        bookings: state.bookings.filter(booking => booking.id !== bookingId),
+        isLoading: false
     })),
 
     on(BookingsActions.bookingsLoading, state => ({

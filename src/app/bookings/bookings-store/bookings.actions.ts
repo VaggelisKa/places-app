@@ -30,6 +30,11 @@ export const deleteBooking = createAction(
     props<{bookingId: string}>()
 );
 
+export const deleteBookingSuccess = createAction(
+    '[Bookings Page] Delete Booking Success',
+    props<{bookingId: string}>()
+);
+
 export const bookingsLoading = createAction(
     '[Bookings Page] Bookings Loading State'
 );
