@@ -118,7 +118,7 @@ export class PlaceDetailPage implements OnInit {
 
       this._store.pipe(select(bookingsSelectors.getBookingsError)).subscribe(error => {
         if (error) {
-          this._controllersService.errorAlert(error);
+          this._controllersService.errorAlert(error, this.place.id);
         }
       });
 
