@@ -31,6 +31,13 @@ const  bookingsReducer = createReducer(
         isLoading: false
     })),
 
+    on(BookingsActions.setBookingsFail, (state, {error}) => ({
+        ...state,
+        bookings: [],
+        error,
+        isLoading: false
+    })),
+
     on(BookingsActions.addNewBooking, state => ({
         ...state,
         isLoading: true

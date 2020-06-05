@@ -74,7 +74,8 @@ export class BookingsService {
                     }
                 }
                 return bookings;
-            }));
+            }), catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText))
+            );
     }
 
     addBooking(newBooking: Booking) {
