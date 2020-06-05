@@ -22,6 +22,7 @@ const  bookingsReducer = createReducer(
     initialState,
     on(BookingsActions.setBookings, state => ({
         ...state,
+        error: null,
         isLoading: true
     })),
 
@@ -63,6 +64,12 @@ const  bookingsReducer = createReducer(
     on(BookingsActions.deleteBookingSuccess, (state, {bookingId}) => ({
         ...state,
         bookings: state.bookings.filter(booking => booking.id !== bookingId),
+        isLoading: false
+    })),
+
+    on(BookingsActions.deleteBookingFail, (state, {error}) => ({
+        ...state,
+        error,
         isLoading: false
     })),
 

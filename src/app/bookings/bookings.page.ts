@@ -17,8 +17,9 @@ import { ControllersService } from '../shared/services/controllers.service';
   styleUrls: ['./bookings.page.scss'],
 })
 export class BookingsPage implements OnInit {
-  bookings: Booking[];
+  bookings$: Observable<Booking[]>;
   isLoading$: Observable<boolean>;
+  error: string = null;
 
   constructor(private _bookingsService: BookingsService,
               private _store: Store<fromBookings.State>,
@@ -26,12 +27,11 @@ export class BookingsPage implements OnInit {
 
   ngOnInit() {
     this._store.dispatch(bookingsActions.setBookings());
-    this._store.pipe(select(BookingsSelectors.getBookings)).subscribe(bookings => {
-      this.bookings = bookings;
-    });
+    this.bookings$ = this._store.pipe(select(BookingsSelectors.getBookings));
     this.isLoading$ = this._store.pipe(select(BookingsSelectors.getBookingsLoadingState));
     this._store.pipe(select(BookingsSelectors.getBookingsError)).subscribe(error => {
       if (error) {
+        this.error = error;
         this._controllersService.errorAlert(error);
       }
     });

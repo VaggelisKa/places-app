@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import * as fromBookings from '../bookings-store/bookings.reducer';
 import * as BookingsActions from '../bookings-store/bookings.actions';
 import { catchError, tap, map } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { throwError, pipe } from 'rxjs';
 
 interface BookingData {
     dateFrom: string;
@@ -85,6 +85,8 @@ export class BookingsService {
     }
 
     deleteBooking (id: string) {
-        return this._http.delete(`${this.path}/${id}.json`);
+        return this._http
+            .delete(`${this.path}/${id}.json`)
+            .pipe(catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText)));
     }
 }

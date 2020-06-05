@@ -43,6 +43,7 @@ export class BookingsEffects {
             mergeMap(id => this._bookingsService.deleteBooking(id)
                 .pipe(
                     map((_) => bookingsActions.deleteBookingSuccess({bookingId: id})),
+                    catchError(error => of(bookingsActions.deleteBookingFail({error})))
                 )
             )
         )

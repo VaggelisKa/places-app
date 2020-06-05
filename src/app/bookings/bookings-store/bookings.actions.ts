@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Booking } from '../models/booking.model';
 
+// Set Bookings Actions
 export const setBookings = createAction(
     '[Bookings Page] Set Bookings',
 );
@@ -15,6 +16,7 @@ export const setBookingsFail = createAction(
     props<{error: string}>()
 );
 
+// Add Booking Actions
 export const addNewBooking = createAction(
     '[Bookings Page] Add Booking',
     props<{newBooking: Booking}>()
@@ -30,6 +32,7 @@ export const addNewBookingFail = createAction(
     props<{error: string}>()
 );
 
+// Delete Booking Actions
 export const deleteBooking = createAction(
     '[Bookings Page] Delete Booking',
     props<{bookingId: string}>()
@@ -38,6 +41,11 @@ export const deleteBooking = createAction(
 export const deleteBookingSuccess = createAction(
     '[Bookings Page] Delete Booking Success',
     props<{bookingId: string}>()
+);
+
+export const deleteBookingFail = createAction(
+    '[Bookings Page] Delete Booking Fail',
+    props<{error: string}>()
 );
 
 export const bookingsLoading = createAction(
