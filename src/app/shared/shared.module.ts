@@ -5,6 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
 import { LoadingAnimationComponent } from './loading-animation/loading-animation.component';
+import { LocationPickerComponent } from './location-picker/location-picker.component';
+import { MapModalComponent } from './map-modal/map-modal.component';
 
 @NgModule({
     imports: [
@@ -15,8 +17,15 @@ import { LoadingAnimationComponent } from './loading-animation/loading-animation
     ],
     exports: [
       ImageCarouselComponent,
-      LoadingAnimationComponent
+      LoadingAnimationComponent,
+      LocationPickerComponent,
+      MapModalComponent
     ],
-    declarations: [ImageCarouselComponent, LoadingAnimationComponent]
+    declarations: [
+      ImageCarouselComponent,
+      LoadingAnimationComponent,
+      LocationPickerComponent,
+      MapModalComponent
+    ]
 })
 export class SharedModule {}

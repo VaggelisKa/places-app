@@ -26,7 +26,8 @@ export class BookingsService {
     fetchBookings() {
         return this._http
             .get<{[key: string]: BookingData}>(this.path + `.json?orderBy="userId"&equalTo="${'abcde'}"`)
-            .pipe(map(bookingData => {
+            .pipe(
+                map(bookingData => {
                 const bookings: Booking[] = [];
                 for (const key in bookingData) {
                     if (bookingData.hasOwnProperty(key)) {
