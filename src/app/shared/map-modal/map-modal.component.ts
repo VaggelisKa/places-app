@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ControllersService } from '../services/controllers.service';
 import { environment } from '../../../environments/environment';
@@ -8,10 +8,12 @@ import { environment } from '../../../environments/environment';
   templateUrl: './map-modal.component.html',
   styleUrls: ['./map-modal.component.scss'],
 })
-export class MapModalComponent implements OnInit, AfterViewInit {
+export class MapModalComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('map') mapElement: ElementRef;
 
   private readonly path = 'https://maps.googleapis.com/maps/api/js?key=' + environment.googleMapsAPIkey;
+  clickListener: any;
+  googleMaps: any;
 
   constructor(private _modalController: ModalController,
               private _controllersService: ControllersService,
@@ -22,17 +24,18 @@ export class MapModalComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.getGoogleMaps()
       .then(googleMaps => {
+        this.googleMaps = googleMaps;
         const mapEl = this.mapElement.nativeElement;
         const map = new googleMaps.Map(mapEl, {
-          center: { lat: -34.397, lng: 150.644 },
-          zoom: 16
+          center: { lat: 40, lng: 22 },
+          zoom: 4
         });
 
-        googleMaps.event.addListenerOnce(map, 'idle', () => {
+        this.googleMaps.event.addListenerOnce(map, 'idle', () => {
           this._renderer.addClass(mapEl, 'visible');
         });
 
-        map.addListener('click', event => {
+        this.clickListener = map.addListener('click', event => {
           const selectedCoords = {lat: event.latLng.lat(), lng: event.latLng.lng()};
           this._modalController.dismiss(selectedCoords);
         });
@@ -68,6 +71,10 @@ export class MapModalComponent implements OnInit, AfterViewInit {
         }
       };
     });
+  }
+
+  ngOnDestroy() {
+    this.googleMaps.event.removeListener(this.clickListener);
   }
 
 }
