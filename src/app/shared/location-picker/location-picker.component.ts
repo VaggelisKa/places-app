@@ -13,6 +13,8 @@ import { PlaceLocation } from '../models/location.model';
   styleUrls: ['./location-picker.component.scss'],
 })
 export class LocationPickerComponent implements OnInit {
+  selectedLocationImage: string;
+  isLoading = false;
 
   constructor(private _modalController: ModalController,
               private _http: HttpClient) { }
@@ -35,6 +37,7 @@ export class LocationPickerComponent implements OnInit {
       address: null,
       staticMapImageUrl: null
     };
+    this.isLoading = true;
     this.getAddress(data.data.lat, data.data.lng)
       .pipe(
         switchMap(address => {
@@ -43,6 +46,8 @@ export class LocationPickerComponent implements OnInit {
         })
       ).subscribe(staticMapImageUrl => {
         pickedLocation.staticMapImageUrl = staticMapImageUrl;
+        this.selectedLocationImage = staticMapImageUrl;
+        this.isLoading = false;
       });
   }
 
