@@ -59,6 +59,7 @@ export class EditOfferPage implements OnInit {
         price: new FormControl(this.offer.price, [Validators.required, Validators.min(10)]),
         availableFromDate: new FormControl(this.offer.availableFrom.toISOString(), Validators.required),
         availableToDate: new FormControl(this.offer.availableTo.toISOString(), Validators.required),
+        location: new FormControl(this.offer.location, Validators.required)
       });
     });
   }
@@ -80,6 +81,7 @@ export class EditOfferPage implements OnInit {
       image: this.offer.image,
       availableFrom: new Date(this.editOfferForm.value.availableFromDate),
       availableTo: new Date(this.editOfferForm.value.availableToDate),
+      location: this.editOfferForm.value.location
     };
 
     this._store.dispatch(placesActions.updatePlace({updatedPlace: updatedPlace}));

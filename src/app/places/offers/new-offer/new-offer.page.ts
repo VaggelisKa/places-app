@@ -10,6 +10,7 @@ import * as placesActions from '../../places-store/places.actions';
 import { Store, select } from '@ngrx/store';
 import { Place } from '../../models/place.model';
 import { ControllersService } from 'src/app/shared/services/controllers.service';
+import { PlaceLocation } from 'src/app/shared/models/location.model';
 
 @Component({
   selector: 'app-new-offer',
@@ -51,11 +52,16 @@ export class NewOfferPage implements OnInit {
       ]),
       availableFromDate: new FormControl(null, Validators.required),
       availableToDate: new FormControl(null, Validators.required),
+      location: new FormControl(null, Validators.required)
     });
   }
 
   get f(): any {
     return this.newOfferForm.controls;
+  }
+
+  onLocationPicked(location: PlaceLocation) {
+    this.newOfferForm.patchValue({location: location});
   }
 
   async onCreateOffer() {
@@ -71,7 +77,8 @@ export class NewOfferPage implements OnInit {
       image: [this.newOfferForm.value.imagePath],
       price: +this.newOfferForm.value.price,
       availableFrom: new Date(this.newOfferForm.value.availableFromDate),
-      availableTo: new Date(this.newOfferForm.value.availableToDate)
+      availableTo: new Date(this.newOfferForm.value.availableToDate),
+      location: this.newOfferForm.value.location
     };
     this._store.dispatch(placesActions.addPlace({place: newPlace}));
 

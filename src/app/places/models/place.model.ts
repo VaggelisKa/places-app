@@ -1,3 +1,5 @@
+import { PlaceLocation } from 'src/app/shared/models/location.model';
+
 export interface Place {
     id: string;
     userId: string;
@@ -7,4 +9,5 @@ export interface Place {
     price: number;
     availableFrom: Date;
     availableTo: Date;
+    location: PlaceLocation;
 }
