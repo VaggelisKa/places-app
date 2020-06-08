@@ -94,6 +94,15 @@
           </ion-item>
         </ion-col>
       </ion-row>
+      <ion-item *ngIf="!toggleLocatioPickOption">
+        <ion-label>Want to edit the location?</ion-label>
+        <ion-toggle (click)="toggleLocationPicker($event)"></ion-toggle>
+      </ion-item>
+      <ion-row *ngIf="toggleLocatioPickOption">
+        <ion-col size-sm="3" offset-sm="3">
+          <app-location-picker (locationPick)="onLocationPicked($event)"></app-location-picker>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </form>
 </ion-content>

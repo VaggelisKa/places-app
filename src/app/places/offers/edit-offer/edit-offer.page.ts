@@ -11,6 +11,7 @@ import * as fromPlaces from '../../places-store/places.reducer';
 import * as placesSelectors from '../../places-store/places.selectors';
 import * as placesActions from '../../places-store/places.actions';
 import { ControllersService } from 'src/app/shared/services/controllers.service';
+import { PlaceLocation } from 'src/app/shared/models/location.model';
 
 @Component({
   selector: 'app-edit-offer',
@@ -23,6 +24,7 @@ export class EditOfferPage implements OnInit {
   private minAvailableTo: string;
   editOfferForm: FormGroup;
   offer: Place;
+  toggleLocatioPickOption = false;
 
   constructor(private _route: ActivatedRoute,
               private _placesService: PlacesService,
@@ -59,13 +61,21 @@ export class EditOfferPage implements OnInit {
         price: new FormControl(this.offer.price, [Validators.required, Validators.min(10)]),
         availableFromDate: new FormControl(this.offer.availableFrom.toISOString(), Validators.required),
         availableToDate: new FormControl(this.offer.availableTo.toISOString(), Validators.required),
-        location: new FormControl(this.offer.location, Validators.required)
+        location: new FormControl(this.offer.location)
       });
     });
   }
 
   get f() {
     return this.editOfferForm.controls;
+  }
+
+  toggleLocationPicker() {
+    this.toggleLocatioPickOption = true;
+  }
+
+  onLocationPicked(location: PlaceLocation) {
+    this.editOfferForm.patchValue({location: location});
   }
 
   async onEditOffer() {
