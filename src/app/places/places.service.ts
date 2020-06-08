@@ -9,6 +9,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { AlertController } from '@ionic/angular';
+import { PlaceLocation } from '../shared/models/location.model';
 
 interface PlaceData {
   availableFrom: string;
@@ -18,6 +19,7 @@ interface PlaceData {
   price: number;
   title: string;
   userId: string;
+  location: PlaceLocation;
 }
 
 @Injectable({
@@ -49,7 +51,8 @@ export class PlacesService {
                 image: resData[key].image,
                 price: resData[key].price,
                 availableFrom: new Date(resData[key].availableFrom),
-                availableTo: new Date(resData[key].availableTo)
+                availableTo: new Date(resData[key].availableTo),
+                location: resData[key].location
               });
             }
           }
