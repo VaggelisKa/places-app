@@ -1,11 +1,14 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ActionSheetController } from '@ionic/angular';
 import { MapModalComponent } from '../map-modal/map-modal.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { PlaceLocation } from '../models/location.model';
+
+import { Plugins, Capacitor } from '@capacitor/core';
+import { ControllersService } from '../services/controllers.service';
 
 @Component({
   selector: 'app-location-picker',
@@ -19,11 +22,42 @@ export class LocationPickerComponent implements OnInit {
   @Output() locationPick = new EventEmitter<PlaceLocation>();
 
   constructor(private _modalController: ModalController,
-              private _http: HttpClient) { }
+              private _http: HttpClient,
+              private _actionSheet: ActionSheetController,
+              private _controllersService: ControllersService) { }
 
   ngOnInit() {}
 
   async onPickLocation() {
+    const actionSheet = await this._actionSheet.create({
+      header: 'Please Choose',
+      buttons: [{
+        text: 'Auto-Locate',
+        icon: 'navigate-outline',
+        handler: () => {
+          this.getUserLocation();
+        }
+      },
+
+      {
+        text: 'Manual Pick',
+        icon: 'pin-outline',
+        handler: () => {
+          this.openMap();
+        }
+      },
+
+      {
+        text: 'Cancel',
+        icon: 'close-outline',
+        role: 'cancel',
+      }
+    ]
+    });
+    await actionSheet.present();
+  }
+
+  private async openMap() {
     const modal = await this._modalController.create({
       component: MapModalComponent
     });
@@ -52,6 +86,21 @@ export class LocationPickerComponent implements OnInit {
         this.isLoading = false;
         this.locationPick.emit(pickedLocation);
       });
+  }
+
+  private async getUserLocation() {
+    if (!Capacitor.isPluginAvailable('Geolocation')) {
+      this._controllersService.errorAlert('Cannot pinpoint your location, use manual pick instead!');
+      return;
+    }
+
+     await Plugins.Geolocation.getCurrentPosition()
+       .then(geoPosition => {
+         const coordinates = {
+           latitude: geoPosition.coords.latitude,
+           longitude: geoPosition.coords.longitude
+          };
+       });
   }
 
   private getAddress(lat: number, lng: number): Observable<any> {
