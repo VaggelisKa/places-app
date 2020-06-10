@@ -67,14 +67,19 @@ export class LocationPickerComponent implements OnInit {
     if (!data.data) {
       return;
     }
+    this.findPlace(data.data.lat, data.data.lng);
+  }
+
+  private findPlace(lat: number, lng: number) {
     const pickedLocation: PlaceLocation = {
-      lat: data.data.lat,
-      lng: data.data.lng,
+      lat: lat,
+      lng: lng,
       address: null,
       staticMapImageUrl: null
     };
+
     this.isLoading = true;
-    this.getAddress(data.data.lat, data.data.lng)
+    this.getAddress(lat, lng)
       .pipe(
         switchMap(address => {
           pickedLocation.address = address;
@@ -98,8 +103,14 @@ export class LocationPickerComponent implements OnInit {
        .then(geoPosition => {
          const coordinates = {
            latitude: geoPosition.coords.latitude,
-           longitude: geoPosition.coords.longitude
+           longitude: geoPosition.coords.longitude,
           };
+          this.findPlace(coordinates.latitude, coordinates.longitude);
+          this.isLoading = false;
+       })
+       .catch((_) => {
+         this._controllersService.errorAlert('Cannot pinpoint your location, use manual pick instead!');
+         this.isLoading = false;
        });
   }
 
