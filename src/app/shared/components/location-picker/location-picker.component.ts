@@ -67,7 +67,11 @@ export class LocationPickerComponent implements OnInit {
     if (!data.data) {
       return;
     }
-    this.findPlace(data.data.lat, data.data.lng);
+    const coordinates = {
+      latitude: data.data.lat,
+      longitude: data.data.lng,
+     };
+    this.findPlace(coordinates.latitude, coordinates.longitude);
   }
 
   private findPlace(lat: number, lng: number) {
@@ -93,13 +97,13 @@ export class LocationPickerComponent implements OnInit {
       });
   }
 
-  private async getUserLocation() {
+  private getUserLocation() {
     if (!Capacitor.isPluginAvailable('Geolocation')) {
       this._controllersService.errorAlert('Cannot pinpoint your location, use manual pick instead!');
       return;
     }
 
-     await Plugins.Geolocation.getCurrentPosition()
+     Plugins.Geolocation.getCurrentPosition()
        .then(geoPosition => {
          const coordinates = {
            latitude: geoPosition.coords.latitude,
