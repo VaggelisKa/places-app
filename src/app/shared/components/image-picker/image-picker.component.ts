@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Plugins, Capacitor, CameraResultType, CameraSource } from '@capacitor/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-image-picker',
@@ -11,7 +10,7 @@ export class ImagePickerComponent implements OnInit {
   @Output() imagePick = new EventEmitter<string>();
   selectedImage: string;
 
-  constructor(private _sanitizer: DomSanitizer) { }
+  constructor() { }
 
   ngOnInit() {}
 
@@ -20,15 +19,14 @@ export class ImagePickerComponent implements OnInit {
       return;
     }
     Plugins.Camera.getPhoto({
-      quality: 60,
-      allowEditing: true,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Camera,
-      height: 320,
-      width: 200
+      quality: 70,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Prompt,
+      correctOrientation: true,
+      width: 600
     }).then(result => {
-      this.selectedImage = result.base64String;
-      this.imagePick.emit(result.base64String);
+      this.selectedImage = result.dataUrl;
+      this.imagePick.emit(this.selectedImage);
     })
       .catch();
   }
