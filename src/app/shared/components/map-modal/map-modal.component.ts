@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2, OnDestroy, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ControllersService } from '../services/controllers.service';
-import { environment } from '../../../environments/environment';
+import { ControllersService } from '../../services/controllers.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-map-modal',

@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
-import { LoadingAnimationComponent } from './loading-animation/loading-animation.component';
-import { LocationPickerComponent } from './location-picker/location-picker.component';
-import { MapModalComponent } from './map-modal/map-modal.component';
+import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
+import { LoadingAnimationComponent } from './components/loading-animation/loading-animation.component';
+import { LocationPickerComponent } from './components/location-picker/location-picker.component';
+import { MapModalComponent } from './components/map-modal/map-modal.component';
 
 @NgModule({
     imports: [

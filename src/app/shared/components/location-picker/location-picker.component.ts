@@ -2,13 +2,13 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalController, ActionSheetController } from '@ionic/angular';
 import { MapModalComponent } from '../map-modal/map-modal.component';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { PlaceLocation } from '../models/location.model';
+import { PlaceLocation } from '../../models/location.model';
 
 import { Plugins, Capacitor } from '@capacitor/core';
-import { ControllersService } from '../services/controllers.service';
+import { ControllersService } from '../../services/controllers.service';
 
 @Component({
   selector: 'app-location-picker',
