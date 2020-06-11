@@ -64,6 +64,8 @@ export class NewOfferPage implements OnInit {
     this.newOfferForm.patchValue({location: location});
   }
 
+  onImagePicked(imageData: string) {}
+
   async onCreateOffer() {
     if (this.newOfferForm.invalid) {
       return;

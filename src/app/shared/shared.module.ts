@@ -7,6 +7,7 @@ import { ImageCarouselComponent } from './components/image-carousel/image-carous
 import { LoadingAnimationComponent } from './components/loading-animation/loading-animation.component';
 import { LocationPickerComponent } from './components/location-picker/location-picker.component';
 import { MapModalComponent } from './components/map-modal/map-modal.component';
+import { ImagePickerComponent } from './components/image-picker/image-picker.component';
 
 @NgModule({
     imports: [
@@ -19,13 +20,15 @@ import { MapModalComponent } from './components/map-modal/map-modal.component';
       ImageCarouselComponent,
       LoadingAnimationComponent,
       LocationPickerComponent,
-      MapModalComponent
+      MapModalComponent,
+      ImagePickerComponent
     ],
     declarations: [
       ImageCarouselComponent,
       LoadingAnimationComponent,
       LocationPickerComponent,
-      MapModalComponent
+      MapModalComponent,
+      ImagePickerComponent
     ]
 })
 export class SharedModule {}
