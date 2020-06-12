@@ -9,7 +9,7 @@ import { ControllersService } from '../../services/controllers.service';
   styleUrls: ['./image-picker.component.scss'],
 })
 export class ImagePickerComponent implements OnInit {
-  @Output() imagePick = new EventEmitter<string>();
+  @Output() imagePick = new EventEmitter<string | File>();
   @ViewChild('filePicker') filePicker: ElementRef<HTMLInputElement>;
 
   selectedImage: string;
@@ -53,6 +53,7 @@ export class ImagePickerComponent implements OnInit {
     fileReader.onload = () => {
       const dataUrl = fileReader.result.toString();
       this.selectedImage = dataUrl;
+      this.imagePick.emit(pickedFile);
     };
     fileReader.readAsDataURL(pickedFile);
   }

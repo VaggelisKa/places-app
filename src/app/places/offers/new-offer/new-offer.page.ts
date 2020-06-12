@@ -11,6 +11,7 @@ import { Store, select } from '@ngrx/store';
 import { Place } from '../../models/place.model';
 import { ControllersService } from 'src/app/shared/services/controllers.service';
 import { PlaceLocation } from 'src/app/shared/models/location.model';
+import { base64toBlob } from './file-converter';
 
 @Component({
   selector: 'app-new-offer',
@@ -64,7 +65,20 @@ export class NewOfferPage implements OnInit {
     this.newOfferForm.patchValue({location: location});
   }
 
-  onImagePicked(imageData: string) {}
+  onImagePicked(imageData: string | File) {
+    let imageFile;
+    if (typeof imageData === 'string') {
+      try {
+        imageFile = base64toBlob(imageData.replace('data:image/jpeg;base64,', ''), 'image/jpeg');
+      } catch (error) {
+        this._controllersService.errorAlert(error);
+        return;
+      }
+    } else {
+      imageFile = imageData;
+    }
+    this.newOfferForm.patchValue({ imagePath: imageFile });
+  }
 
   async onCreateOffer() {
     if (this.newOfferForm.invalid) {
