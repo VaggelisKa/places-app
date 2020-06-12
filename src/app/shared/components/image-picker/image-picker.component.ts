@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Plugins, Capacitor, CameraResultType, CameraSource } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
+import { ControllersService } from '../../services/controllers.service';
 
 @Component({
   selector: 'app-image-picker',
@@ -14,7 +15,8 @@ export class ImagePickerComponent implements OnInit {
   selectedImage: string;
   useFilePicker = false;
 
-  constructor(private _platform: Platform) { }
+  constructor(private _platform: Platform,
+              private _contollersService: ControllersService) { }
 
   ngOnInit() {
     if ((this._platform.is('mobile') && this._platform.is('hybrid')) || this._platform.is('desktop')) {
@@ -41,7 +43,18 @@ export class ImagePickerComponent implements OnInit {
   }
 
   onFileChosen(data: Event) {
-    console.log(data);
+    const pickedFile = (data.target as HTMLInputElement).files[0];
+    if (!pickedFile) {
+      this._contollersService.errorAlert('Unexpected Error');
+      return;
+    }
+
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      const dataUrl = fileReader.result.toString();
+      this.selectedImage = dataUrl;
+    };
+    fileReader.readAsDataURL(pickedFile);
   }
 
 }
