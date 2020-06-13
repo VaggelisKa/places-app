@@ -47,10 +47,7 @@ export class NewOfferPage implements OnInit {
       title: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       description: new FormControl(null, Validators.maxLength(1000)),
       price: new FormControl(10, [Validators.required, Validators.min(10)]),
-      imagePath: new FormControl(null, [
-        Validators.required,
-        Validators.pattern(new RegExp(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g))
-      ]),
+      imagePath: new FormControl(null),
       availableFromDate: new FormControl(null, Validators.required),
       availableToDate: new FormControl(null, Validators.required),
       location: new FormControl(null, Validators.required)
@@ -81,9 +78,10 @@ export class NewOfferPage implements OnInit {
   }
 
   async onCreateOffer() {
-    if (this.newOfferForm.invalid) {
+    if (this.newOfferForm.invalid || !this.newOfferForm.get('imagePath').value) {
       return;
     }
+    console.log(this.newOfferForm.value);
 
     const newPlace: Place = {
       id: Math.random().toString(),

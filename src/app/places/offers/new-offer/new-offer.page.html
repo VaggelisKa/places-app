@@ -5,7 +5,7 @@
       <ion-back-button defaultHref="places/tabs/offers"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="primary">
-      <ion-button [disabled]="newOfferForm.invalid" (click)="onCreateOffer()">
+      <ion-button [disabled]="newOfferForm.invalid || !newOfferForm.get('imagePath').value" (click)="onCreateOffer()">
         <ion-icon slot="icon-only" name="checkmark-done-sharp"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -65,22 +65,6 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Paste Image URL</ion-label>
-              <ion-input 
-                type="text"
-                formControlName="imagePath"
-              >
-              </ion-input>
-          </ion-item>
-          <ion-item class="input-error" *ngIf="f.imagePath.touched && f.imagePath.invalid" lines="none">
-            <ion-label class="ion-text-end" *ngIf="f.imagePath.errors.required">Image URL is required</ion-label>
-            <ion-label class="ion-text-end" *ngIf="f.imagePath.errors.pattern">Invalid URL</ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
         <ion-col size-sm="3">
           <ion-item>
             <ion-label position="floating">Available from</ion-label>
@@ -112,14 +96,14 @@
       </ion-row>
       <ion-row>
         <ion-col size-sm="3" offset-sm="3">
-          <app-location-picker (locationPick)="onLocationPicked($event)"></app-location-picker>
+          <app-image-picker (imagePick)="onImagePicked($event)"></app-image-picker>
         </ion-col>
       </ion-row>
       <ion-row>
-      <ion-col size-sm="3" offset-sm="3">
-        <app-image-picker (imagePick)="onImagePicked($event)"></app-image-picker>
-      </ion-col>
-    </ion-row>
+        <ion-col size-sm="3" offset-sm="3">
+          <app-location-picker (locationPick)="onLocationPicked($event)"></app-location-picker>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </form>
 </ion-content>
