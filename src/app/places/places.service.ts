@@ -31,9 +31,18 @@ export class PlacesService {
               private _alertController: AlertController) {}
 
   private readonly path = environment.firebaseUrl + 'offered-places';
+  private readonly cloudEndpoint = 'https://us-central1-places-app-7aa49.cloudfunctions.net/storeImage';
 
   getPlace(id: string): void {
     this._store.dispatch(PlacesActions.setPlace({placeId: id}));
+  }
+
+  uploadImage(image: File) {
+    const uploadData = new FormData();
+    uploadData.append('image', image);
+
+    return this._http
+      .post<{imageUrl: string, imagePath: string}>(this.cloudEndpoint, uploadData);
   }
 
   fetchPlaces(): Observable<Place[]> {

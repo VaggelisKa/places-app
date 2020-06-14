@@ -12,6 +12,8 @@ import { Place } from '../../models/place.model';
 import { ControllersService } from 'src/app/shared/services/controllers.service';
 import { PlaceLocation } from 'src/app/shared/models/location.model';
 import { base64toBlob } from './file-converter';
+import { PlacesService } from '../../places.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-offer',
@@ -27,7 +29,8 @@ export class NewOfferPage implements OnInit {
   // Second date picker
   private minAvailableTo: string;
 
-  constructor(private _controllersService: ControllersService,
+  constructor(private _placesService: PlacesService,
+              private _controllersService: ControllersService,
               private _router: Router,
               private _loadingController: LoadingController,
               private _store: Store<fromPlaces.State>) { }
@@ -83,18 +86,27 @@ export class NewOfferPage implements OnInit {
     }
     console.log(this.newOfferForm.value);
 
-    const newPlace: Place = {
+    let newPlace: Place = {
       id: Math.random().toString(),
       userId: 'abcde',
       title: this.newOfferForm.value.title,
       description: this.newOfferForm.value.description,
-      image: [this.newOfferForm.value.imagePath],
+      image: null,
       price: +this.newOfferForm.value.price,
       availableFrom: new Date(this.newOfferForm.value.availableFromDate),
       availableTo: new Date(this.newOfferForm.value.availableToDate),
       location: this.newOfferForm.value.location
     };
-    this._store.dispatch(placesActions.addPlace({place: newPlace}));
+    this._placesService.uploadImage(this.newOfferForm.get('imagePath').value)
+      .pipe(
+        map(resData => {
+          newPlace = {...newPlace, image: [resData.imageUrl]};
+        }),
+      )
+      .subscribe(() => {
+        this._store.dispatch(placesActions.addPlace({place: newPlace}));
+      });
+
 
     const loading = await this._loadingController.create({
       message: 'Adding Offer...',
