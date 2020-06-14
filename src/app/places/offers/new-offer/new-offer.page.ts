@@ -101,9 +101,15 @@ export class NewOfferPage implements OnInit {
       .pipe(
         map(resData => {
           newPlace = {...newPlace, image: [resData.imageUrl]};
+          return newPlace;
         }),
       )
-      .subscribe(() => {
+      .subscribe((data) => {
+        if (data.image.length <= 0) {
+          this._controllersService.errorAlert('');
+          return;
+        }
+        console.log(data.image.length);
         this._store.dispatch(placesActions.addPlace({place: newPlace}));
       });
 
