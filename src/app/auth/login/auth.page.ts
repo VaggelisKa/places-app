@@ -11,6 +11,7 @@ import * as authActions from '../auth-store/auth.actions';
 import { LoadingController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { User } from '../models/user.model';
+import { UserCredentials } from '../models/userCredentials.model';
 
 @Component({
   selector: 'app-auth',
@@ -36,12 +37,11 @@ export class AuthPage implements OnInit {
   }
 
   async onLogin(form: NgForm) {
-    const userCredentials: User = {
-      id: null,
+    const userCredentials: UserCredentials = {
       email: form.value.email,
       password: form.value.password
     };
-    this._store.dispatch(authActions.userLogin({user: userCredentials}));
+    this._store.dispatch(authActions.userLogin({credentials: userCredentials}));
 
     const loading = await this._loadingController.create({
       message: 'Logging in...',

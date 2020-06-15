@@ -13,10 +13,15 @@ export class AuthEffects {
     createUser$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.userSignup),
-            map(action => action.newUser),
+            map(action => action.credentials),
             mergeMap(user => this._authService.signup(user)
                 .pipe(
-                    map(res => authActions.userSignupSuccess({newUser: {...user, id: res.localId}}))
+                    map(res => authActions.userSignupSuccess({newUser: {
+                        id: res.id,
+                        email: res.email,
+                        token: res.token,
+                        tokenExpirationDate: res.tokenExpirationDate
+                    }}))
                 )
             )
         )
@@ -25,10 +30,15 @@ export class AuthEffects {
     loginUser$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.userLogin),
-            map(action => action.user),
-            mergeMap(user => this._authService.login(user)
+            map(action => action.credentials),
+            mergeMap(credentials => this._authService.login(credentials)
                 .pipe(
-                    map(res => authActions.userLoginSuccess({user: {...user, id: res.localId}}))
+                    map(res => authActions.userLoginSuccess({user: {
+                        id: res.id,
+                        email: res.email,
+                        token: res.token,
+                        tokenExpirationDate: res.tokenExpirationDate
+                    }}))
                 )
             )
         )

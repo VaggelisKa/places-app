@@ -11,6 +11,7 @@ import { Store, select } from '@ngrx/store';
 import { AuthService } from '../services/auth.service';
 import { ConfirmedValidator } from './confirm-passwords.validator';
 import { User } from '../models/user.model';
+import { UserCredentials } from '../models/userCredentials.model';
 
 @Component({
   selector: 'app-signup',
@@ -54,12 +55,11 @@ export class SignupPage implements OnInit {
       return;
     }
 
-    const newUser: User = {
-      id: null,
+    const userCredentials: UserCredentials = {
       email: this.signupForm.value.email,
       password: this.signupForm.value.password
     };
-    this._store.dispatch(authActions.userSignup({newUser: newUser}));
+    this._store.dispatch(authActions.userSignup({credentials: userCredentials}));
 
     console.log(this.signupForm.value);
     const loading = await this._loadingController.create({

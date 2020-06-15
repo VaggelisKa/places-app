@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import * as moment from 'moment';
 
 import * as fromAuth from '../auth-store/auth.reducer';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
+import { UserCredentials } from '../models/userCredentials.model';
+import { map } from 'rxjs/operators';
 
 interface AuthResponseData {
     idToken: string;
@@ -25,14 +28,34 @@ export class AuthService {
     private readonly signupEndopoint = environment.signupEndpoint + environment.firebaseApiKey;
     private readonly signinEndpoint = environment.signinEndpoint + environment.firebaseApiKey;
 
-    login(userData: User) {
+    login(userData: UserCredentials) {
         return this._http
-            .post<AuthResponseData>(this.signinEndpoint, userData);
+            .post<AuthResponseData>(this.signinEndpoint, userData)
+            .pipe(map(response => {
+                const expirationDate = (moment().add(response.expiresIn, 'seconds')).toDate();
+                const user: User = {
+                    id: response.localId,
+                    email: response.email,
+                    token: response.idToken,
+                    tokenExpirationDate: expirationDate
+                };
+                return user;
+            }));
     }
 
-    signup(userData: User) {
+    signup(userData: UserCredentials) {
         return this._http
-            .post<AuthResponseData>(this.signupEndopoint, userData);
+            .post<AuthResponseData>(this.signupEndopoint, userData)
+            .pipe(map(response => {
+                const expirationDate = (moment().add(response.expiresIn, 'seconds')).toDate();
+                const user: User = {
+                    id: response.localId,
+                    email: response.email,
+                    token: response.idToken,
+                    tokenExpirationDate: expirationDate
+                };
+                return user;
+            }));
     }
 
     logout(): void {

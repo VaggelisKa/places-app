@@ -1,10 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '../models/user.model';
+import { UserCredentials } from '../models/userCredentials.model';
 
 // Login Actions //
 export const userLogin = createAction(
     '[Login Page] User Login',
-    props<{user: User}>()
+    props<{credentials: UserCredentials}>()
 );
 
 export const userLoginSuccess = createAction(
@@ -16,7 +17,7 @@ export const userLoginSuccess = createAction(
 // Signup Actions //
 export const userSignup = createAction(
     '[Signup Page] User Signup',
-    props<{newUser: User}>()
+    props<{credentials: UserCredentials}>()
 );
 
 export const userSignupSuccess = createAction(
