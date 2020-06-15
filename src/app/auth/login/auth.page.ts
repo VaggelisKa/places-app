@@ -46,9 +46,16 @@ export class AuthPage implements OnInit {
     const loading = await this._loadingController.create({
       message: 'Logging in...',
       spinner: 'crescent',
-      duration: 2000
     });
     await loading.present();
+
+    this._store.pipe(select(AuthSelectors.authLoading)).subscribe(isLoading => {
+      if (!isLoading) {
+        loading.dismiss();
+        this._router.navigate(['/places/tabs/discover']);
+      }
+    });
+
     await loading.onDidDismiss().then(() => {
       form.reset();
     });
