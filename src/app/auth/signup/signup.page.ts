@@ -59,15 +59,21 @@ export class SignupPage implements OnInit {
       email: this.signupForm.value.email,
       password: this.signupForm.value.password
     };
-    this._store.dispatch(authActions.userSignup({user: newUser}));
+    this._store.dispatch(authActions.userSignup({newUser: newUser}));
 
     console.log(this.signupForm.value);
     const loading = await this._loadingController.create({
       message: 'Creating Account...',
-      spinner: 'crescent',
-      duration: 2000
+      spinner: 'crescent'
     });
     await loading.present();
+
+    this._store.pipe(select(AuthSelectors.authLoading)).subscribe(isLoading => {
+      if (!isLoading) {
+        loading.dismiss();
+      }
+    });
+
     await loading.onDidDismiss().then(() => {
       this.signupForm.reset();
     });

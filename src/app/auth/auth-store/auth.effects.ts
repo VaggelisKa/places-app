@@ -13,10 +13,10 @@ export class AuthEffects {
     createUser$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.userSignup),
-            map(action => action.user),
+            map(action => action.newUser),
             mergeMap(user => this._authService.signup(user)
                 .pipe(
-                    map(res => authActions.userSignupSuccess({user: {...user, id: res.localId}}))
+                    map(res => authActions.userSignupSuccess({newUser: {...user, id: res.localId}}))
                 )
             )
         )
