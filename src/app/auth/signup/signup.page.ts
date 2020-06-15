@@ -6,9 +6,11 @@ import { Observable } from 'rxjs';
 
 import * as fromAuth from '../auth-store/auth.reducer';
 import * as AuthSelectors from '../auth-store/auth.selectors';
+import * as authActions from '../auth-store/auth.actions';
 import { Store, select } from '@ngrx/store';
 import { AuthService } from '../services/auth.service';
 import { ConfirmedValidator } from './confirm-passwords.validator';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-signup',
@@ -48,10 +50,16 @@ export class SignupPage implements OnInit {
   }
 
   async onSignup() {
-    this._authService.signup();
     if (!this.signupForm.valid) {
       return;
     }
+
+    const newUser: User = {
+      id: null,
+      email: this.signupForm.value.email,
+      password: this.signupForm.value.password
+    };
+    this._store.dispatch(authActions.userSignup({user: newUser}));
 
     console.log(this.signupForm.value);
     const loading = await this._loadingController.create({

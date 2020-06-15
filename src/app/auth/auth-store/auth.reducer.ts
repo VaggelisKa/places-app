@@ -1,7 +1,9 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
+import { User } from '../models/user.model';
 
 export interface AuthState {
+    user: User;
     isAuth: boolean;
     isLoading: boolean;
 }
@@ -11,6 +13,7 @@ export interface State {
 }
 
 export const initialState: AuthState = {
+    user: null,
     isAuth: false,
     isLoading: false
 };
@@ -30,6 +33,17 @@ const authReducer = createReducer(
     on(AuthActions.isAuthLoading, state => ({
         ...state,
         isLoading: !state.isLoading
+    })),
+
+    on(AuthActions.userSignup, (state, {user}) => ({
+        ...state,
+        isLoading: true
+    })),
+
+    on(AuthActions.userSignupSuccess, (state, {user}) => ({
+        ...state,
+        user: user,
+        isLoading: false
     }))
 );
 

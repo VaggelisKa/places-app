@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   firebaseUrl: 'https://places-app-7aa49.firebaseio.com/',
-  googleMapsAPIkey: 'AIzaSyCI5JTvEvm5l_XlVWs0pN9c4uJWVnCVNK4'
+  googleMapsAPIkey: 'AIzaSyCI5JTvEvm5l_XlVWs0pN9c4uJWVnCVNK4',
+  firebaseApiKey: 'AIzaSyClYMsGoQTpguZrjLTTPbhZQdy2OiulSPU'
 };
 
 /*
