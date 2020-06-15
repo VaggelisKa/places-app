@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   firebaseUrl: 'https://places-app-7aa49.firebaseio.com/',
   googleMapsAPIkey: 'AIzaSyCI5JTvEvm5l_XlVWs0pN9c4uJWVnCVNK4',
-  firebaseApiKey: 'AIzaSyClYMsGoQTpguZrjLTTPbhZQdy2OiulSPU'
+  firebaseApiKey: 'AIzaSyClYMsGoQTpguZrjLTTPbhZQdy2OiulSPU',
+  signinEndpoint: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=',
+  signupEndpoint: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='
 };
 
 /*

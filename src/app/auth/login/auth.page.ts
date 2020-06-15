@@ -3,10 +3,14 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
+
 import * as fromAuth from '../auth-store/auth.reducer';
 import * as AuthSelectors from '../auth-store/auth.selectors';
+import * as authActions from '../auth-store/auth.actions';
+
 import { LoadingController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-auth',
@@ -32,7 +36,12 @@ export class AuthPage implements OnInit {
   }
 
   async onLogin(form: NgForm) {
-    this._authService.login();
+    const userCredentials: User = {
+      id: null,
+      email: form.value.email,
+      password: form.value.password
+    };
+    this._store.dispatch(authActions.userLogin({user: userCredentials}));
 
     const loading = await this._loadingController.create({
       message: 'Logging in...',

@@ -3,6 +3,7 @@ import * as AuthActions from './auth.actions';
 import { User } from '../models/user.model';
 
 export interface AuthState {
+    user: User;
     newUser: User;
     isAuth: boolean;
     isLoading: boolean;
@@ -13,6 +14,7 @@ export interface State {
 }
 
 export const initialState: AuthState = {
+    user: null,
     newUser: null,
     isAuth: false,
     isLoading: false
@@ -20,21 +22,6 @@ export const initialState: AuthState = {
 
 const authReducer = createReducer(
     initialState,
-    on(AuthActions.setAuthenticated, state => ({
-        ...state,
-        isAuth: true
-    })),
-
-    on(AuthActions.setUnauththenticated, state => ({
-        ...state,
-        isAuth: false
-    })),
-
-    on(AuthActions.isAuthLoading, state => ({
-        ...state,
-        isLoading: !state.isLoading
-    })),
-
     on(AuthActions.userSignup, state => ({
         ...state,
         isLoading: true
@@ -44,6 +31,18 @@ const authReducer = createReducer(
         ...state,
         newUser: newUser,
         isLoading: false
+    })),
+
+    on(AuthActions.userLogin, state => ({
+        ...state,
+        isLoading: true
+    })),
+
+    on(AuthActions.userLoginSuccess, (state, {user}) => ({
+        ...state,
+        user: user,
+        isLoading: false,
+        isAuth: true
     }))
 );
 

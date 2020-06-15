@@ -21,4 +21,16 @@ export class AuthEffects {
             )
         )
     );
+
+    loginUser$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(authActions.userLogin),
+            map(action => action.user),
+            mergeMap(user => this._authService.login(user)
+                .pipe(
+                    map(res => authActions.userLoginSuccess({user: {...user, id: res.localId}}))
+                )
+            )
+        )
+    );
 }
