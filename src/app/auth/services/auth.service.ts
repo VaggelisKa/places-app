@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { UserCredentials } from '../models/userCredentials.model';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 interface AuthResponseData {
     idToken: string;
@@ -28,11 +29,11 @@ export class AuthService {
     private readonly signupEndopoint = environment.signupEndpoint + environment.firebaseApiKey;
     private readonly signinEndpoint = environment.signinEndpoint + environment.firebaseApiKey;
 
-    login(userData: UserCredentials) {
+    login(userData: UserCredentials): Observable<User> {
         return this._http
             .post<AuthResponseData>(this.signinEndpoint, userData)
             .pipe(map(response => {
-                const expirationDate = (moment().add(response.expiresIn, 'seconds')).toDate();
+                const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
                 const user: User = {
                     id: response.localId,
                     email: response.email,
@@ -43,11 +44,11 @@ export class AuthService {
             }));
     }
 
-    signup(userData: UserCredentials) {
+    signup(userData: UserCredentials): Observable<User> {
         return this._http
             .post<AuthResponseData>(this.signupEndopoint, userData)
             .pipe(map(response => {
-                const expirationDate = (moment().add(response.expiresIn, 'seconds')).toDate();
+                const expirationDate = moment().add(3600, 'seconds').toDate();
                 const user: User = {
                     id: response.localId,
                     email: response.email,

@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
+import * as moment from 'moment';
 
 import * as fromAuth from '../auth-store/auth.reducer';
 import * as AuthSelectors from '../auth-store/auth.selectors';
@@ -30,6 +31,7 @@ export class AuthPage implements OnInit {
   ngOnInit(): void {
     this.isAuth$ = this._store.pipe(select(AuthSelectors.getIsAuth));
     this.isLoading$ = this._store.pipe(select(AuthSelectors.authLoading));
+    console.log(moment().add(3600, 'seconds').toDate());
   }
 
   onSwitchToSignup(): void {
@@ -39,7 +41,8 @@ export class AuthPage implements OnInit {
   async onLogin(form: NgForm) {
     const userCredentials: UserCredentials = {
       email: form.value.email,
-      password: form.value.password
+      password: form.value.password,
+      returnSecureToken: true
     };
     this._store.dispatch(authActions.userLogin({credentials: userCredentials}));
 

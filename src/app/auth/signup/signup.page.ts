@@ -57,7 +57,8 @@ export class SignupPage implements OnInit {
 
     const userCredentials: UserCredentials = {
       email: this.signupForm.value.email,
-      password: this.signupForm.value.password
+      password: this.signupForm.value.password,
+      returnSecureToken: true
     };
     this._store.dispatch(authActions.userSignup({credentials: userCredentials}));
 
