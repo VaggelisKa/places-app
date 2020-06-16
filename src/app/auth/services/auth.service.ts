@@ -34,6 +34,7 @@ export class AuthService {
             .post<AuthResponseData>(this.signinEndpoint, userData)
             .pipe(map(response => {
                 const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
+                console.log(expirationDate);
                 const user: User = {
                     id: response.localId,
                     email: response.email,
@@ -48,7 +49,7 @@ export class AuthService {
         return this._http
             .post<AuthResponseData>(this.signupEndopoint, userData)
             .pipe(map(response => {
-                const expirationDate = moment().add(3600, 'seconds').toDate();
+                const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
                 const user: User = {
                     id: response.localId,
                     email: response.email,
