@@ -84,6 +84,7 @@ export class AuthService {
                 return 'The password is invalid or the user does not have a password';
             case 'USER_DISABLED':
                 return 'The user account has been disabled by an administrator';
+
             default: {
                 return 'An unknown error occured';
             }
@@ -92,6 +93,5 @@ export class AuthService {
 
     logout(): void {
         this._store.dispatch(authActions.logout());
-        this._router.navigate(['/auth/login']);
     }
 }
