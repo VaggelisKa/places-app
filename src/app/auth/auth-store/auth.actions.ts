@@ -13,6 +13,11 @@ export const userLoginSuccess = createAction(
     props<{user: User}>()
 );
 
+export const userLoginFail = createAction(
+    '[Login Page] User Login Fail',
+    props<{error: string}>()
+);
+
 
 // Signup Actions //
 export const userSignup = createAction(

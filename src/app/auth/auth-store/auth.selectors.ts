@@ -12,3 +12,7 @@ export const authLoading = createSelector(
     (state: fromAuth.AuthState) => state.isLoading
 );
 
+export const authError = createSelector(
+    fromAuth.getAuthState,
+    (state: fromAuth.AuthState) => state.error
+);

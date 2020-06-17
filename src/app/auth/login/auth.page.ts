@@ -13,6 +13,7 @@ import { LoadingController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { User } from '../models/user.model';
 import { UserCredentials } from '../models/userCredentials.model';
+import { ControllersService } from 'src/app/shared/services/controllers.service';
 
 @Component({
   selector: 'app-auth',
@@ -24,6 +25,7 @@ export class AuthPage implements OnInit {
   isLoading$: Observable<boolean>;
 
   constructor(private _authService: AuthService,
+              private _controllersService: ControllersService,
               private _router: Router,
               private _store: Store<fromAuth.State>,
               private _loadingController: LoadingController) { }
@@ -56,6 +58,12 @@ export class AuthPage implements OnInit {
       if (!isLoading) {
         loading.dismiss();
         this._router.navigate(['/places/tabs/discover']);
+      }
+    });
+
+    this._store.pipe(select(AuthSelectors.authError)).subscribe(err => {
+      if (err) {
+        this._controllersService.errorAlert(err);
       }
     });
 

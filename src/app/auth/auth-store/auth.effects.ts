@@ -3,7 +3,8 @@ import { AuthService } from '../services/auth.service';
 import { Injectable } from '@angular/core';
 
 import * as authActions from './auth.actions';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AuthEffects {
@@ -38,7 +39,8 @@ export class AuthEffects {
                         email: res.email,
                         token: res.token,
                         tokenExpirationDate: res.tokenExpirationDate
-                    }}))
+                    }})),
+                    catchError(err => of(authActions.userLoginFail({error: err})))
                 )
             )
         )
