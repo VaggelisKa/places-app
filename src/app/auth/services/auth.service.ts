@@ -4,6 +4,8 @@ import * as moment from 'moment';
 
 import * as fromAuth from '../auth-store/auth.reducer';
 import { Store } from '@ngrx/store';
+import * as authActions from '../auth-store/auth.actions';
+
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../models/user.model';
@@ -89,6 +91,7 @@ export class AuthService {
     }
 
     logout(): void {
-
+        this._store.dispatch(authActions.logout());
+        this._router.navigate(['/auth/login']);
     }
 }
