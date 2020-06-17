@@ -12,6 +12,8 @@ import { AuthService } from '../services/auth.service';
 import { ConfirmedValidator } from './confirm-passwords.validator';
 import { User } from '../models/user.model';
 import { UserCredentials } from '../models/userCredentials.model';
+import { take } from 'rxjs/operators';
+import { ControllersService } from 'src/app/shared/services/controllers.service';
 
 @Component({
   selector: 'app-signup',
@@ -24,6 +26,7 @@ export class SignupPage implements OnInit {
   isLoading$: Observable<boolean>;
 
   constructor(private _router: Router,
+              private _controllersService: ControllersService,
               private _loadingController: LoadingController,
               private _store: Store<fromAuth.State>,
               private _authService: AuthService,
@@ -72,6 +75,12 @@ export class SignupPage implements OnInit {
     this._store.pipe(select(AuthSelectors.authLoading)).subscribe(isLoading => {
       if (!isLoading) {
         loading.dismiss();
+      }
+    });
+
+    this._store.pipe(take(1), select(AuthSelectors.authError)).subscribe(err => {
+      if (err) {
+        this._controllersService.errorAlert(err);
       }
     });
 

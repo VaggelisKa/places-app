@@ -22,7 +22,8 @@ export class AuthEffects {
                         email: res.email,
                         token: res.token,
                         tokenExpirationDate: res.tokenExpirationDate
-                    }}))
+                    }})),
+                    catchError(err => of(authActions.userSignupFail({error: err})))
                 )
             )
         )

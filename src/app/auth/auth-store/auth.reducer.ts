@@ -35,6 +35,13 @@ const authReducer = createReducer(
         isLoading: false
     })),
 
+    on(AuthActions.userSignupFail, (state, {error}) => ({
+        ...state,
+        error,
+        isLoading: false,
+        isAuth:  false
+    })),
+
     on(AuthActions.userLogin, state => ({
         ...state,
         isLoading: true,

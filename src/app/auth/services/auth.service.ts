@@ -50,16 +50,19 @@ export class AuthService {
     signup(userData: UserCredentials): Observable<User> {
         return this._http
             .post<AuthResponseData>(this.signupEndopoint, userData)
-            .pipe(map(response => {
-                const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
-                const user: User = {
-                    id: response.localId,
-                    email: response.email,
-                    token: response.idToken,
-                    tokenExpirationDate: expirationDate
-                };
-                return user;
-            }));
+            .pipe(
+                map(response => {
+                    const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
+                    const user: User = {
+                        id: response.localId,
+                        email: response.email,
+                        token: response.idToken,
+                        tokenExpirationDate: expirationDate
+                    };
+                    return user;
+                }),
+                catchError((error: HttpErrorResponse) => throwError(this.errorMesage(error.error.error.message)))
+            );
     }
 
     private errorMesage(error: string): string {

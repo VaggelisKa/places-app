@@ -29,3 +29,8 @@ export const userSignupSuccess = createAction(
     '[Signup Page] User Signup Success',
     props<{newUser: User}>()
 );
+
+export const userSignupFail = createAction(
+    '[Signup Page] User Signup Fail',
+    props<{error: string}>()
+);
