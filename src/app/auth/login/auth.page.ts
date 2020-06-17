@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
 import { User } from '../models/user.model';
 import { UserCredentials } from '../models/userCredentials.model';
 import { ControllersService } from 'src/app/shared/services/controllers.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth',
@@ -61,7 +62,7 @@ export class AuthPage implements OnInit {
       }
     });
 
-    this._store.pipe(select(AuthSelectors.authError)).subscribe(err => {
+    this._store.pipe(take(1), select(AuthSelectors.authError)).subscribe(err => {
       if (err) {
         this._controllersService.errorAlert(err);
       }

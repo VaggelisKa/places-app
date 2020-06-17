@@ -29,7 +29,7 @@ export class ControllersService {
           const alert = await this._alertController.create({
             header: 'Error Occured!',
             message: errorMessage + ', please try again later!',
-            buttons: ['I Understand']
+            buttons: [{text: 'I Understand', role: 'cancel'}]
           });
 
           await alert.present();
