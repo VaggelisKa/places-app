@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { UserCredentials } from '../models/userCredentials.model';
-import { map, catchError } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 
 interface AuthResponseData {
     idToken: string;
@@ -30,11 +30,21 @@ export class AuthService {
 
     private readonly signupEndopoint = environment.signupEndpoint + environment.firebaseApiKey;
     private readonly signinEndpoint = environment.signinEndpoint + environment.firebaseApiKey;
+    private _userId = new BehaviorSubject<string>(null);
+
+    getUserId(): Observable<string> {
+        return this._userId.asObservable();
+    }
 
     login(userData: UserCredentials): Observable<User> {
         return this._http
             .post<AuthResponseData>(this.signinEndpoint, userData)
             .pipe(
+                tap(user => {
+                    if (user) {
+                        this._userId.next(user.localId);
+                    }
+                }),
                 map(response => {
                     const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
                     const user: User = {

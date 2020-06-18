@@ -16,3 +16,4 @@ export const authError = createSelector(
     fromAuth.getAuthState,
     (state: fromAuth.AuthState) => state.error
 );
+

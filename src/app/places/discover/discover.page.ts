@@ -7,6 +7,7 @@ import * as placesSelectors from '../places-store/places.selectors';
 import * as placesActions from '../places-store/places.actions';
 import { Observable } from 'rxjs';
 import { ControllersService } from 'src/app/shared/services/controllers.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-discover',
