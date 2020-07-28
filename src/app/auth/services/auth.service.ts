@@ -63,6 +63,9 @@ export class AuthService {
         return this._http
             .post<AuthResponseData>(this.signupEndopoint, userData)
             .pipe(
+                tap(user => {
+                    this._userId.next(user.localId);
+                }),
                 map(response => {
                     const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
                     const user: User = {
