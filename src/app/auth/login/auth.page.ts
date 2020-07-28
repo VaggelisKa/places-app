@@ -13,7 +13,6 @@ import { LoadingController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { UserCredentials } from '../models/userCredentials.model';
 import { ControllersService } from 'src/app/shared/services/controllers.service';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth',

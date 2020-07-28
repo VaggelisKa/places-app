@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class ControllersService {
+    alertPresented: boolean;
+
     constructor(private _alertController: AlertController,
                 private _router: Router) {}
 
@@ -26,13 +28,22 @@ export class ControllersService {
           });
           await alertWithRetry.present();
         } else {
-          const alert = await this._alertController.create({
-            header: 'Error Occured!',
-            message: errorMessage + ', please try again later!',
-            buttons: [{text: 'I Understand', role: 'cancel'}]
-          });
-
-          await alert.present();
+          let vm = this;
+          if(!vm.alertPresented) {
+            vm.alertPresented = true;
+            const alert = await vm._alertController.create({
+              header: 'Error Occured!',
+              message: errorMessage + ', please try again later!',
+              buttons: [
+                {
+                  text: 'I Understand', 
+                  role: 'cancel',
+                  handler: () => {vm.alertPresented = false}
+                }
+              ]
+            });
+            alert.present();
+          }
           }
         }
 }
