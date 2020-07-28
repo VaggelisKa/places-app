@@ -61,7 +61,7 @@ export class AuthPage implements OnInit {
       }
     });
 
-    this._store.pipe(take(1), select(AuthSelectors.authError)).subscribe(err => {
+    this._store.pipe(select(AuthSelectors.authError)).subscribe(err => {
       if (err) {
         this._controllersService.errorAlert(err);
       }
