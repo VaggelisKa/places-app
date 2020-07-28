@@ -14,6 +14,7 @@ import { PlaceLocation } from 'src/app/shared/models/location.model';
 import { base64toBlob } from './file-converter';
 import { PlacesService } from '../../places.service';
 import { map } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-new-offer',
@@ -23,6 +24,7 @@ import { map } from 'rxjs/operators';
 export class NewOfferPage implements OnInit {
   private currentDate: string;
   private maxYear: string;
+  userId: string;
   newOfferForm: FormGroup;
   images = [];
 
@@ -33,7 +35,8 @@ export class NewOfferPage implements OnInit {
               private _controllersService: ControllersService,
               private _router: Router,
               private _loadingController: LoadingController,
-              private _store: Store<fromPlaces.State>) { }
+              private _store: Store<fromPlaces.State>,
+              private _authService: AuthService) { }
 
   ngOnInit(): void {
     this.maxYear = (new Date().getFullYear() + 4).toString();
@@ -54,6 +57,10 @@ export class NewOfferPage implements OnInit {
       availableFromDate: new FormControl(null, Validators.required),
       availableToDate: new FormControl(null, Validators.required),
       location: new FormControl(null, Validators.required)
+    });
+
+    this._authService.getUserId().subscribe(userId => {
+      this.userId = userId;
     });
   }
 
@@ -88,7 +95,7 @@ export class NewOfferPage implements OnInit {
 
     let newPlace: Place = {
       id: Math.random().toString(),
-      userId: 'abcde',
+      userId: this.userId,
       title: this.newOfferForm.value.title,
       description: this.newOfferForm.value.description,
       image: null,
