@@ -28,17 +28,17 @@ export class ControllersService {
           });
           await alertWithRetry.present();
         } else {
-          let vm = this;
-          if(!vm.alertPresented) {
+          const vm = this;
+          if (!vm.alertPresented) {
             vm.alertPresented = true;
             const alert = await vm._alertController.create({
               header: 'Error Occured!',
               message: errorMessage + ', please try again later!',
               buttons: [
                 {
-                  text: 'I Understand', 
+                  text: 'I Understand',
                   role: 'cancel',
-                  handler: () => {vm.alertPresented = false}
+                  handler: () => { vm.alertPresented = false; }
                 }
               ]
             });
