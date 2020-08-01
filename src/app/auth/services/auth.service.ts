@@ -11,7 +11,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { UserCredentials } from '../models/userCredentials.model';
 import { map, catchError, tap } from 'rxjs/operators';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, BehaviorSubject, from } from 'rxjs';
 
 import { Plugins } from '@capacitor/core';
 
@@ -55,10 +55,43 @@ export class AuthService {
                 tap(user => {
                     if (user) {
                         this._userId.next(user.id);
-                        this.storeAuthData(user.id, user.token, user.tokenExpirationDate.toISOString());
+                        this.storeAuthData(user.id, user.token, user.tokenExpirationDate.toISOString(), user.email);
                     }
                 }),
                 catchError((error: HttpErrorResponse) => throwError(this.errorMesage(error.error.error.message)))
+            );
+    }
+
+    autoLogin(): Observable<any> {
+        return from(Plugins.Storage.get({key: 'authData'}))
+            .pipe(
+                map(storedData => {
+                    if (!storedData || !storedData.value) {
+                        return null;
+                    }
+                    const parsedData = JSON.parse(storedData.value) as { 
+                        userId: string;
+                        token: string;
+                        tokenExpirationDate: string;
+                        email: string
+                    };
+
+                    const expirationTime = new Date(parsedData.tokenExpirationDate);
+                    if (expirationTime <= new Date()) {
+                        return null;
+                    }
+
+                    const user: User = {
+                        id: parsedData.userId,
+                        token: parsedData.token,
+                        tokenExpirationDate: expirationTime,
+                        email: parsedData.email
+                    };
+                    return user;
+                }),
+                map(user => {
+                    return !!user;
+                })
             );
     }
 
@@ -111,7 +144,7 @@ export class AuthService {
         this._store.dispatch(authActions.logout());
     }
 
-    private storeAuthData(userId: string, token: string, tokenExpirationDate: string): void {
+    private storeAuthData(userId: string, token: string, tokenExpirationDate: string, email: string): void {
         const data = JSON.stringify({
             userId: userId,
             token: token,
