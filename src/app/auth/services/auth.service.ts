@@ -62,12 +62,12 @@ export class AuthService {
             );
     }
 
-    autoLogin(): Observable<any> {
+    autoLogin(): Observable<boolean> {
         return from(Plugins.Storage.get({key: 'authData'}))
             .pipe(
                 map(storedData => {
                     if (!storedData || !storedData.value) {
-                        return null;
+                        return false;
                     }
                     const parsedData = JSON.parse(storedData.value) as { 
                         userId: string;
@@ -78,7 +78,7 @@ export class AuthService {
 
                     const expirationTime = new Date(parsedData.tokenExpirationDate);
                     if (expirationTime <= new Date()) {
-                        return null;
+                        return false;
                     }
 
                     const user: User = {
@@ -87,6 +87,7 @@ export class AuthService {
                         tokenExpirationDate: expirationTime,
                         email: parsedData.email
                     };
+                    this._userId.next(user.id);
                     return user;
                 }),
                 map(user => {
@@ -148,7 +149,8 @@ export class AuthService {
         const data = JSON.stringify({
             userId: userId,
             token: token,
-            tokenExpirationDate: tokenExpirationDate
+            tokenExpirationDate: tokenExpirationDate,
+            email: email
         });
         Plugins.Storage.set({key: 'authData', value: data});
     }
