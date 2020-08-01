@@ -13,6 +13,8 @@ import { UserCredentials } from '../models/userCredentials.model';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 
+import { Plugins } from '@capacitor/core';
+
 interface AuthResponseData {
     idToken: string;
     email: string;
@@ -40,11 +42,6 @@ export class AuthService {
         return this._http
             .post<AuthResponseData>(this.signinEndpoint, userData)
             .pipe(
-                tap(user => {
-                    if (user) {
-                        this._userId.next(user.localId);
-                    }
-                }),
                 map(response => {
                     const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
                     const user: User = {
@@ -54,6 +51,12 @@ export class AuthService {
                         tokenExpirationDate: expirationDate
                     };
                     return user;
+                }),
+                tap(user => {
+                    if (user) {
+                        this._userId.next(user.id);
+                        this.storeAuthData(user.id, user.token, user.tokenExpirationDate.toISOString());
+                    }
                 }),
                 catchError((error: HttpErrorResponse) => throwError(this.errorMesage(error.error.error.message)))
             );
@@ -106,5 +109,14 @@ export class AuthService {
 
     logout(): void {
         this._store.dispatch(authActions.logout());
+    }
+
+    private storeAuthData(userId: string, token: string, tokenExpirationDate: string): void {
+        const data = JSON.stringify({
+            userId: userId,
+            token: token,
+            tokenExpirationDate: tokenExpirationDate
+        });
+        Plugins.Storage.set({key: 'authData', value: data});
     }
 }

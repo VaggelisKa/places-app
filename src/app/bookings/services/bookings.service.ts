@@ -34,7 +34,8 @@ export class BookingsService {
 
                 return this._http
                     .get<{[key: string]: BookingData}>(this.path + `.json?orderBy="userId"&equalTo="${userId}"`);
-            }), map(bookingData => {
+            }), 
+            map(bookingData => {
                 const bookings: Booking[] = [];
                 for (const key in bookingData) {
                     if (bookingData.hasOwnProperty(key)) {
