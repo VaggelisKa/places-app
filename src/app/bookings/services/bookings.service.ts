@@ -3,8 +3,9 @@ import { Booking } from '../models/booking.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 interface BookingData {
     dateFrom: string;
@@ -21,13 +22,19 @@ interface BookingData {
 export class BookingsService {
     private readonly path = environment.firebaseUrl + 'bookings';
 
-    constructor(private _http: HttpClient) {}
+    constructor(private _http: HttpClient,
+                private _authService: AuthService) {}
 
     fetchBookings() {
-        return this._http
-            .get<{[key: string]: BookingData}>(this.path + `.json?orderBy="userId"&equalTo="${'abcde'}"`)
-            .pipe(
-                map(bookingData => {
+        return this._authService.getUserId().pipe(
+            switchMap(userId => {
+                if (!userId) {
+                    throw new Error('User not found!');
+                }
+
+                return this._http
+                    .get<{[key: string]: BookingData}>(this.path + `.json?orderBy="userId"&equalTo="${userId}"`);
+            }), map(bookingData => {
                 const bookings: Booking[] = [];
                 for (const key in bookingData) {
                     if (bookingData.hasOwnProperty(key)) {
@@ -46,7 +53,7 @@ export class BookingsService {
                 }
                 return bookings;
             }), catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText))
-            );
+        );
     }
 
     addBooking(newBooking: Booking) {

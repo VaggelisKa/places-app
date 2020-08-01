@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlacesService } from '../../places.service';
 import { Place } from '../../models/place.model';
@@ -15,15 +15,20 @@ import * as bookingActions from '../../../bookings/bookings-store/bookings.actio
 
 import { Booking } from 'src/app/bookings/models/booking.model';
 import { ControllersService } from 'src/app/shared/services/controllers.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-place-detail',
   templateUrl: './place-detail.page.html',
   styleUrls: ['./place-detail.page.scss'],
 })
-export class PlaceDetailPage implements OnInit {
+export class PlaceDetailPage implements OnInit, OnDestroy {
   place: Place;
   images = [];
+  userId: string;
+ 
+  private userIdSubscription: Subscription;
 
   constructor(private _route: ActivatedRoute,
               private _placesService: PlacesService,
@@ -33,13 +38,18 @@ export class PlaceDetailPage implements OnInit {
               private _controllersService: ControllersService,
               private _store: Store<fromPlace.State | fromBookings.State>,
               private _loadingController: LoadingController,
-              private _router: Router) { }
+              private _router: Router,
+              private _authService: AuthService) { }
 
   ngOnInit() {
     this._route.paramMap.subscribe(paramMap => {
       if (!paramMap.has('placeId')) {
         this._navController.navigateBack('/places/tabs/discover');
       }
+
+      this.userIdSubscription = this._authService.getUserId().subscribe(id => {
+        this.userId = id;
+      });
 
       this._placesService.getPlace(paramMap.get('placeId'));
       this._store.pipe(select(placeSelectors.getPlace)).subscribe(place => {
@@ -99,7 +109,7 @@ export class PlaceDetailPage implements OnInit {
       const newBooking: Booking = {
         id: Math.random().toString(),
         placeId: this.place.id,
-        userId: 'abcde',
+        userId: this.userId,
         placeTitle: this.place.title,
         firstName: bookingData.firstName,
         lastName: bookingData.lastName,
@@ -125,6 +135,10 @@ export class PlaceDetailPage implements OnInit {
     }
 
     return data;
+  }
+
+  ngOnDestroy() {
+    this.userIdSubscription.unsubscribe();
   }
 
 }
