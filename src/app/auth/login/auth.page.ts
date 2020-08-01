@@ -52,7 +52,7 @@ export class AuthPage implements OnInit {
       spinner: 'crescent',
     });
     await loading.present();
-
+    
     this._store.pipe(select(AuthSelectors.authLoading)).subscribe(isLoading => {
       if (!isLoading) {
         loading.dismiss();

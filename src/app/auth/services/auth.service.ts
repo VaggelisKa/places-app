@@ -25,7 +25,7 @@ interface AuthResponseData {
 }
 
 @Injectable({providedIn: 'root'})
-export class AuthService implements OnDestroy{
+export class AuthService implements OnDestroy {
     constructor(private _store: Store<fromAuth.State>,
                 private _router: Router,
                 private _http: HttpClient) {}
