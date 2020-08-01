@@ -56,7 +56,7 @@ export class AuthService implements OnDestroy{
                 tap(user => {
                     if (user) {
                         this._userId.next(user.id);
-                        this.autoLogout(6000);
+                        this.autoLogout(user.tokenExpirationDate.getTime() - new Date().getTime());
                         this.storeAuthData(user.id, user.token, user.tokenExpirationDate.toISOString(), user.email);
                     }
                 }),
