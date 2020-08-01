@@ -3,7 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { Injectable } from '@angular/core';
 
 import * as authActions from './auth.actions';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()

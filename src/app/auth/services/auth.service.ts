@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 
@@ -25,7 +25,7 @@ interface AuthResponseData {
 }
 
 @Injectable({providedIn: 'root'})
-export class AuthService {
+export class AuthService implements OnDestroy{
     constructor(private _store: Store<fromAuth.State>,
                 private _router: Router,
                 private _http: HttpClient) {}
@@ -33,6 +33,7 @@ export class AuthService {
     private readonly signupEndopoint = environment.signupEndpoint + environment.firebaseApiKey;
     private readonly signinEndpoint = environment.signinEndpoint + environment.firebaseApiKey;
     private _userId = new BehaviorSubject<string>(null);
+    private activeLogoutTimer: any;
 
     getUserId(): Observable<string> {
         return this._userId.asObservable();
@@ -55,6 +56,7 @@ export class AuthService {
                 tap(user => {
                     if (user) {
                         this._userId.next(user.id);
+                        this.autoLogout(6000);
                         this.storeAuthData(user.id, user.token, user.tokenExpirationDate.toISOString(), user.email);
                     }
                 }),
@@ -88,6 +90,7 @@ export class AuthService {
                         email: parsedData.email
                     };
                     this._userId.next(user.id);
+                    this.autoLogout(user.tokenExpirationDate.getTime() - new Date().getTime());
                     return user;
                 }),
                 map(user => {
@@ -100,9 +103,6 @@ export class AuthService {
         return this._http
             .post<AuthResponseData>(this.signupEndopoint, userData)
             .pipe(
-                tap(user => {
-                    this._userId.next(user.localId);
-                }),
                 map(response => {
                     const expirationDate = moment().add(+response.expiresIn, 'seconds').toDate();
                     const user: User = {
@@ -112,6 +112,10 @@ export class AuthService {
                         tokenExpirationDate: expirationDate
                     };
                     return user;
+                }),
+                tap(user => {
+                    this._userId.next(user.id);
+                    this.autoLogout(user.tokenExpirationDate.getTime() - new Date().getTime());
                 }),
                 catchError((error: HttpErrorResponse) => throwError(this.errorMesage(error.error.error.message)))
             );
@@ -141,8 +145,23 @@ export class AuthService {
         }
     }
 
+    private autoLogout(duration: number): void {
+        if (this.activeLogoutTimer) {
+            clearTimeout(this.activeLogoutTimer);
+        }
+        this.activeLogoutTimer = setTimeout(() => {
+            this.logout();
+        }, duration);
+    }
+
     logout(): void {
+        if (this.activeLogoutTimer) {
+            clearTimeout(this.activeLogoutTimer);
+        }
+
         this._store.dispatch(authActions.logout());
+        this._router.navigateByUrl('/auth/login');
+        Plugins.Storage.remove({key: 'authData'});
     }
 
     private storeAuthData(userId: string, token: string, tokenExpirationDate: string, email: string): void {
@@ -153,5 +172,11 @@ export class AuthService {
             email: email
         });
         Plugins.Storage.set({key: 'authData', value: data});
+    }
+
+    ngOnDestroy() {
+        if (this.activeLogoutTimer) {
+            clearTimeout(this.activeLogoutTimer);
+        }
     }
 }
