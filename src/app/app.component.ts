@@ -16,11 +16,7 @@ export class AppComponent implements OnInit {
     this.initializeApp();
   }
 
-  previousAuthState: any;
-
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   initializeApp() {
     this.platform.ready().then(() => {
