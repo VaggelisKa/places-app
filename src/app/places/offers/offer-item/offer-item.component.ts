@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Place } from '../../models/place.model';
 
 @Component({
@@ -12,5 +12,4 @@ export class OfferItemComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
-
 }

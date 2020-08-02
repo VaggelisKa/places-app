@@ -34,7 +34,7 @@ export class BookingsService {
                     }
     
                     return this._http
-                        .get<{[key: string]: BookingData}>(this.path + `.json?auth=${token}`);
+                        .get<{[key: string]: BookingData}>(this.path + `.json?auth=${token}&orderBy="userId"&equalTo="${userId}"`);
                 }), 
                 map(bookingData => {
                     const bookings: Booking[] = [];
