@@ -3,8 +3,8 @@ import { Booking } from '../models/booking.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
+import { throwError, Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 interface BookingData {
@@ -25,47 +25,53 @@ export class BookingsService {
     constructor(private _http: HttpClient,
                 private _authService: AuthService) {}
 
-    fetchBookings() {
-        return this._authService.getUserId().pipe(
-            switchMap(userId => {
-                if (!userId) {
-                    throw new Error('User not found!');
-                }
-
-                return this._http
-                    .get<{[key: string]: BookingData}>(this.path + `.json?orderBy="userId"&equalTo="${userId}"`);
-            }), 
-            map(bookingData => {
-                const bookings: Booking[] = [];
-                for (const key in bookingData) {
-                    if (bookingData.hasOwnProperty(key)) {
-                        bookings.push({
-                            id: key,
-                            placeId: bookingData[key].placeId,
-                            userId: bookingData[key].userId,
-                            placeTitle: bookingData[key].placeTitle,
-                            firstName: bookingData[key].firstName,
-                            lastName: bookingData[key].lastName,
-                            guestNumber: +bookingData[key].guestNumber,
-                            dateFrom: new Date(bookingData[key].dateFrom),
-                            dateTo: new Date(bookingData[key].dateTo)
-                        });
+    fetchBookings(): Observable<any> {
+        return this._authService.getUserToken().pipe(take(1), switchMap(token => {
+            return this._authService.getUserId().pipe(
+                switchMap(userId => {
+                    if (!userId) {
+                        throw new Error('User not found!');
                     }
-                }
-                return bookings;
-            }), catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText))
-        );
+    
+                    return this._http
+                        .get<{[key: string]: BookingData}>(this.path + `.json?auth=${token}`);
+                }), 
+                map(bookingData => {
+                    const bookings: Booking[] = [];
+                    for (const key in bookingData) {
+                        if (bookingData.hasOwnProperty(key)) {
+                            bookings.push({
+                                id: key,
+                                placeId: bookingData[key].placeId,
+                                userId: bookingData[key].userId,
+                                placeTitle: bookingData[key].placeTitle,
+                                firstName: bookingData[key].firstName,
+                                lastName: bookingData[key].lastName,
+                                guestNumber: +bookingData[key].guestNumber,
+                                dateFrom: new Date(bookingData[key].dateFrom),
+                                dateTo: new Date(bookingData[key].dateTo)
+                            });
+                        }
+                    }
+                    return bookings;
+                }), catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText))
+            );
+        }));
     }
 
-    addBooking(newBooking: Booking) {
-        return this._http
-            .post<{name: string}>(this.path + '.json', newBooking)
-            .pipe(catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText)));
+    addBooking(newBooking: Booking): Observable<any> {
+        return this._authService.getUserToken().pipe(take(1), switchMap(token => {
+            return this._http
+                .post<{name: string}>(this.path + `.json?auth=${token}`, newBooking)
+                .pipe(catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText)));
+        }));
     }
 
     deleteBooking (id: string) {
-        return this._http
-            .delete(`${this.path}/${id}.json`)
+        return this._authService.getUserToken().pipe(take(1), switchMap(token => {
+            return this._http
+            .delete(`${this.path}/${id}.json?auth=${token}`)
             .pipe(catchError((err: HttpErrorResponse) => throwError('Error Code: ' + err.status + ' with text: ' + err.statusText)));
+        }));
     }
 }
