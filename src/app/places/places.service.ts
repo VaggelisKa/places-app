@@ -6,10 +6,11 @@ import { Store } from '@ngrx/store';
 import * as fromPlaces from './places-store/places.reducer';
 import * as PlacesActions from './places-store/places.actions';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { PlaceLocation } from '../shared/models/location.model';
+import { AuthService } from '../auth/services/auth.service';
 
 interface PlaceData {
   availableFrom: string;
@@ -28,7 +29,7 @@ interface PlaceData {
 export class PlacesService {
   constructor(private _store: Store<fromPlaces.State>,
               private _http: HttpClient,
-              private _alertController: AlertController) {}
+              private _authService: AuthService) {}
 
   private readonly path = environment.firebaseUrl + 'offered-places';
   private readonly cloudEndpoint = 'https://us-central1-places-app-7aa49.cloudfunctions.net/storeImage';
@@ -46,9 +47,11 @@ export class PlacesService {
   }
 
   fetchPlaces(): Observable<Place[]> {
-    return this._http
-      .get<{ [key: string]: PlaceData }>(this.path + '.json')
-        .pipe(map(resData => {
+    return this._authService.getUserToken().pipe(switchMap(token => {
+      return this._http
+      .get<{ [key: string]: PlaceData }>(this.path + `.json?auth=${token}`);
+    }), 
+      map(resData => {
           const places: Place[] = [];
           for (const key in resData) {
             if (resData.hasOwnProperty(key)) {
@@ -67,7 +70,8 @@ export class PlacesService {
           }
           return places;
         }), catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText))
-        );
+    );
+    
   }
 
   addNewPlace(newPlace: Place): Observable<{name: string}> {

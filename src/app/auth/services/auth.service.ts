@@ -25,7 +25,7 @@ interface AuthResponseData {
 }
 
 @Injectable({providedIn: 'root'})
-export class AuthService implements OnDestroy{
+export class AuthService implements OnDestroy {
     constructor(private _store: Store<fromAuth.State>,
                 private _router: Router,
                 private _http: HttpClient) {}
@@ -33,10 +33,15 @@ export class AuthService implements OnDestroy{
     private readonly signupEndopoint = environment.signupEndpoint + environment.firebaseApiKey;
     private readonly signinEndpoint = environment.signinEndpoint + environment.firebaseApiKey;
     private _userId = new BehaviorSubject<string>(null);
+    private _userToken = new BehaviorSubject<string>(null);
     private activeLogoutTimer: any;
 
     getUserId(): Observable<string> {
         return this._userId.asObservable();
+    }
+
+    getUserToken(): Observable<string> {
+        return this._userToken.asObservable();
     }
 
     login(userData: UserCredentials): Observable<User> {
@@ -56,6 +61,7 @@ export class AuthService implements OnDestroy{
                 tap(user => {
                     if (user) {
                         this._userId.next(user.id);
+                        this._userToken.next(user.token);
                         this.autoLogout(user.tokenExpirationDate.getTime() - new Date().getTime());
                         this.storeAuthData(user.id, user.token, user.tokenExpirationDate.toISOString(), user.email);
                     }
@@ -90,6 +96,7 @@ export class AuthService implements OnDestroy{
                         email: parsedData.email
                     };
                     this._userId.next(user.id);
+                    this._userToken.next(user.token);
                     this.autoLogout(user.tokenExpirationDate.getTime() - new Date().getTime());
                     return user;
                 }),
@@ -115,6 +122,7 @@ export class AuthService implements OnDestroy{
                 }),
                 tap(user => {
                     this._userId.next(user.id);
+                    this._userToken.next(user.token);
                     this.autoLogout(user.tokenExpirationDate.getTime() - new Date().getTime());
                 }),
                 catchError((error: HttpErrorResponse) => throwError(this.errorMesage(error.error.error.message)))

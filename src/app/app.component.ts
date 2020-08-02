@@ -1,28 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Platform } from '@ionic/angular';
 import { Plugins, Capacitor } from '@capacitor/core';
-
-import { getIsAuth } from './auth/auth-store/auth.selectors';
-import * as fromAuth from './auth/auth-store/auth.reducer';
-
-import { AuthService } from './auth/services/auth.service';
-import { Router } from '@angular/router';
 import { ThemeService } from './theme.service';
-import { Store, select } from '@ngrx/store';
+import { AuthService } from './auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private _authService: AuthService,
-    private _router: Router,
-    private _themeService: ThemeService,
-    private _store: Store<fromAuth.State>
-  ) {
+    private _themeService: ThemeService  ) {
     this.initializeApp();
   }
 
@@ -40,7 +30,7 @@ export class AppComponent implements OnInit{
     });
   }
 
-  toggleDarkMode(event: any) {
+  toggleDarkMode() {
     this._themeService.toggleAppTheme();
   }
 
