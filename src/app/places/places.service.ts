@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import * as fromPlaces from './places-store/places.reducer';
 import * as PlacesActions from './places-store/places.actions';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, take } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { PlaceLocation } from '../shared/models/location.model';
@@ -42,14 +42,21 @@ export class PlacesService {
     const uploadData = new FormData();
     uploadData.append('image', image);
 
-    return this._http
-      .post<{imageUrl: string, imagePath: string}>(this.cloudEndpoint, uploadData);
+    return this._authService.getUserToken().pipe(take(1), (switchMap(token => {
+      return this._http
+        .post<{imageUrl: string, imagePath: string}>
+        (
+        this.cloudEndpoint, 
+        uploadData,
+        {headers: {Authorization: 'Bearer ' + token}}
+        );
+    })));
   }
 
   fetchPlaces(): Observable<Place[]> {
-    return this._authService.getUserToken().pipe(switchMap(token => {
+    return this._authService.getUserToken().pipe(take(1), switchMap(token => {
       return this._http
-      .get<{ [key: string]: PlaceData }>(this.path + `.json?auth=${token}`);
+        .get<{ [key: string]: PlaceData }>(this.path + `.json?auth=${token}`);
     }), 
       map(resData => {
           const places: Place[] = [];
@@ -75,21 +82,27 @@ export class PlacesService {
   }
 
   addNewPlace(newPlace: Place): Observable<{name: string}> {
-    return this._http
-      .post<{name: string}>(this.path + '.json', newPlace)
-      .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
+    return this._authService.getUserToken().pipe(take(1), switchMap(token => {
+      return this._http
+        .post<{name: string}>(this.path + `.json?auth=${token}`, newPlace)
+        .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
+    }));
   }
 
   updateOffer(placeId: string, updatedPlace: Place): Observable<Object> {
-    return this._http
-      .put(`${this.path}/${placeId}.json`, {...updatedPlace, id: null})
-      .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
+    return this._authService.getUserToken().pipe(take(1), switchMap(token => {
+      return this._http
+        .put(`${this.path}/${placeId}.json?auth=${token}`, {...updatedPlace, id: null})
+        .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
+    }));
   }
 
   deleteOffer(placeId: string): Observable<Object> {
-    return this._http
-      .delete(`${this.path}/${placeId}.json`)
-      .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
+    return this._authService.getUserToken().pipe(take(1), switchMap(token => {
+      return this._http
+        .delete(`${this.path}/${placeId}.json?auth=${token}`)
+        .pipe(catchError((error: HttpErrorResponse) => throwError('Error Code: ' + error.status + ' with text: ' + error.statusText)));
+    }));
   }
 
 }
